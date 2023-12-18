@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="d2d4648f-0d86-4a73-995f-b46a24ced720" name="Changes" comment="Added Utils for inputValidation, readString, readInt and so on." />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+        <option value="Enum" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="33813f7675b4680f943fbb2877f152cb3272d2dc" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;MagNording&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="8b4e85d6-addc-4875-8b67-00b6836a7245" />
+        <option name="url" value="https://github.com/Kerem1989/inventory-manager.git" />
+      </UrlAndAccount>
+    </option>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="2" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="2Zj4HWFnvc8xz6by21J75zTPvBJ" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;G:/Coding/Java/ITHS/se.what/inventory-manager/InventoryManager/src/main/java&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.importing&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
+    ]
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="G:\Coding\Java\ITHS\se.what\inventory-manager\InventoryManager\src\main\java" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="InventoryManagerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="InventoryManager" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="se.what.inventorymanager.InventoryManagerApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="jdk-21.0.1-azul-21.0.1-3183f394aec4-7aa6f726" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d2d4648f-0d86-4a73-995f-b46a24ced720" name="Changes" comment="" />
+      <created>1702922067798</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1702922067798</updated>
+      <workItem from="1702922070365" duration="38000" />
+      <workItem from="1702922481293" duration="8163000" />
+      <workItem from="1702932203875" duration="751000" />
+      <workItem from="1702932961421" duration="1153000" />
+    </task>
+    <task id="LOCAL−00001" summary="Equipment class with a ManyToOne relationship with User 'id'. &#10;Added two Enum classes for the instancefields 'state' and 'type'. See this as a first try with the Equipment class, i'm sure i have to update and reconfigure here and there. &#10;Finally updated the resource.properties with logging level and no spring-banner.">
+      <option name="closed" value="true" />
+      <created>1702929192676</created>
+      <option name="number" value="LOCAL−00001" />
+      <option name="presentableId" value="LOCAL−00001" />
+      <updated>1702929192676</updated>
+    </task>
+    <task id="LOCAL−00002" summary="Equipment class with a ManyToOne relationship with User 'id'. &#10;Added two Enum classes for the instancefields 'state' and 'type'. See this as a first try with the Equipment class, i'm sure i have to update and reconfigure here and there. &#10;Finally updated the resource.properties with logging level and no spring-banner.">
+      <option name="closed" value="true" />
+      <created>1702929228143</created>
+      <option name="number" value="LOCAL−00002" />
+      <option name="presentableId" value="LOCAL−00002" />
+      <updated>1702929228143</updated>
+    </task>
+    <task id="LOCAL−00003" summary="Added Utils for inputValidation, readString, readInt and so on.">
+      <option name="closed" value="true" />
+      <created>1702930611829</created>
+      <option name="number" value="LOCAL−00003" />
+      <option name="presentableId" value="LOCAL−00003" />
+      <updated>1702930611829</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="MagnusBranch" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Equipment class with a ManyToOne relationship with User 'id'. &#10;Added two Enum classes for the instancefields 'state' and 'type'. See this as a first try with the Equipment class, i'm sure i have to update and reconfigure here and there. &#10;Finally updated the resource.properties with logging level and no spring-banner." />
+    <MESSAGE value="Added Utils for inputValidation, readString, readInt and so on." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added Utils for inputValidation, readString, readInt and so on." />
+  </component>
+</project>
