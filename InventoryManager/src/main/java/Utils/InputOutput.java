@@ -1,4 +1,8 @@
 package Utils;
+import org.springframework.beans.factory.annotation.Autowired;
+import se.what.inventorymanager.RoleType;
+import se.what.inventorymanager.UserRepo;
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -84,20 +88,38 @@ public class InputOutput {
                 """);
     }
 
-    public static void login() {
-
+    public static void login(UserRepo userRepo) {
+        boolean runProgram = true;
         do {
-            System.out.println("Please enter username:");
-            String userName = getValidStringInput(input);
-            System.out.println("Please enter password");
+            System.out.print("Please enter username: ");
+            String username = getValidStringInput(input);
+            System.out.print("Please enter password: ");
             String password = getValidStringInput(input);
-
+            System.out.print("Please enter your role: ");
+            String role = getValidStringInput(input);
+            RoleType inputAsEnum = RoleType.valueOf(role);
+            if (userRepo.existsUserByUsernameAndPassword(username, password) && (inputAsEnum == RoleType.admin)){
+                    System.out.println("You are logged in as admin");
+                    runProgram = false;
+                }
+            else if (userRepo.existsUserByUsernameAndPassword(username, password) && (inputAsEnum == RoleType.superuser)){
+                System.out.println("You are logged in as superuser");
+                runProgram = false;
+            }
+            else if (userRepo.existsUserByUsernameAndPassword(username, password) && (inputAsEnum == RoleType.user)){
+                System.out.println("You are logged in as user");
+                runProgram = false;
+            }
+            else {
+                System.out.println("Incorrect username, password or role.");
+                runProgram = false;
+            }
             /*TODO: Här kanske man ska kalla på user-repot för att kontrollera om inloggningsuppgifterna stämmer?
             TODO: samt kontroll om användaren hämtar är admin, superUser eller user :)
             TODO: Eller ska inloggningslogiken ligga nån annanstans?
             * */
 
-        } while (true);
+        } while (runProgram);
 
     }
 
