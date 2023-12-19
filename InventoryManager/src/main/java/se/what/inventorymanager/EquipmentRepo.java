@@ -10,6 +10,6 @@ import java.util.List;
 public interface EquipmentRepo extends JpaRepository<Equipment, Integer> {
     List<Equipment> findByName(String name);
     List<Equipment> findByType(EquipmentType type);
-    List<Equipment> findByPurchaseDate(Date date);
-    List<Equipment> findByPurchasedBy(int id);
+    List<Equipment> findByPurchaseDate(Date purchaseDate);
+    List<Equipment> findByPurchasedBy(int purchasedBy);
 }
