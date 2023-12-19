@@ -13,9 +13,12 @@ public class User {
     private String telephone;
     private String username;
     private String password;
-    private roleType role;
 
-    public User(String name, String department, String email, String telephone, String username, String password, roleType role) {
+    @Column(name = "role")
+    @Enumerated(EnumType.STRING)
+    private RoleType role;
+
+    public User(String name, String department, String email, String telephone, String username, String password, RoleType role) {
         this.name = name;
         this.department = department;
         this.email = email;
@@ -77,11 +80,11 @@ public class User {
         this.password = password;
     }
 
-    public roleType getRole() {
+    public RoleType getRole() {
         return role;
     }
 
-    public void setRole(roleType role) {
+    public void setRole(RoleType role) {
         this.role = role;
     }
 
