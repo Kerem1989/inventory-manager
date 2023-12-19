@@ -10,13 +10,12 @@ public class MyRunner implements CommandLineRunner {
 
     @Autowired
     UserRepo userRepo;
-
     Scanner input = new Scanner(System.in);
 
     @Override
     public void run(String... args) throws Exception {
-        //InputOutput.introText();
-        //InputOutput.login();
+        InputOutput.introText();
+        InputOutput.login(userRepo);
         addNewUser(userRepo, input);
 
     }
