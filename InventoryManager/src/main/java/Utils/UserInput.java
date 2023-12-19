@@ -1,4 +1,4 @@
-package Utils;// magnus nording, magnus.nording@iths.se
+package Utils;
 import java.util.Scanner;
 
 public class UserInput {
