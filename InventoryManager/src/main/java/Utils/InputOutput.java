@@ -1,9 +1,9 @@
-package se.what.inventorymanager;
+package Utils;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class InputOutput {
     public static Scanner input = new Scanner(System.in);
-
     public int getValidIntegerInput(Scanner input, int minValue, int maxValue) {
         int userInput = 0;
         boolean isUserInputInvalid;
@@ -21,6 +21,30 @@ public class InputOutput {
                 isUserInputInvalid = true;
             }
             input.nextLine();
+        } while (isUserInputInvalid);
+
+        return userInput;
+    }
+    public static double getValidDoubleInput(Scanner input, double minValue) {
+
+        double userInput = 0.0;
+        boolean isUserInputInvalid;
+
+        do {
+            isUserInputInvalid = false;
+            try {
+                String inputString = input.nextLine().replace(',', '.');
+                userInput = Double.parseDouble(inputString);
+
+                if (userInput < minValue) {
+                    System.out.println("Incorrect value, please enter a value larger than " + minValue + "...");
+                    isUserInputInvalid = true;
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Incorrect value, please enter a valid price: ");
+                isUserInputInvalid = true;
+            }
+
         } while (isUserInputInvalid);
 
         return userInput;
@@ -48,11 +72,20 @@ public class InputOutput {
         return userInput;
     }
 
-    public String introText() {
-        return "VÄLKOME FRIENDO!";
+    public static void introText() {
+        System.out.println("Welcome to");
+        System.out.println("""
+                 _                      _                                                           \s
+                (_)_ ____   _____ _ __ | |_ ___  _ __ _   _  /\\/\\   __ _ _ __   __ _  __ _  ___ _ __\s
+                | | '_ \\ \\ / / _ \\ '_ \\| __/ _ \\| '__| | | |/    \\ / _` | '_ \\ / _` |/ _` |/ _ \\ '__|
+                | | | | \\ V /  __/ | | | || (_) | |  | |_| / /\\/\\ \\ (_| | | | | (_| | (_| |  __/ |  \s
+                |_|_| |_|\\_/ \\___|_| |_|\\__\\___/|_|   \\__, \\/    \\/\\__,_|_| |_|\\__,_|\\__, |\\___|_|  \s
+                                                      |___/                          |___/          \s
+                """);
     }
 
     public static void login() {
+
         do {
             System.out.println("Please enter username:");
             String userName = getValidStringInput(input);
@@ -61,9 +94,11 @@ public class InputOutput {
 
             /*TODO: Här kanske man ska kalla på user-repot för att kontrollera om inloggningsuppgifterna stämmer?
             TODO: samt kontroll om användaren hämtar är admin, superUser eller user :)
+            TODO: Eller ska inloggningslogiken ligga nån annanstans?
             * */
 
         } while (true);
+
     }
 
     public void menuAdmin() {
@@ -89,7 +124,6 @@ public class InputOutput {
         } while (menuOption != 0);
     }
 
-
     public void menuUser() {
         int menuOption;
         do {
@@ -100,6 +134,7 @@ public class InputOutput {
                     2 - Display your equipment
                     3 - Support ticket
                     """);
+
             menuOption = getValidIntegerInput(input, 0, 3);
 
             switch (menuOption) {
@@ -131,7 +166,6 @@ public class InputOutput {
                 case 4 -> System.out.println("remove user? maybe should be under edit user?");
             }
         } while (menuOption != 0);
-
     }
 
     private void manageEquipment() {
