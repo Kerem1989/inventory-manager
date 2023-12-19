@@ -9,22 +9,28 @@ public class Equipment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     @Column(name="equipment_name")
     private String name;
+
     @Column(name="purchase_date")
     private Date purchaseDate;
+
     @Column(name="purchase_price")
     private int purchasePrice;
+
     @Column(name="purchased_by")
     private int purchasedBy;
+
     @Enumerated(EnumType.STRING)
     private EquipmentState state;
+
     @Enumerated(EnumType.STRING)
     private EquipmentType type;
 
-//    @ManyToOne
-//    @JoinColumn(name = "purchased_by", referencedColumnName = "id")
-//    private User user;
+    @ManyToOne
+    @JoinColumn(name = "purchased_by", referencedColumnName = "id")
+    private User user;
 
     public Equipment() {}
 
