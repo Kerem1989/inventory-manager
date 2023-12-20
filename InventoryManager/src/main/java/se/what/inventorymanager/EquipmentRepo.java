@@ -11,5 +11,5 @@ public interface EquipmentRepo extends JpaRepository<Equipment, Integer> {
     List<Equipment> findByName(String name);
     List<Equipment> findByType(EquipmentType type);
     List<Equipment> findByPurchaseDate(Date purchaseDate);
-    List<Equipment> findByPurchasedBy(int purchasedBy);
+
 }
