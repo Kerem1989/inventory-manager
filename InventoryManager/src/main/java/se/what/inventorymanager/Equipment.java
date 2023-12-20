@@ -31,8 +31,7 @@ public class Equipment {
 
     public Equipment() {}
 
-    public Equipment(String name, Date purchaseDate, double purchasePrice,
-                     EquipmentState state, EquipmentType type) {
+    public Equipment(String name, Date purchaseDate, double purchasePrice, EquipmentState state, EquipmentType type) {
         this.name = name;
         this.purchaseDate = purchaseDate;
         this.purchasePrice = purchasePrice;

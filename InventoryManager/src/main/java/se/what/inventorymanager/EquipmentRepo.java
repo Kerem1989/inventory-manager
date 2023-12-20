@@ -11,5 +11,8 @@ public interface EquipmentRepo extends JpaRepository<Equipment, Integer> {
     List<Equipment> findByName(String name);
     List<Equipment> findByType(EquipmentType type);
     List<Equipment> findByPurchaseDate(Date purchaseDate);
+    List<Equipment> findByPurchaseDateBetween(Date startDate, Date endDate);
+    int countByType(EquipmentType type);
+    boolean existsByName(String name);
 
 }

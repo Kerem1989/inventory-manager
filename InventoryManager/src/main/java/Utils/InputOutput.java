@@ -1,15 +1,19 @@
 package Utils;
+import org.springframework.stereotype.Component;
 import se.what.inventorymanager.MyRunner;
 import se.what.inventorymanager.RoleType;
 import se.what.inventorymanager.UserRepo;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 
 public class InputOutput {
-
     public static Scanner input = new Scanner(System.in);
+
     public static int getValidIntegerInput(Scanner input, int minValue, int maxValue) {
         int userInput = 0;
         boolean isUserInputInvalid;
@@ -31,6 +35,7 @@ public class InputOutput {
 
         return userInput;
     }
+
     public static double getValidDoubleInput(Scanner input, double minValue) {
 
         double userInput = 0.0;
@@ -76,6 +81,10 @@ public class InputOutput {
         } while (isUserInputInvalid);
 
         return userInput;
+    }
+
+    public static Date asDate(LocalDate localDate) {
+        return Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
     }
 
     public static void introText() {

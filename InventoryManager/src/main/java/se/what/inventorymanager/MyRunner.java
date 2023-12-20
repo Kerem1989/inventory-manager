@@ -3,6 +3,10 @@ import Utils.InputOutput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.Scanner;
 
 @Component
@@ -10,6 +14,8 @@ public class MyRunner implements CommandLineRunner {
 
     @Autowired
     UserRepo userRepo;
+    @Autowired
+    EquipmentRepo equipmentRepo;
     Scanner input = new Scanner(System.in);
 
     @Override
@@ -66,6 +72,18 @@ public class MyRunner implements CommandLineRunner {
 
     }
 
+    public static void addNewEquipment(EquipmentRepo equipmentRepo) {
+        EquipmentService equipmentService = new EquipmentService();
+        String name = InputOutput.getUserData("Please enter the equipment name: ");
 
+        Date purchaseDate = InputOutput.asDate(LocalDate.now());
 
+//        System.out.println("Please enter the equipment price: ");
+//        double purchasePrice = InputOutput.getValidDoubleInput();
+
+        EquipmentState state = EquipmentState.AVAILABLE;
+
+        String inputType = InputOutput.getUserData("Please enter equipment type (LAPTOP, PHONE, MONITOR, PROJECTOR, CHAIR):");
+        EquipmentType equipmentType = EquipmentType.fromString(inputType);
+    }
 }
