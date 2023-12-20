@@ -1,14 +1,16 @@
 package Utils;
-import org.springframework.beans.factory.annotation.Autowired;
+import se.what.inventorymanager.MyRunner;
 import se.what.inventorymanager.RoleType;
 import se.what.inventorymanager.UserRepo;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+
 public class InputOutput {
+
     public static Scanner input = new Scanner(System.in);
-    public int getValidIntegerInput(Scanner input, int minValue, int maxValue) {
+    public static int getValidIntegerInput(Scanner input, int minValue, int maxValue) {
         int userInput = 0;
         boolean isUserInputInvalid;
 
@@ -120,10 +122,11 @@ public class InputOutput {
             * */
 
         } while (runProgram);
+        menuAdmin(userRepo);
 
     }
 
-    public void menuAdmin() {
+    public static void menuAdmin(UserRepo userRepo) {
         int menuOption;
 
         do {
@@ -138,9 +141,9 @@ public class InputOutput {
 
             switch (menuOption) {
                 case 0 -> System.out.println("logga ut");
-                case 1 -> manageUsersMenu();
-                case 2 -> manageEquipment();
-                case 3 -> manageSupportTicket();
+                case 1 -> manageUsersMenu(userRepo);
+                case 2 -> manageEquipmentMenu();
+                case 3 -> manageSupportTicketMenu();
 
             }
         } while (menuOption != 0);
@@ -167,13 +170,13 @@ public class InputOutput {
         } while (menuOption != 0);
     }
 
-    private void manageUsersMenu() {
+    private static void manageUsersMenu(UserRepo userRepo) {
         int menuOption = 0;
 
         do {
             System.out.println("""
                     Choose option below:
-                    0 - Logout
+                    0 - Back to Main Menu
                     1 - Display all users
                     2 - Add User
                     3 - Edit User
@@ -183,19 +186,20 @@ public class InputOutput {
 
             switch (menuOption) {
                 case 1 -> System.out.println("print all users..");
-                case 2 -> System.out.println("add new user");
+                case 2 -> MyRunner.addNewUser(userRepo);
                 case 3 -> System.out.println("edit existing user");
                 case 4 -> System.out.println("remove user? maybe should be under edit user?");
             }
         } while (menuOption != 0);
     }
 
-    private void manageEquipment() {
+    private static void manageEquipmentMenu() {
         int menuOption = 0;
 
         do {
             System.out.println("""
                     Choose option below:
+                    0 - Back to Main Menu
                     1 - Add new Equipment to stock/user
                     2 - Edit equipment
                     3 - discard equipment
@@ -204,19 +208,23 @@ public class InputOutput {
             menuOption = getValidIntegerInput(input, 0, 4);
 
             switch (menuOption) {
+                case 1 -> System.out.println("HÄR REFERERAR MAN TILL NY UTRUSTNING-METODEN");
+                case 2 -> System.out.println("HÄR REFERERAR MAN TILL REDIGERA UTRUSTNING-METODEN");
+                case 3 -> System.out.println("HÄR REFERERAR MAN TILL TA BORT UTRUSTNING-METODEN");
+                case 4 -> System.out.println("VILL MAN GÖRA NÅ ANNAT HÄR???");
 
             }
 
         } while (menuOption != 0);
     }
 
-    public void manageSupportTicket() {
+    public static void manageSupportTicketMenu() {
         int menuOption = 0;
 
         do {
             System.out.println("""
                     Choose option below:
-                    0 - Exit to Logged In Menu
+                    0 - Back to Main Menu
                     1 - View all active support tickets
                     2 - Edit Support-Ticket
                     3 - Edit User
@@ -231,4 +239,12 @@ public class InputOutput {
 
         } while (menuOption != 0);
     }
+
+    public static String getUserData(String s) {
+        System.out.print(s);
+        String adminInputName = InputOutput.getValidStringInput(input);
+        return adminInputName;
+    }
+
+
 }

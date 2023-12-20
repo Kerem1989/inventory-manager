@@ -16,52 +16,56 @@ public class MyRunner implements CommandLineRunner {
     public void run(String... args) throws Exception {
         InputOutput.introText();
         InputOutput.login(userRepo);
-        addNewUser(userRepo, input);
+
 
     }
 
-    public static void addNewUser(UserRepo userRepo, Scanner input) {
+    public static void addNewUser(UserRepo userRepo) {
         User user = new User();
-        System.out.print("Please enter the users full name: ");
-        String adminInputName = InputOutput.getValidStringInput(input);
+        String adminInputName = InputOutput.getUserData("Please enter the users full name: ");
         user.setName(adminInputName);
-        System.out.print("Please enter the users department: ");
-        String adminInputDepartment = InputOutput.getValidStringInput(input);
+
+        String adminInputDepartment = InputOutput.getUserData("Please enter the users department: ");
         user.setDepartment(adminInputDepartment);
-        System.out.print("Please enter the users email: ");
-        String adminInputEmail= InputOutput.getValidStringInput(input);
+
+        String adminInputEmail = InputOutput.getUserData("Please enter the users email: ");
         user.setEmail(adminInputEmail);
-        System.out.print("Please enter the users telephone number: ");
-        String adminInputTelephone = InputOutput.getValidStringInput(input);
+
+        String adminInputTelephone = InputOutput.getUserData("Please enter the users telephone number: ");
         user.setTelephone(adminInputTelephone);
-        System.out.print("Please choose a username for the user: ");
-        String adminInputUsername = InputOutput.getValidStringInput(input);
+
+        String adminInputUsername = InputOutput.getUserData("Please choose a username for the user: ");
         user.setUsername(adminInputUsername);
-        System.out.print("Please choose a password for the user: ");
-        String adminInputPassword = InputOutput.getValidStringInput(input);
+
+        String adminInputPassword = InputOutput.getUserData("Please choose a password for the user: ");
         user.setPassword(adminInputPassword);
-        System.out.print("Please enter a role for the user, must equal admin, superuser or user: ");
-        String adminInputRole = InputOutput.getValidStringInput(input);
+
+        String adminInputRole = InputOutput.getUserData("Please enter a role for the user, must equal admin, superuser or user: ");
         if (adminInputRole.equalsIgnoreCase("admin")){
             user.setRole(RoleType.admin);
             userRepo.save(user);
             System.out.println("You have added " + user);
         }
+
         else if (adminInputRole.equalsIgnoreCase("superuser")){
             user.setRole(RoleType.superuser);
             userRepo.save(user);
             System.out.println("You have added " + user);
         }
+
         else if (adminInputRole.equalsIgnoreCase("user")){
             user.setRole(RoleType.user);
             userRepo.save(user);
             System.out.println("You have added " + user);
         }
+
         else {
             System.out.println("Wrong type of role for the user, please try again.");
         }
 
 
     }
+
+
 
 }
