@@ -17,53 +17,27 @@ public class MyRunner implements CommandLineRunner {
         InputOutput.introText();
         InputOutput.login(userRepo);
 
-
     }
-
     public static void addNewUser(UserRepo userRepo) {
         User user = new User();
-        String adminInputName = InputOutput.getUserData("Please enter the users full name: ");
-        user.setName(adminInputName);
+        user.setName(InputOutput.getUserData("Please enter the users full name: "));
+        user.setDepartment(InputOutput.getUserData("Please enter the users department: "));
+        user.setEmail(InputOutput.getUserData("Please enter the users email: "));
+        user.setTelephone(InputOutput.getUserData("Please enter the users telephone number: "));
+        user.setUsername(InputOutput.getUserData("Please choose a username for the user: "));
+        user.setPassword(InputOutput.getUserData("Please choose a password for the user: "));
 
-        String adminInputDepartment = InputOutput.getUserData("Please enter the users department: ");
-        user.setDepartment(adminInputDepartment);
+        InputOutput.getUserData("Please enter user-role\n1 - Admin\n2 - SuperUser\n3 - Regular user");
 
-        String adminInputEmail = InputOutput.getUserData("Please enter the users email: ");
-        user.setEmail(adminInputEmail);
+        int userRole = InputOutput.getValidIntegerInput(InputOutput.input,1,3);
 
-        String adminInputTelephone = InputOutput.getUserData("Please enter the users telephone number: ");
-        user.setTelephone(adminInputTelephone);
-
-        String adminInputUsername = InputOutput.getUserData("Please choose a username for the user: ");
-        user.setUsername(adminInputUsername);
-
-        String adminInputPassword = InputOutput.getUserData("Please choose a password for the user: ");
-        user.setPassword(adminInputPassword);
-
-        String adminInputRole = InputOutput.getUserData("Please enter a role for the user, must equal admin, superuser or user: ");
-        if (adminInputRole.equalsIgnoreCase("admin")){
-            user.setRole(RoleType.admin);
-            userRepo.save(user);
-            System.out.println("You have added " + user);
+        switch (userRole){
+            case 1 -> user.setRole(RoleType.admin);
+            case 2 -> user.setRole(RoleType.superuser);
+            case 3 -> user.setRole(RoleType.user);
         }
-
-        else if (adminInputRole.equalsIgnoreCase("superuser")){
-            user.setRole(RoleType.superuser);
-            userRepo.save(user);
-            System.out.println("You have added " + user);
-        }
-
-        else if (adminInputRole.equalsIgnoreCase("user")){
-            user.setRole(RoleType.user);
-            userRepo.save(user);
-            System.out.println("You have added " + user);
-        }
-
-        else {
-            System.out.println("Wrong type of role for the user, please try again.");
-        }
-
-
+        userRepo.save(user);
+        InputOutput.getUserData("You have added " + user.getName() + " as a user with " + user.getRole() + "-Access");
     }
 
 
