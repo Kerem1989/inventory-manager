@@ -141,7 +141,7 @@ public class InputOutput {
         do {
             System.out.println("""
                     Choose option below:
-                    0 - Logout
+                    0 - Exit program
                     1 - Manage Users
                     2 - Manage Equipment
                     3 - Manage Support tickets""");
@@ -149,7 +149,7 @@ public class InputOutput {
             menuOption = getValidIntegerInput(input, 0, 3);
 
             switch (menuOption) {
-                case 0 -> System.out.println("logga ut");
+                case 0 -> System.out.println("Thank you for using Inventory-manager!");
                 case 1 -> manageUsersMenu(userRepo);
                 case 2 -> manageEquipmentMenu();
                 case 3 -> manageSupportTicketMenu();
@@ -236,12 +236,38 @@ public class InputOutput {
                     0 - Back to Main Menu
                     1 - View all active support tickets
                     2 - Edit Support-Ticket
-                    3 - Edit User
-                    4 - Remove User""");
+                    3 - 
+                    4 - """);
 
             menuOption = getValidIntegerInput(input, 0, 4);
 
             switch (menuOption) {
+                case 1 -> System.out.println("VIEW ALL ACTIVE SUPPORT-TICKETS");
+                case 2 -> editSupportTicketMenu();
+                case 3 -> System.out.println("SOME FUNCTIONALITY?");
+                case 4 -> System.out.println("SOME FUNCTIONALITY?");
+            }
+        } while (menuOption != 0);
+    }
+
+    public static void editSupportTicketMenu() {
+        int menuOption = 0;
+
+        do {
+            System.out.println("""
+                    Choose option below:
+                    0 - Back to Support-ticket Menu
+                    1 - Change status of Support-ticket
+                    2 - Close Support-ticket
+                    3 - 
+                    4 - """);
+
+            menuOption = getValidIntegerInput(input, 0, 4);
+
+            switch (menuOption) {
+                case 1 -> System.out.println("VIEW ALL ACTIVE SUPPORT-TICKETS");
+                case 2 -> System.out.println("EDIT TICKETS!");
+                case 3 -> System.out.println("");
 
             }
 
