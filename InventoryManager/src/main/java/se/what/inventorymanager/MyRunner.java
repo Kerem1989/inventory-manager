@@ -3,7 +3,11 @@ import Utils.InputOutput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 import java.util.Scanner;
+
+import static Utils.InputOutput.getValidIntegerInput;
 
 @Component
 public class MyRunner implements CommandLineRunner {
@@ -16,6 +20,7 @@ public class MyRunner implements CommandLineRunner {
     public void run(String... args) throws Exception {
         InputOutput.introText();
         InputOutput.login(userRepo);
+        editUser(userRepo, input);
 
     }
     public static void addNewUser(UserRepo userRepo) {
@@ -40,6 +45,85 @@ public class MyRunner implements CommandLineRunner {
         InputOutput.getUserData("You have added " + user.getName() + " as a user with " + user.getRole() + "-Access");
     }
 
+    public static void editUser (UserRepo userRepo, Scanner input) {
+        boolean runEditMenu = true;
+        do {
+            System.out.println("Welcome to the menu for editing user, please select a user id from the list below to begin editing:");
+            System.out.println(userRepo.findAll());
+            System.out.println("Please enter the id of the specific user to begin editing: ");
+            int selectUserById = input.nextInt();
+            input.nextLine();
+            Optional<User> userOptional = userRepo.findById(selectUserById);
+            if (userOptional.isPresent()) {
+                User user = userOptional.get();
+                System.out.println("Please choose from the following options to edit: ");
+                System.out.println("1. Edit name." + "\n2. Edit department" + "\n3. Edit email." + "\n4. Edit telephone number" + "\n5. Edit username" + "\n6. Edit password." + "\n7. Edit role." + "\n8. Quit menu.");
+                System.out.print("Please choose a option by entering the menu number: ");
+                int selectMenuOption = getValidIntegerInput(input, 0, 8);
+                switch (selectMenuOption){
+                    case 1 -> {
+                        System.out.println("Enter the new name: ");
+                        String editName = input.nextLine();
+                        user.setName(editName);
+                        userRepo.save(user);
+                    }
+                    case 2 -> {
+                        System.out.println("Enter the new department: ");
+                        String editDepartment = input.nextLine();
+                        user.setDepartment(editDepartment);
+                        userRepo.save(user);
+                    }
+                    case 3 -> {
+                        System.out.println("Enter the new email: ");
+                        String editEmail = input.nextLine();
+                        user.setEmail(editEmail);
+                        userRepo.save(user);
+                    }
+                    case 4 -> {
+                        System.out.println("Enter the new telephone number: ");
+                        String editTelephone = input.nextLine();
+                        user.setTelephone(editTelephone);
+                        userRepo.save(user);
+                    }
+                    case 5 -> {
+                        System.out.println("Enter the new username: ");
+                        String editUsername = input.nextLine();
+                        user.setUsername(editUsername);
+                        userRepo.save(user);
+                    }
+                    case 6 -> {
+                        System.out.println("Enter the new password: ");
+                        String editPassword = input.nextLine();
+                        user.setPassword(editPassword);
+                        userRepo.save(user);
+                    }
+                    case 7 -> {
+                        System.out.println("Enter the new role ");
+                        String editRole = input.nextLine();
+                        if (editRole.equalsIgnoreCase("admin")){
+                            user.setRole(RoleType.admin);
+                            userRepo.save(user);
+                        }
 
+                        else if (editRole.equalsIgnoreCase("superuser")){
+                            user.setRole(RoleType.superuser);
+                            userRepo.save(user);
+                        }
 
+                        else if (editRole.equalsIgnoreCase("user")){
+                            user.setRole(RoleType.user);
+                            userRepo.save(user);
+                        }
+
+                        else {
+                            System.out.println("Wrong type of role for the user, please try again.");
+                        }
+                    }
+                    case 8 -> runEditMenu = false;
+
+                }
+            }
+        } while (runEditMenu);
+
+    }
 }

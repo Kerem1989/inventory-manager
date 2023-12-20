@@ -90,16 +90,8 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", department='" + department + '\'' +
-                ", email='" + email + '\'' +
-                ", telephone='" + telephone + '\'' +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", role=" + role +
-                '}';
+        return "\nUser id: " + id + " Name: " + name  + " Department: " + department + " Email: " + email + " Telephone: "
+                + telephone + " Username: " + username + " Password: " + password + " Role: " + role;
     }
 }
 
