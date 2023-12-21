@@ -3,6 +3,7 @@ package Utils;
 import se.what.inventorymanager.MyRunner;
 import se.what.inventorymanager.RoleType;
 import se.what.inventorymanager.UserRepo;
+import se.what.inventorymanager.UserService;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -195,8 +196,8 @@ public class InputOutput {
 
             switch (menuOption) {
                 case 1 -> System.out.println("print all users..");
-                case 2 -> MyRunner.addNewUser(userRepo);
-                case 3 -> System.out.println("edit existing user");
+                case 2 -> UserService.addNewUser(userRepo);
+                case 3 -> UserService.editUser(userRepo, input);
                 case 4 -> System.out.println("remove user? maybe should be under edit user?");
             }
         } while (menuOption != 0);
