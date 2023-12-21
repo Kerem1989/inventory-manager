@@ -86,7 +86,7 @@ public class MyRunner implements CommandLineRunner {
 
         EquipmentState state = EquipmentState.AVAILABLE;
 
-        String inputType = InputOutput.getUserData("Please enter equipment type (LAPTOP, PHONE, MONITOR, PROJECTOR, CHAIR):");
+        String inputType = InputOutput.getUserData("Please enter equipment type (LAPTOP, PHONE, MONITOR, PROJECTOR, OFFICE_CHAIR):");
         EquipmentType equipmentType = EquipmentType.fromString(inputType);
     }
 
