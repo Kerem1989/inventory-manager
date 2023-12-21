@@ -1,5 +1,5 @@
 package Utils;
-import org.springframework.stereotype.Component;
+
 import se.what.inventorymanager.MyRunner;
 import se.what.inventorymanager.RoleType;
 import se.what.inventorymanager.UserRepo;
@@ -217,7 +217,7 @@ public class InputOutput {
             menuOption = getValidIntegerInput(input, 0, 4);
 
             switch (menuOption) {
-                case 1 -> System.out.println("HÄR REFERERAR MAN TILL NY UTRUSTNING-METODEN");
+                //case 1 -> MyRunner.addNewEquipment();
                 case 2 -> System.out.println("HÄR REFERERAR MAN TILL REDIGERA UTRUSTNING-METODEN");
                 case 3 -> System.out.println("HÄR REFERERAR MAN TILL TA BORT UTRUSTNING-METODEN");
                 case 4 -> System.out.println("VILL MAN GÖRA NÅ ANNAT HÄR???");

@@ -81,13 +81,14 @@ public class MyRunner implements CommandLineRunner {
 
         Date purchaseDate = InputOutput.asDate(LocalDate.now());
 
-//        System.out.println("Please enter the equipment price: ");
-//        double purchasePrice = InputOutput.getValidDoubleInput();
+       System.out.println("Please enter the equipment price: ");
+       double purchasePrice = InputOutput.getValidDoubleInput(InputOutput.input, 1);
 
         EquipmentState state = EquipmentState.AVAILABLE;
 
         String inputType = InputOutput.getUserData("Please enter equipment type (LAPTOP, PHONE, MONITOR, PROJECTOR, OFFICE_CHAIR):");
         EquipmentType equipmentType = EquipmentType.fromString(inputType);
+        equipmentService.addEquipment(name, purchaseDate, purchasePrice, state, equipmentType);
     }
 
     public static void editUser (UserRepo userRepo, Scanner input) {
