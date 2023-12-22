@@ -47,7 +47,7 @@ public class MyRunner implements CommandLineRunner {
         equipment.setState(state);
 
         String inputType = InputOutput.getUserData("Please enter equipment type (LAPTOP, PHONE, MONITOR, PROJECTOR, OFFICE_CHAIR):");
-        EquipmentType type = EquipmentType.fromString(inputType);
+        EquipmentType type = EquipmentType.fromString(inputType); // toUpperCase() ?
         equipment.setType(type);
 
         System.out.println("Please enter the ID of the user purchasing the equipment: ");
