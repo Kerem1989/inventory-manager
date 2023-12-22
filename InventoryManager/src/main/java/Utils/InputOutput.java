@@ -3,7 +3,7 @@ package Utils;
 import se.what.inventorymanager.MyRunner;
 import se.what.inventorymanager.RoleType;
 import se.what.inventorymanager.UserRepo;
-
+import se.what.inventorymanager.EquipmentRepo;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
@@ -67,7 +67,7 @@ public class InputOutput {
 
         do {
             userInput = input.nextLine();
-            if (!userInput.matches("[a-zA-ZåäöÅÄÖ0-9]+")) {
+            if (!userInput.matches("[a-zA-ZåäöÅÄÖ0-9-@.]+")) {
                 System.out.println("Incorrect format, you cannot use special characters!");
                 isUserInputInvalid = true;
             } else if (userInput.isEmpty()) {
@@ -99,7 +99,7 @@ public class InputOutput {
                 """);
     }
 
-    public static void login(UserRepo userRepo) {
+    public static void login(UserRepo userRepo, EquipmentRepo equipmentRepo) {
         boolean runProgram = true;
         do {
             System.out.print("Please enter username: ");
@@ -131,11 +131,11 @@ public class InputOutput {
             * */
 
         } while (runProgram);
-        menuAdmin(userRepo);
+        menuAdmin(userRepo, equipmentRepo);
 
     }
 
-    public static void menuAdmin(UserRepo userRepo) {
+    public static void menuAdmin(UserRepo userRepo, EquipmentRepo equipmentRepo) {
         int menuOption;
 
         do {
@@ -151,7 +151,7 @@ public class InputOutput {
             switch (menuOption) {
                 case 0 -> System.out.println("Thank you for using Inventory-manager!");
                 case 1 -> manageUsersMenu(userRepo);
-                case 2 -> manageEquipmentMenu();
+                case 2 -> manageEquipmentMenu(equipmentRepo, userRepo);
                 case 3 -> manageSupportTicketMenu();
 
             }
@@ -202,7 +202,7 @@ public class InputOutput {
         } while (menuOption != 0);
     }
 
-    private static void manageEquipmentMenu() {
+    private static void manageEquipmentMenu(EquipmentRepo equipmentRepo, UserRepo userRepo) {
         int menuOption = 0;
 
         do {
@@ -217,7 +217,7 @@ public class InputOutput {
             menuOption = getValidIntegerInput(input, 0, 4);
 
             switch (menuOption) {
-                //case 1 -> MyRunner.addNewEquipment();
+                case 1 -> MyRunner.addNewEquipment(equipmentRepo, userRepo);
                 case 2 -> System.out.println("HÄR REFERERAR MAN TILL REDIGERA UTRUSTNING-METODEN");
                 case 3 -> System.out.println("HÄR REFERERAR MAN TILL TA BORT UTRUSTNING-METODEN");
                 case 4 -> System.out.println("VILL MAN GÖRA NÅ ANNAT HÄR???");

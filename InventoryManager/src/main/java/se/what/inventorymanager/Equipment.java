@@ -31,12 +31,14 @@ public class Equipment {
 
     public Equipment() {}
 
-    public Equipment(String name, Date purchaseDate, double purchasePrice, EquipmentState state, EquipmentType type) {
+    public Equipment(String name, Date purchaseDate, double purchasePrice, EquipmentState state,
+                     EquipmentType type, User user) {
         this.name = name;
         this.purchaseDate = purchaseDate;
         this.purchasePrice = purchasePrice;
         this.state = state;
         this.type = type;
+        this.user = user;
     }
 
     public int getId() {
