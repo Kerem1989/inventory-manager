@@ -1,5 +1,4 @@
 package se.what.inventorymanager;
-
 import jakarta.persistence.*;
 
 @Entity

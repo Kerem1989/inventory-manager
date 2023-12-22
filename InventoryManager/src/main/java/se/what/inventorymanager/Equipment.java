@@ -17,10 +17,7 @@ public class Equipment {
     private Date purchaseDate;
 
     @Column(name="purchase_price")
-    private int purchasePrice;
-
-    @Column(name="purchased_by")
-    private int purchasedBy;
+    private double purchasePrice;
 
     @Enumerated(EnumType.STRING)
     private EquipmentState state;
@@ -34,54 +31,63 @@ public class Equipment {
 
     public Equipment() {}
 
-    public Equipment(String name, Date purchaseDate, int purchasePrice, int purchasedBy,
-                     EquipmentState state, EquipmentType type) {
+    public Equipment(String name, Date purchaseDate, double purchasePrice, EquipmentState state, EquipmentType type) {
         this.name = name;
         this.purchaseDate = purchaseDate;
         this.purchasePrice = purchasePrice;
-        this.purchasedBy = purchasedBy;
         this.state = state;
         this.type = type;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
+
     public Date getPurchaseDate() {
         return purchaseDate;
     }
+
     public void setPurchaseDate(Date purchaseDate) {
         this.purchaseDate = purchaseDate;
     }
-    public int getPurchasePrice() {
+
+    public double getPurchasePrice() {
         return purchasePrice;
     }
-    public void setPurchasePrice(int purchasePrice) {
+
+    public void setPurchasePrice(double purchasePrice) {
         this.purchasePrice = purchasePrice;
     }
-    public int getPurchasedBy() {
-        return purchasedBy;
-    }
-    public void setPurchasedBy(int purchasedBy) {
-        this.purchasedBy = purchasedBy;
-    }
+
     public EquipmentState getState() {
         return state;
     }
+
     public void setState(EquipmentState state) {
         this.state = state;
     }
+
     public EquipmentType getType() {
         return type;
     }
+
     public void setType(EquipmentType type) {
         this.type = type;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
@@ -91,9 +97,9 @@ public class Equipment {
                 ", name='" + name + '\'' +
                 ", purchaseDate=" + purchaseDate +
                 ", purchasePrice=" + purchasePrice +
-                ", purchasedBy=" + purchasedBy +
                 ", state=" + state +
                 ", type=" + type +
+                ", user=" + user.getName() +
                 '}';
     }
 }

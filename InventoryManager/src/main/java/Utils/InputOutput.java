@@ -1,14 +1,18 @@
 package Utils;
-import org.springframework.beans.factory.annotation.Autowired;
-import se.what.inventorymanager.RoleType;
-import se.what.inventorymanager.UserRepo;
 
+import se.what.inventorymanager.*;
+
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+
 public class InputOutput {
     public static Scanner input = new Scanner(System.in);
-    public int getValidIntegerInput(Scanner input, int minValue, int maxValue) {
+
+    public static int getValidIntegerInput(Scanner input, int minValue, int maxValue) {
         int userInput = 0;
         boolean isUserInputInvalid;
 
@@ -29,6 +33,7 @@ public class InputOutput {
 
         return userInput;
     }
+
     public static double getValidDoubleInput(Scanner input, double minValue) {
 
         double userInput = 0.0;
@@ -60,7 +65,7 @@ public class InputOutput {
 
         do {
             userInput = input.nextLine();
-            if (!userInput.matches("[a-zA-ZåäöÅÄÖ0-9]+")) {
+            if (!userInput.matches("[a-zA-ZåäöÅÄÖ0-9@.]+")) {
                 System.out.println("Incorrect format, you cannot use special characters!");
                 isUserInputInvalid = true;
             } else if (userInput.isEmpty()) {
@@ -74,6 +79,10 @@ public class InputOutput {
         } while (isUserInputInvalid);
 
         return userInput;
+    }
+
+    public static Date asDate(LocalDate localDate) {
+        return Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
     }
 
     public static void introText() {
@@ -95,41 +104,35 @@ public class InputOutput {
             String username = getValidStringInput(input);
             System.out.print("Please enter password: ");
             String password = getValidStringInput(input);
-            System.out.print("Please enter your role: ");
-            String role = getValidStringInput(input);
-            RoleType inputAsEnum = RoleType.valueOf(role);
-            if (userRepo.existsUserByUsernameAndPassword(username, password) && (inputAsEnum == RoleType.admin)){
-                    System.out.println("You are logged in as admin");
-                    runProgram = false;
-                }
-            else if (userRepo.existsUserByUsernameAndPassword(username, password) && (inputAsEnum == RoleType.superuser)){
-                System.out.println("You are logged in as superuser");
-                runProgram = false;
-            }
-            else if (userRepo.existsUserByUsernameAndPassword(username, password) && (inputAsEnum == RoleType.user)){
-                System.out.println("You are logged in as user");
-                runProgram = false;
-            }
-            else {
+
+            User foundUser = userRepo.getUserByUsernameAndPassword(username,password);
+            //foundUser får lov att vara inparameter så länge!
+            //eller ska man skapa en dao så man inte skickar runt lösenord?
+
+            if (foundUser==null){
                 System.out.println("Incorrect username, password or role.");
+                runProgram=true;
+            }
+
+            RoleType userRole = foundUser.getRole();
+
+            if (userRole==RoleType.admin || userRole==RoleType.superuser){
+                menuAdmin(userRepo);
+                runProgram = false;
+            } else {
+                menuUser(userRepo);
                 runProgram = false;
             }
-            /*TODO: Här kanske man ska kalla på user-repot för att kontrollera om inloggningsuppgifterna stämmer?
-            TODO: samt kontroll om användaren hämtar är admin, superUser eller user :)
-            TODO: Eller ska inloggningslogiken ligga nån annanstans?
-            * */
-
         } while (runProgram);
-
     }
 
-    public void menuAdmin() {
+    public static void menuAdmin(UserRepo userRepo) {
         int menuOption;
 
         do {
             System.out.println("""
                     Choose option below:
-                    0 - Logout
+                    0 - Exit program
                     1 - Manage Users
                     2 - Manage Equipment
                     3 - Manage Support tickets""");
@@ -137,16 +140,16 @@ public class InputOutput {
             menuOption = getValidIntegerInput(input, 0, 3);
 
             switch (menuOption) {
-                case 0 -> System.out.println("logga ut");
-                case 1 -> manageUsersMenu();
-                case 2 -> manageEquipment();
-                case 3 -> manageSupportTicket();
+                case 0 -> System.out.println("Thank you for using Inventory-manager!");
+                case 1 -> manageUsersMenu(userRepo);
+                case 2 -> manageEquipmentMenu();
+                case 3 -> manageSupportTicketMenu();
 
             }
         } while (menuOption != 0);
     }
 
-    public void menuUser() {
+    public static void menuUser(UserRepo userRepo) {
         int menuOption;
         do {
             System.out.println("""
@@ -167,13 +170,13 @@ public class InputOutput {
         } while (menuOption != 0);
     }
 
-    private void manageUsersMenu() {
+    private static void manageUsersMenu(UserRepo userRepo) {
         int menuOption = 0;
 
         do {
             System.out.println("""
                     Choose option below:
-                    0 - Logout
+                    0 - Back to Main Menu
                     1 - Display all users
                     2 - Add User
                     3 - Edit User
@@ -183,19 +186,20 @@ public class InputOutput {
 
             switch (menuOption) {
                 case 1 -> System.out.println("print all users..");
-                case 2 -> System.out.println("add new user");
-                case 3 -> System.out.println("edit existing user");
+                case 2 -> UserService.addNewUser(userRepo);
+                case 3 -> UserService.editUser(userRepo, input);
                 case 4 -> System.out.println("remove user? maybe should be under edit user?");
             }
         } while (menuOption != 0);
     }
 
-    private void manageEquipment() {
+    private static void manageEquipmentMenu() {
         int menuOption = 0;
 
         do {
             System.out.println("""
                     Choose option below:
+                    0 - Back to Main Menu
                     1 - Add new Equipment to stock/user
                     2 - Edit equipment
                     3 - discard equipment
@@ -204,31 +208,69 @@ public class InputOutput {
             menuOption = getValidIntegerInput(input, 0, 4);
 
             switch (menuOption) {
+                //case 1 -> MyRunner.addNewEquipment();
+                case 2 -> System.out.println("HÄR REFERERAR MAN TILL REDIGERA UTRUSTNING-METODEN");
+                case 3 -> System.out.println("HÄR REFERERAR MAN TILL TA BORT UTRUSTNING-METODEN");
+                case 4 -> System.out.println("VILL MAN GÖRA NÅ ANNAT HÄR???");
 
             }
 
         } while (menuOption != 0);
     }
 
-    public void manageSupportTicket() {
+    public static void manageSupportTicketMenu() {
         int menuOption = 0;
 
         do {
             System.out.println("""
                     Choose option below:
-                    0 - Exit to Logged In Menu
+                    0 - Back to Main Menu
                     1 - View all active support tickets
                     2 - Edit Support-Ticket
-                    3 - Edit User
-                    4 - Remove User""");
+                    3 - 
+                    4 - """);
 
             menuOption = getValidIntegerInput(input, 0, 4);
 
             switch (menuOption) {
+                case 1 -> System.out.println("VIEW ALL ACTIVE SUPPORT-TICKETS");
+                case 2 -> editSupportTicketMenu();
+                case 3 -> System.out.println("SOME FUNCTIONALITY?");
+                case 4 -> System.out.println("SOME FUNCTIONALITY?");
+            }
+        } while (menuOption != 0);
+    }
+
+    public static void editSupportTicketMenu() {
+        int menuOption = 0;
+
+        do {
+            System.out.println("""
+                    Choose option below:
+                    0 - Back to Support-ticket Menu
+                    1 - Change status of Support-ticket
+                    2 - Close Support-ticket
+                    3 - 
+                    4 - """);
+
+            menuOption = getValidIntegerInput(input, 0, 4);
+
+            switch (menuOption) {
+                case 1 -> System.out.println("VIEW ALL ACTIVE SUPPORT-TICKETS");
+                case 2 -> System.out.println("EDIT TICKETS!");
+                case 3 -> System.out.println("");
 
             }
 
 
         } while (menuOption != 0);
     }
+
+    public static String getUserData(String s) {
+        System.out.print(s);
+        String adminInputName = InputOutput.getValidStringInput(input);
+        return adminInputName;
+    }
+
+
 }
