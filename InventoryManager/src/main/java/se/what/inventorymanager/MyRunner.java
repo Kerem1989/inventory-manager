@@ -1,10 +1,8 @@
 package se.what.inventorymanager;
-
 import Utils.InputOutput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.Optional;
@@ -25,9 +23,8 @@ public class MyRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        printallUsersLimited(printLimitRepo);
-        //InputOutput.introText();
-        //InputOutput.login(userRepo);
+        InputOutput.introText();
+        InputOutput.login(userRepo, equipmentRepo);
 
     }
 
