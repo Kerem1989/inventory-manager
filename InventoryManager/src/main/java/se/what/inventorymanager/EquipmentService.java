@@ -22,9 +22,11 @@ public class EquipmentService {
         return equipmentRepo.findById(id).orElse(null);
     }
 
-    public List<Equipment> getEquipmentByType(EquipmentType type) {
-        return equipmentRepo.findByType(type);
-    }
+
+    //caused crash on run and had no usages atm, commented it out :) / robert
+//    public List<Equipment> getEquipmentByType(EquipmentType type) {
+//        return equipmentRepo.findByType(type);
+//    }
 
     public List<Equipment> getAllEquipment() {
         return equipmentRepo.findAll();
