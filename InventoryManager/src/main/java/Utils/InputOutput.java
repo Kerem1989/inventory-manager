@@ -1,9 +1,6 @@
 package Utils;
 
-import se.what.inventorymanager.MyRunner;
-import se.what.inventorymanager.RoleType;
-import se.what.inventorymanager.UserRepo;
-import se.what.inventorymanager.UserService;
+import se.what.inventorymanager.*;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -107,33 +104,26 @@ public class InputOutput {
             String username = getValidStringInput(input);
             System.out.print("Please enter password: ");
             String password = getValidStringInput(input);
-            System.out.print("Please enter your role: ");
-            String role = getValidStringInput(input);
-            RoleType inputAsEnum = RoleType.valueOf(role);
-            if (userRepo.existsUserByUsernameAndPassword(username, password) && (inputAsEnum == RoleType.admin)){
-                    System.out.println("You are logged in as admin");
-                    runProgram = false;
-                }
-            else if (userRepo.existsUserByUsernameAndPassword(username, password) && (inputAsEnum == RoleType.superuser)){
-                System.out.println("You are logged in as superuser");
-                runProgram = false;
-            }
-            else if (userRepo.existsUserByUsernameAndPassword(username, password) && (inputAsEnum == RoleType.user)){
-                System.out.println("You are logged in as user");
-                runProgram = false;
-            }
-            else {
+
+            User foundUser = userRepo.getUserByUsernameAndPassword(username,password);
+            //foundUser får lov att vara inparameter så länge!
+            //eller ska man skapa en dao så man inte skickar runt lösenord?
+
+            if (foundUser==null){
                 System.out.println("Incorrect username, password or role.");
+                runProgram=true;
+            }
+
+            RoleType userRole = foundUser.getRole();
+
+            if (userRole==RoleType.admin || userRole==RoleType.superuser){
+                menuAdmin(userRepo);
+                runProgram = false;
+            } else {
+                menuUser(userRepo);
                 runProgram = false;
             }
-            /*TODO: Här kanske man ska kalla på user-repot för att kontrollera om inloggningsuppgifterna stämmer?
-            TODO: samt kontroll om användaren hämtar är admin, superUser eller user :)
-            TODO: Eller ska inloggningslogiken ligga nån annanstans?
-            * */
-
         } while (runProgram);
-        menuAdmin(userRepo);
-
     }
 
     public static void menuAdmin(UserRepo userRepo) {
@@ -159,7 +149,7 @@ public class InputOutput {
         } while (menuOption != 0);
     }
 
-    public void menuUser() {
+    public static void menuUser(UserRepo userRepo) {
         int menuOption;
         do {
             System.out.println("""
