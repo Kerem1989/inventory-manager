@@ -1,9 +1,7 @@
 package Utils;
 
-import se.what.inventorymanager.MyRunner;
-import se.what.inventorymanager.RoleType;
-import se.what.inventorymanager.UserRepo;
-import se.what.inventorymanager.EquipmentRepo;
+import se.what.inventorymanager.*;
+
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
@@ -67,7 +65,7 @@ public class InputOutput {
 
         do {
             userInput = input.nextLine();
-            if (!userInput.matches("[a-zA-ZåäöÅÄÖ0-9-@.]+")) {
+            if (!userInput.matches("[a-zA-ZåäöÅÄÖ0-9@.]+")) {
                 System.out.println("Incorrect format, you cannot use special characters!");
                 isUserInputInvalid = true;
             } else if (userInput.isEmpty()) {
@@ -99,43 +97,36 @@ public class InputOutput {
                 """);
     }
 
-    public static void login(UserRepo userRepo, EquipmentRepo equipmentRepo) {
+    public static void login(UserRepo userRepo) {
         boolean runProgram = true;
         do {
             System.out.print("Please enter username: ");
             String username = getValidStringInput(input);
             System.out.print("Please enter password: ");
             String password = getValidStringInput(input);
-            System.out.print("Please enter your role: ");
-            String role = getValidStringInput(input);
-            RoleType inputAsEnum = RoleType.valueOf(role);
-            if (userRepo.existsUserByUsernameAndPassword(username, password) && (inputAsEnum == RoleType.admin)){
-                    System.out.println("You are logged in as admin");
-                    runProgram = false;
-                }
-            else if (userRepo.existsUserByUsernameAndPassword(username, password) && (inputAsEnum == RoleType.superuser)){
-                System.out.println("You are logged in as superuser");
-                runProgram = false;
-            }
-            else if (userRepo.existsUserByUsernameAndPassword(username, password) && (inputAsEnum == RoleType.user)){
-                System.out.println("You are logged in as user");
-                runProgram = false;
-            }
-            else {
+
+            User foundUser = userRepo.getUserByUsernameAndPassword(username,password);
+            //foundUser får lov att vara inparameter så länge!
+            //eller ska man skapa en dao så man inte skickar runt lösenord?
+
+            if (foundUser==null){
                 System.out.println("Incorrect username, password or role.");
+                runProgram=true;
+            }
+
+            RoleType userRole = foundUser.getRole();
+
+            if (userRole==RoleType.admin || userRole==RoleType.superuser){
+                menuAdmin(userRepo);
+                runProgram = false;
+            } else {
+                menuUser(userRepo);
                 runProgram = false;
             }
-            /*TODO: Här kanske man ska kalla på user-repot för att kontrollera om inloggningsuppgifterna stämmer?
-            TODO: samt kontroll om användaren hämtar är admin, superUser eller user :)
-            TODO: Eller ska inloggningslogiken ligga nån annanstans?
-            * */
-
         } while (runProgram);
-        menuAdmin(userRepo, equipmentRepo);
-
     }
 
-    public static void menuAdmin(UserRepo userRepo, EquipmentRepo equipmentRepo) {
+    public static void menuAdmin(UserRepo userRepo) {
         int menuOption;
 
         do {
@@ -151,14 +142,14 @@ public class InputOutput {
             switch (menuOption) {
                 case 0 -> System.out.println("Thank you for using Inventory-manager!");
                 case 1 -> manageUsersMenu(userRepo);
-                case 2 -> manageEquipmentMenu(equipmentRepo, userRepo);
+                case 2 -> manageEquipmentMenu();
                 case 3 -> manageSupportTicketMenu();
 
             }
         } while (menuOption != 0);
     }
 
-    public void menuUser() {
+    public static void menuUser(UserRepo userRepo) {
         int menuOption;
         do {
             System.out.println("""
@@ -195,14 +186,14 @@ public class InputOutput {
 
             switch (menuOption) {
                 case 1 -> System.out.println("print all users..");
-                case 2 -> MyRunner.addNewUser(userRepo);
-                case 3 -> System.out.println("edit existing user");
+                case 2 -> UserService.addNewUser(userRepo);
+                case 3 -> UserService.editUser(userRepo, input);
                 case 4 -> System.out.println("remove user? maybe should be under edit user?");
             }
         } while (menuOption != 0);
     }
 
-    private static void manageEquipmentMenu(EquipmentRepo equipmentRepo, UserRepo userRepo) {
+    private static void manageEquipmentMenu() {
         int menuOption = 0;
 
         do {
@@ -217,7 +208,7 @@ public class InputOutput {
             menuOption = getValidIntegerInput(input, 0, 4);
 
             switch (menuOption) {
-                case 1 -> MyRunner.addNewEquipment(equipmentRepo, userRepo);
+                //case 1 -> MyRunner.addNewEquipment();
                 case 2 -> System.out.println("HÄR REFERERAR MAN TILL REDIGERA UTRUSTNING-METODEN");
                 case 3 -> System.out.println("HÄR REFERERAR MAN TILL TA BORT UTRUSTNING-METODEN");
                 case 4 -> System.out.println("VILL MAN GÖRA NÅ ANNAT HÄR???");
