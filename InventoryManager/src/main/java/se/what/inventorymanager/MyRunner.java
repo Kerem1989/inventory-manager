@@ -18,13 +18,13 @@ public class MyRunner implements CommandLineRunner {
     @Autowired
     EquipmentRepo equipmentRepo;
     @Autowired
-    PrintAllUsersLimitedRepo printLimitRepo;
+    AssignedEquipmentRepo assignedEquipmentRepo;
     Scanner input = new Scanner(System.in);
 
     @Override
     public void run(String... args) throws Exception {
         InputOutput.introText();
-        InputOutput.login(userRepo, equipmentRepo);
+        InputOutput.login(userRepo, equipmentRepo, assignedEquipmentRepo);
 
     }
 
@@ -68,10 +68,6 @@ public class MyRunner implements CommandLineRunner {
 
     public void findEquipment() {
 
-    }
-
-    public static void printallUsersLimited (PrintAllUsersLimitedRepo printLimitRepo){
-        System.out.println(printLimitRepo.findAll());
     }
 
 }

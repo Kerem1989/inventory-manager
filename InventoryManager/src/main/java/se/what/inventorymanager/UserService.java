@@ -5,12 +5,17 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 import java.util.Scanner;
 import static Utils.InputOutput.getValidIntegerInput;
+import static Utils.InputOutput.getValidStringInput;
 
 @Service
 public class UserService {
 
     @Autowired
     UserRepo userRepo;
+
+    @Autowired
+    AssignedEquipmentRepo assignedEquipmentRepo;
+
     public static void addNewUser(UserRepo userRepo) {
         User user = new User();
         String adminInputName = InputOutput.getUserData("Please enter the users full name: ");
@@ -123,7 +128,12 @@ public class UserService {
                             System.out.println("Wrong type of role for the user, please try again.");
                         }
                     }
-                    case 8 -> System.out.println("Remove here");
+                    case 8 -> {
+                        System.out.println("Please enter the id of the user you want to remove: ");
+                        int deleteUserById = input.nextInt();
+                        input.nextLine();
+                        userRepo.deleteById(deleteUserById);
+                    }
                     case 9 -> runEditMenu = false;
 
                 }
@@ -133,5 +143,8 @@ public class UserService {
 
     public static void findAllUsers (UserRepo userRepo, Scanner input){
         System.out.println(userRepo.findAll());
+    }
+    public static void displayEquipmentOwner(AssignedEquipmentRepo assignedEquipmentRepo){
+        System.out.println(assignedEquipmentRepo.findAll());
     }
 }
