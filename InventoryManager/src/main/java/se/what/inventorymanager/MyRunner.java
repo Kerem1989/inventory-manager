@@ -31,7 +31,7 @@ public class MyRunner implements CommandLineRunner {
 
     }
 
-    public static void addNewEquipment(EquipmentRepo equipmentRepo) {
+    public void addNewEquipment(EquipmentRepo equipmentRepo, UserRepo userRepo) {
         Equipment equipment = new Equipment();
         String inputName = InputOutput.getUserData("Please enter name of the equipment: ");
         equipment.setName(inputName);
@@ -50,8 +50,23 @@ public class MyRunner implements CommandLineRunner {
         EquipmentType type = EquipmentType.fromString(inputType);
         equipment.setType(type);
 
+        System.out.println("Please enter the ID of the user purchasing the equipment: ");
+        int userId = InputOutput.getValidIntegerInput(input, 1, 16);
+        Optional<User> userOptional = userRepo.findById(userId);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            equipment.setUser(user);
+        } else {
+            System.out.println("No user found with the given ID.");
+            return;
+        }
+
         equipmentRepo.save(equipment);
         System.out.println(equipment + " added");
+    }
+
+    public void displayEquipment(EquipmentRepo equipmentRepo) {
+        System.out.println(equipmentRepo.findAll());
     }
 
     public void findEquipment() {
