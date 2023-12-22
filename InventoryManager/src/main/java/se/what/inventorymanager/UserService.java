@@ -67,9 +67,9 @@ public class UserService {
             if (userOptional.isPresent()) {
                 User user = userOptional.get();
                 System.out.println("Please choose from the following options to edit: ");
-                System.out.println("1. Edit name." + "\n2. Edit department" + "\n3. Edit email." + "\n4. Edit telephone number" + "\n5. Edit username" + "\n6. Edit password." + "\n7. Edit role." + "\n8. Quit menu.");
+                System.out.println("1. Edit name." + "\n2. Edit department" + "\n3. Edit email." + "\n4. Edit telephone number" + "\n5. Edit username" + "\n6. Edit password." + "\n7. Edit role."+ "\n8. Remove user." + "\n9. Quit menu.");
                 System.out.print("Please choose a option by entering the menu number: ");
-                int selectMenuOption = getValidIntegerInput(input, 0, 8);
+                int selectMenuOption = getValidIntegerInput(input, 0, 9);
                 switch (selectMenuOption) {
                     case 1 -> {
                         System.out.println("Enter the new name: ");
@@ -123,10 +123,15 @@ public class UserService {
                             System.out.println("Wrong type of role for the user, please try again.");
                         }
                     }
-                    case 8 -> runEditMenu = false;
+                    case 8 -> System.out.println("Remove here");
+                    case 9 -> runEditMenu = false;
 
                 }
             }
         } while (runEditMenu);
+    }
+
+    public static void findAllUsers (UserRepo userRepo, Scanner input){
+        System.out.println(userRepo.findAll());
     }
 }
