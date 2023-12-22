@@ -1,5 +1,6 @@
 package Utils;
 
+import org.hibernate.type.internal.UserTypeSqlTypeAdapter;
 import se.what.inventorymanager.*;
 
 import java.time.LocalDate;
@@ -7,8 +8,6 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-
-import static se.what.inventorymanager.MyRunner.printallUsersLimited;
 
 
 public class InputOutput {
@@ -99,7 +98,7 @@ public class InputOutput {
                 """);
     }
 
-    public static void login(UserRepo userRepo, EquipmentRepo equipmentRepo) {
+    public static void login(UserRepo userRepo, EquipmentRepo equipmentRepo, AssignedEquipmentRepo assignedEquipmentRepo) {
         boolean runProgram = true;
         do {
             System.out.print("Please enter username: ");
@@ -119,7 +118,7 @@ public class InputOutput {
             RoleType userRole = foundUser.getRole();
 
             if (userRole==RoleType.admin || userRole==RoleType.superuser){
-                menuAdmin(userRepo, equipmentRepo);
+                menuAdmin(userRepo, equipmentRepo, assignedEquipmentRepo);
                 runProgram = false;
             } else {
                 menuUser(userRepo);
@@ -128,7 +127,7 @@ public class InputOutput {
         } while (runProgram);
     }
 
-    public static void menuAdmin(UserRepo userRepo, EquipmentRepo equipmentRepo) {
+    public static void menuAdmin(UserRepo userRepo, EquipmentRepo equipmentRepo, AssignedEquipmentRepo assignedEquipmentRepo) {
         int menuOption;
 
         do {
@@ -144,7 +143,7 @@ public class InputOutput {
             switch (menuOption) {
                 case 0 -> System.out.println("Thank you for using Inventory-manager!");
                 case 1 -> manageUsersMenu(userRepo);
-                case 2 -> manageEquipmentMenu(equipmentRepo);
+                case 2 -> manageEquipmentMenu(equipmentRepo, assignedEquipmentRepo);
                 case 3 -> manageSupportTicketMenu();
 
             }
@@ -192,7 +191,7 @@ public class InputOutput {
         } while (menuOption != 0);
     }
 
-    private static void manageEquipmentMenu(EquipmentRepo equipmentRepo) {
+    private static void manageEquipmentMenu(EquipmentRepo equipmentRepo, AssignedEquipmentRepo assignedEquipmentRepo) {
         int menuOption = 0;
 
         do {
@@ -206,7 +205,7 @@ public class InputOutput {
             menuOption = getValidIntegerInput(input, 0, 3);
 
             switch (menuOption) {
-                case 1 -> manageDisplayEquipmentMenu(equipmentRepo);
+                case 1 -> manageDisplayEquipmentMenu(equipmentRepo, assignedEquipmentRepo);
                 case 2 -> System.out.println("Add equipment here");
                 case 3 -> System.out.println("HÄR REFERERAR MAN TILL REDIGERA UTRUSTNING-METODEN");
             }
@@ -214,7 +213,7 @@ public class InputOutput {
         } while (menuOption != 0);
     }
 
-    private static void manageDisplayEquipmentMenu (EquipmentRepo equipmentRepo) {
+    private static void manageDisplayEquipmentMenu (EquipmentRepo equipmentRepo, AssignedEquipmentRepo assignedEquipmentRepo) {
         int menuOption = 0;
 
         do {
@@ -230,7 +229,7 @@ public class InputOutput {
             switch (menuOption) {
                 case 1 -> System.out.println("Here are all the equipments");
                 case 2 -> System.out.println("Here is unassigned equipmets");
-                case 3 -> System.out.println("Here is assigned equipmets");
+                case 3 -> UserService.displayEquipmentOwner(assignedEquipmentRepo);
             }
         } while (menuOption != 0);
     }
