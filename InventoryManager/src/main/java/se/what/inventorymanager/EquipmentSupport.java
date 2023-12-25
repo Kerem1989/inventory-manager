@@ -13,7 +13,7 @@ public class EquipmentSupport {
     private EquipmentStatus status;
 
     @Column(name = "support_record")
-    private int support_record;
+    private int supportRecord;
 
     @ManyToOne
     @JoinColumn(name="equipment_id")
@@ -24,7 +24,7 @@ public class EquipmentSupport {
 
     public EquipmentSupport(EquipmentStatus status, int support_record, Equipment equipment) {
         this.status = status;
-        this.support_record = support_record;
+        this.supportRecord = supportRecord;
         this.equipment = equipment;
     }
 
@@ -40,12 +40,12 @@ public class EquipmentSupport {
         this.status = status;
     }
 
-    public int getSupport_record() {
-        return support_record;
+    public int getSupportRecord() {
+        return supportRecord;
     }
 
-    public void setSupport_record(int support_record) {
-        this.support_record = support_record;
+    public void setSupportRecord(int supportRecord) {
+        this.supportRecord = supportRecord;
     }
 
     public Equipment getEquipment() {
@@ -61,7 +61,7 @@ public class EquipmentSupport {
         return "EquipmentSupport{" +
                 "id=" + id +
                 ", status=" + status +
-                ", support_record=" + support_record +
+                ", support_record=" + supportRecord +
                 ", equipment=" + (equipment != null ? equipment.getId() : null) +
                 '}';
     }

@@ -6,6 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="d2d4648f-0d86-4a73-995f-b46a24ced720" name="Changes" comment="Modified a method Robert.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InventoryManager/src/main/java/Utils/InputOutput.java" beforeDir="false" afterPath="$PROJECT_DIR$/InventoryManager/src/main/java/Utils/InputOutput.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InventoryManager/src/main/java/se/what/inventorymanager/EquipmentRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/InventoryManager/src/main/java/se/what/inventorymanager/EquipmentRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InventoryManager/src/main/java/se/what/inventorymanager/EquipmentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/InventoryManager/src/main/java/se/what/inventorymanager/EquipmentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InventoryManager/src/main/java/se/what/inventorymanager/MyRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/InventoryManager/src/main/java/se/what/inventorymanager/MyRunner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InventoryManager/src/main/java/se/what/inventorymanager/PrintAllUsersLimited.java" beforeDir="false" afterPath="$PROJECT_DIR$/InventoryManager/src/main/java/se/what/inventorymanager/AssignedEquipment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InventoryManager/src/main/java/se/what/inventorymanager/PrintAllUsersLimitedRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/InventoryManager/src/main/java/se/what/inventorymanager/AssignedEquipmentRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InventoryManager/src/main/java/se/what/inventorymanager/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/InventoryManager/src/main/java/se/what/inventorymanager/UserService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,35 +66,38 @@
     <option name="showLibraryContents" value="true" />
     <option name="showMembers" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "Spring Boot.InventoryManagerApplication.executor": "Run",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "KeremsBranch",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "G:/Coding/Java/ITHS/se.what/inventory-manager/InventoryManager/src/main/java",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "reference.settings.project.maven.importing",
-    "spring.configuration.checksum": "107b90eea1d11d20e31a70c7e6fcc202",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;Spring Boot.InventoryManagerApplication.executor&quot;: &quot;Run&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;KeremsBranch&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;G:/Coding/Java/ITHS/se.what/inventory-manager/InventoryManager/src/main/java&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Facets&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.runner&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;107b90eea1d11d20e31a70c7e6fcc202&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="G:\Coding\Java\ITHS\se.what\inventory-manager\InventoryManager\src\main\java" />
@@ -124,6 +134,8 @@
       <workItem from="1703098938209" duration="6344000" />
       <workItem from="1703197568573" duration="2158000" />
       <workItem from="1703236998623" duration="1320000" />
+      <workItem from="1703239228417" duration="9435000" />
+      <workItem from="1703274551112" duration="5676000" />
     </task>
     <task id="LOCAL−00001" summary="Equipment class with a ManyToOne relationship with User 'id'. &#10;Added two Enum classes for the instancefields 'state' and 'type'. See this as a first try with the Equipment class, i'm sure i have to update and reconfigure here and there. &#10;Finally updated the resource.properties with logging level and no spring-banner.">
       <option name="closed" value="true" />

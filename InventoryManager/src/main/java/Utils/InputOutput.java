@@ -1,5 +1,6 @@
 package Utils;
 
+import org.hibernate.type.internal.UserTypeSqlTypeAdapter;
 import se.what.inventorymanager.*;
 
 import java.time.LocalDate;
@@ -65,7 +66,7 @@ public class InputOutput {
 
         do {
             userInput = input.nextLine();
-            if (!userInput.matches("[a-zA-ZåäöÅÄÖ0-9@.]+")) {
+            if (!userInput.matches("[a-zA-ZåäöÅÄÖ0-9@. ]+")) {
                 System.out.println("Incorrect format, you cannot use special characters!");
                 isUserInputInvalid = true;
             } else if (userInput.isEmpty()) {
@@ -97,7 +98,7 @@ public class InputOutput {
                 """);
     }
 
-    public static void login(UserRepo userRepo) {
+    public static void login(UserRepo userRepo, EquipmentRepo equipmentRepo, AssignedEquipmentRepo assignedEquipmentRepo) {
         boolean runProgram = true;
         do {
             System.out.print("Please enter username: ");
@@ -117,7 +118,7 @@ public class InputOutput {
             RoleType userRole = foundUser.getRole();
 
             if (userRole==RoleType.admin || userRole==RoleType.superuser){
-                menuAdmin(userRepo);
+                menuAdmin(userRepo, equipmentRepo, assignedEquipmentRepo);
                 runProgram = false;
             } else {
                 menuUser(userRepo);
@@ -126,7 +127,7 @@ public class InputOutput {
         } while (runProgram);
     }
 
-    public static void menuAdmin(UserRepo userRepo) {
+    public static void menuAdmin(UserRepo userRepo, EquipmentRepo equipmentRepo, AssignedEquipmentRepo assignedEquipmentRepo) {
         int menuOption;
 
         do {
@@ -142,7 +143,7 @@ public class InputOutput {
             switch (menuOption) {
                 case 0 -> System.out.println("Thank you for using Inventory-manager!");
                 case 1 -> manageUsersMenu(userRepo);
-                case 2 -> manageEquipmentMenu();
+                case 2 -> manageEquipmentMenu(equipmentRepo, assignedEquipmentRepo);
                 case 3 -> manageSupportTicketMenu();
 
             }
@@ -157,8 +158,7 @@ public class InputOutput {
                     0 - Logout
                     1 - Search available equipment in stock
                     2 - Display your equipment
-                    3 - Support ticket
-                    """);
+                    3 - Support ticket""");
 
             menuOption = getValidIntegerInput(input, 0, 3);
 
@@ -179,42 +179,58 @@ public class InputOutput {
                     0 - Back to Main Menu
                     1 - Display all users
                     2 - Add User
-                    3 - Edit User
-                    4 - Remove User""");
+                    3 - Edit User""");
 
-            menuOption = getValidIntegerInput(input, 0, 4);
+            menuOption = getValidIntegerInput(input, 0, 3);
 
             switch (menuOption) {
-                case 1 -> System.out.println("print all users..");
+                case 1 -> UserService.findAllUsers(userRepo, input);
                 case 2 -> UserService.addNewUser(userRepo);
                 case 3 -> UserService.editUser(userRepo, input);
-                case 4 -> System.out.println("remove user? maybe should be under edit user?");
             }
         } while (menuOption != 0);
     }
 
-    private static void manageEquipmentMenu() {
+    private static void manageEquipmentMenu(EquipmentRepo equipmentRepo, AssignedEquipmentRepo assignedEquipmentRepo) {
         int menuOption = 0;
 
         do {
             System.out.println("""
                     Choose option below:
                     0 - Back to Main Menu
-                    1 - Add new Equipment to stock/user
-                    2 - Edit equipment
-                    3 - discard equipment
-                    4 - Någonting mer kanske man vill göra?""");
+                    1 - Display equipments
+                    2 - Add new Equipment to stock/user
+                    3 - Edit equipment""");
 
-            menuOption = getValidIntegerInput(input, 0, 4);
+            menuOption = getValidIntegerInput(input, 0, 3);
 
             switch (menuOption) {
-                //case 1 -> MyRunner.addNewEquipment();
-                case 2 -> System.out.println("HÄR REFERERAR MAN TILL REDIGERA UTRUSTNING-METODEN");
-                case 3 -> System.out.println("HÄR REFERERAR MAN TILL TA BORT UTRUSTNING-METODEN");
-                case 4 -> System.out.println("VILL MAN GÖRA NÅ ANNAT HÄR???");
-
+                case 1 -> manageDisplayEquipmentMenu(equipmentRepo, assignedEquipmentRepo);
+                case 2 -> System.out.println("Add equipment here");
+                case 3 -> System.out.println("HÄR REFERERAR MAN TILL REDIGERA UTRUSTNING-METODEN");
             }
 
+        } while (menuOption != 0);
+    }
+
+    private static void manageDisplayEquipmentMenu (EquipmentRepo equipmentRepo, AssignedEquipmentRepo assignedEquipmentRepo) {
+        int menuOption = 0;
+
+        do {
+            System.out.println("""
+                    Choose option below:
+                    0 - Back to Main Menu
+                    1 - Display all equipments
+                    2 - Display all unassigned equipments
+                    3 - Diplay assigned equipments""");
+
+            menuOption = getValidIntegerInput(input, 0, 3);
+
+            switch (menuOption) {
+                case 1 -> System.out.println("Here are all the equipments");
+                case 2 -> System.out.println("Here is unassigned equipmets");
+                case 3 -> UserService.displayEquipmentOwner(assignedEquipmentRepo);
+            }
         } while (menuOption != 0);
     }
 
@@ -225,18 +241,17 @@ public class InputOutput {
             System.out.println("""
                     Choose option below:
                     0 - Back to Main Menu
-                    1 - View all active support tickets
-                    2 - Edit Support-Ticket
-                    3 - 
-                    4 - """);
+                    1 - Open a new support ticket
+                    2 - View support tickets
+                    3 - Edit Support-Ticket""");
 
-            menuOption = getValidIntegerInput(input, 0, 4);
+            menuOption = getValidIntegerInput(input, 0, 3);
 
             switch (menuOption) {
-                case 1 -> System.out.println("VIEW ALL ACTIVE SUPPORT-TICKETS");
-                case 2 -> editSupportTicketMenu();
-                case 3 -> System.out.println("SOME FUNCTIONALITY?");
-                case 4 -> System.out.println("SOME FUNCTIONALITY?");
+                case 1 -> System.out.println("Open a new ticket");
+                case 2 -> System.out.println("VIEW ALL ACTIVE SUPPORT-TICKETS");
+                case 3 -> editSupportTicketMenu();
+
             }
         } while (menuOption != 0);
     }
@@ -249,16 +264,35 @@ public class InputOutput {
                     Choose option below:
                     0 - Back to Support-ticket Menu
                     1 - Change status of Support-ticket
-                    2 - Close Support-ticket
-                    3 - 
-                    4 - """);
+                    2 - Close Support-ticket""");
 
-            menuOption = getValidIntegerInput(input, 0, 4);
+            menuOption = getValidIntegerInput(input, 0, 2);
 
             switch (menuOption) {
                 case 1 -> System.out.println("VIEW ALL ACTIVE SUPPORT-TICKETS");
                 case 2 -> System.out.println("EDIT TICKETS!");
-                case 3 -> System.out.println("");
+
+            }
+
+
+        } while (menuOption != 0);
+    }
+
+    public static void editUserSupportTicketMenu() {
+        int menuOption = 0;
+
+        do {
+            System.out.println("""
+                    Choose option below:
+                    0 - Back to main menu
+                    1 - Create a new support ticket
+                    2 - View your support ticket""");
+
+            menuOption = getValidIntegerInput(input, 0, 2);
+
+            switch (menuOption) {
+                case 1 -> System.out.println("create new support ticket");
+                case 2 -> System.out.println("view your support ticket");
 
             }
 

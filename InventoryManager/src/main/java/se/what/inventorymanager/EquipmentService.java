@@ -13,8 +13,8 @@ public class EquipmentService {
     private EquipmentRepo equipmentRepo;
 
     public Equipment addEquipment(String name, Date purchaseDate, double purchasePrice,
-            EquipmentState state, EquipmentType type) {
-        Equipment equipment = new Equipment(name, purchaseDate, purchasePrice, state, type);
+            EquipmentState state, EquipmentType type, User user) {
+        Equipment equipment = new Equipment(name, purchaseDate, purchasePrice, state, type, user);
         return equipmentRepo.save(equipment);
     }
 
@@ -22,9 +22,11 @@ public class EquipmentService {
         return equipmentRepo.findById(id).orElse(null);
     }
 
-    public List<Equipment> getEquipmentByType(EquipmentType type) {
-        return equipmentRepo.findByType(type);
-    }
+
+    //caused crash on run and had no usages atm, commented it out :) / robert
+//    public List<Equipment> getEquipmentByType(EquipmentType type) {
+//        return equipmentRepo.findByType(type);
+//    }
 
     public List<Equipment> getAllEquipment() {
         return equipmentRepo.findAll();
@@ -32,7 +34,7 @@ public class EquipmentService {
 
     public Equipment updateEquipment(Integer id, String name, Date purchaseDate,
                                      double purchasePrice, EquipmentState state,
-                                     EquipmentType type) {
+                                     EquipmentType type, User user) {
         Equipment equipment = equipmentRepo.findById(id).orElse(null);
         if (equipment != null) {
             equipment.setName(name);
@@ -40,6 +42,7 @@ public class EquipmentService {
             equipment.setPurchasePrice(purchasePrice);
             equipment.setState(state);
             equipment.setType(type);
+            equipment.setUser(user);
             equipmentRepo.save(equipment);
         }
         return equipment;
