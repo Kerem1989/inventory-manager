@@ -41,9 +41,14 @@ public class Equipment {
         this.user = user;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public int getId() {
         return id;
     }
+
     public String getName() {
         return name;
     }

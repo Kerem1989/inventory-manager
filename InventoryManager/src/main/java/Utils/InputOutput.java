@@ -1,6 +1,5 @@
 package Utils;
 
-import org.hibernate.type.internal.UserTypeSqlTypeAdapter;
 import se.what.inventorymanager.*;
 
 import java.time.LocalDate;
@@ -206,7 +205,7 @@ public class InputOutput {
 
             switch (menuOption) {
                 case 1 -> manageDisplayEquipmentMenu(equipmentRepo, assignedEquipmentRepo);
-                case 2 -> System.out.println("Add equipment here");
+                case 2 -> System.out.println("REFERENS TILL LÄGGA TILL UTRUSTNING");
                 case 3 -> System.out.println("HÄR REFERERAR MAN TILL REDIGERA UTRUSTNING-METODEN");
             }
 

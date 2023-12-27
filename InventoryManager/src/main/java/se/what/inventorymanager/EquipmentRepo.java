@@ -5,9 +5,11 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface EquipmentRepo extends JpaRepository<Equipment, Integer> {
+    Optional<Equipment> findById();
 //    List<Equipment> findByName(String name);
 //    List<Equipment> findByType(EquipmentType type);
 //    List<Equipment> findAll(Equipment equipment);
