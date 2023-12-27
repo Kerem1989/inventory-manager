@@ -144,6 +144,7 @@ public class UserService {
     public static void findAllUsers (UserRepo userRepo, Scanner input){
         System.out.println(userRepo.findAll());
     }
+
     public static void displayEquipmentOwner(AssignedEquipmentRepo assignedEquipmentRepo){
         System.out.println(assignedEquipmentRepo.findAll());
     }

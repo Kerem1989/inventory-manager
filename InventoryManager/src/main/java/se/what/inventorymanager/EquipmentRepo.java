@@ -8,10 +8,11 @@ import java.util.List;
 
 @Repository
 public interface EquipmentRepo extends JpaRepository<Equipment, Integer> {
-/*    List<Equipment> findByName(String name);
-    List<Equipment> findByType(EquipmentType type);
-    List<Equipment> findAll(Equipment equipment);
-    int countByType(EquipmentType type);
-    boolean existsByName(String name);*/
-
+//    List<Equipment> findByName(String name);
+//    List<Equipment> findByType(EquipmentType type);
+//    List<Equipment> findAll(Equipment equipment);
 }
+
+
+
+
