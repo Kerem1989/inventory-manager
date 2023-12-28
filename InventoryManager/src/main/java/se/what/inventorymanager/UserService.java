@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 import java.util.Scanner;
 import static Utils.InputOutput.getValidIntegerInput;
-import static Utils.InputOutput.getValidStringInput;
 
 @Service
 public class UserService {
@@ -66,8 +65,7 @@ public class UserService {
             System.out.println("Welcome to the menu for editing user, please select a user id from the list below to begin editing:");
             System.out.println(userRepo.findAll());
             System.out.println("Please enter the id of the specific user to begin editing: ");
-            int selectUserById = input.nextInt();
-            input.nextLine();
+            int selectUserById = getValidIntegerInput(input,0, 100);
             Optional<User> userOptional = userRepo.findById(selectUserById);
             if (userOptional.isPresent()) {
                 User user = userOptional.get();
@@ -133,7 +131,13 @@ public class UserService {
                         System.out.println("Please enter the id of the user you want to remove: ");
                         int deleteUserById = input.nextInt();
                         input.nextLine();
-                        userRepo.deleteById(deleteUserById);
+                        if (userRepo.existsUserById(deleteUserById)){
+                            userRepo.deleteById(deleteUserById);
+                            System.out.println("You deleted" + userRepo.findById(deleteUserById));
+                        } else{
+                            System.out.println("No deletion occured, id for user not found.");
+                        }
+
                     }
                     case 9 -> runEditMenu = false;
 
