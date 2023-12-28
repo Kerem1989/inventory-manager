@@ -34,7 +34,7 @@ public class EquipmentService {
         double inputpurchasePrice = InputOutput.getValidDoubleInput(input, 1);
         equipment.setPurchasePrice(inputpurchasePrice);
 
-        EquipmentState state = EquipmentState.AVAILABLE;
+        EquipmentState state = EquipmentState.ASSIGNED;
         equipment.setState(state);
 
         String inputType = InputOutput.getUserData("Please enter equipment type (LAPTOP, PHONE, MONITOR, PROJECTOR, OFFICE_CHAIR):");
