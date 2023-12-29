@@ -133,7 +133,7 @@ public class UserService {
                         input.nextLine();
                         if (userRepo.existsUserById(deleteUserById)){
                             userRepo.deleteById(deleteUserById);
-                            System.out.println("You deleted" + userRepo.findById(deleteUserById));
+                            System.out.println("Deletion succesful");
                         } else{
                             System.out.println("No deletion occured, id for user not found.");
                         }
