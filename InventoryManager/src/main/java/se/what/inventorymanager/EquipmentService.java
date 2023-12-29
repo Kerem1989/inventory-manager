@@ -34,8 +34,9 @@ public class EquipmentService {
         double inputpurchasePrice = InputOutput.getValidDoubleInput(input, 1);
         equipment.setPurchasePrice(inputpurchasePrice);
 
-        EquipmentState state = EquipmentState.ASSIGNED;
-        equipment.setState(state);
+
+        EquipmentState state = EquipmentState.available;
+
 
         String inputType = InputOutput.getUserData("Please enter equipment type (LAPTOP, PHONE, MONITOR, PROJECTOR, OFFICE_CHAIR):");
         EquipmentType type = EquipmentType.fromString(inputType); // toUpperCase() ?
@@ -68,7 +69,7 @@ public class EquipmentService {
             System.out.println("Please enter the id of the equipment to begin editing: ");
             int selectEquipmentById = input.nextInt();
             input.nextLine();
-            Optional<Equipment> equipmentOptional = equipmentRepo.findById();
+            Optional<Equipment> equipmentOptional = equipmentRepo.findById(selectEquipmentById);
             if (equipmentOptional.isPresent()) {
                 Equipment equipment = equipmentOptional.get();
                 System.out.println("Please choose one of the following options: ");

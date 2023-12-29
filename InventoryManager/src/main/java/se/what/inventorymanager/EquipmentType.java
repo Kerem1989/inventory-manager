@@ -1,11 +1,11 @@
 package se.what.inventorymanager;
 
 public enum EquipmentType {
-    LAPTOP,
-    PHONE,
-    MONITOR,
-    PROJECTOR,
-    OFFICE_CHAIR;
+    laptop,
+    phone,
+    monitor,
+    projector,
+    office_chair;
 
     public static EquipmentType fromString(String typeString) {
         for (EquipmentType type : EquipmentType.values()) {

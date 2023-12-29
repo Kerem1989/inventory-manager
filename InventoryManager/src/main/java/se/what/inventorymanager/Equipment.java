@@ -25,6 +25,8 @@ public class Equipment {
     @Enumerated(EnumType.STRING)
     private EquipmentType type;
 
+    @OneToOne(mappedBy = "equipment")
+    private EquipmentSupport equipmentSupport;
     @ManyToOne
     @JoinColumn(name = "purchased_by", referencedColumnName = "id")
     private User user;
@@ -102,7 +104,16 @@ public class Equipment {
                 ", purchasePrice=" + purchasePrice +
                 ", state=" + state +
                 ", type=" + type +
+                ", equipmentSupport=" + equipmentSupport +
                 ", user=" + user.getName() +
                 '}';
+    }
+
+    @PreUpdate
+    @PrePersist
+    public void updateEquipmentState() {
+        if (user == null) {
+            state = EquipmentState.unassigned;
+        }
     }
 }
