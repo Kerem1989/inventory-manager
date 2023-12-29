@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d2d4648f-0d86-4a73-995f-b46a24ced720" name="Changes" comment="Modified a method Robert.">
+
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/InventoryManager/src/main/java/se/what/inventorymanager/Equipment.java" beforeDir="false" afterPath="$PROJECT_DIR$/InventoryManager/src/main/java/se/what/inventorymanager/Equipment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/InventoryManager/src/main/java/se/what/inventorymanager/EquipmentRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/InventoryManager/src/main/java/se/what/inventorymanager/EquipmentRepo.java" afterDir="false" />
@@ -15,6 +16,7 @@
       <change beforePath="$PROJECT_DIR$/InventoryManager/src/main/java/se/what/inventorymanager/EquipmentType.java" beforeDir="false" afterPath="$PROJECT_DIR$/InventoryManager/src/main/java/se/what/inventorymanager/EquipmentType.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/InventoryManager/src/main/java/se/what/inventorymanager/MyRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/InventoryManager/src/main/java/se/what/inventorymanager/MyRunner.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/InventoryManager/src/main/java/se/what/inventorymanager/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/InventoryManager/src/main/java/se/what/inventorymanager/UserService.java" afterDir="false" />
+
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -139,8 +141,10 @@
       <workItem from="1703239228417" duration="9435000" />
       <workItem from="1703274551112" duration="5676000" />
       <workItem from="1703708648006" duration="4818000" />
+
       <workItem from="1703789064417" duration="9186000" />
       <workItem from="1703842997581" duration="1187000" />
+
     </task>
     <task id="LOCAL−00001" summary="Equipment class with a ManyToOne relationship with User 'id'. &#10;Added two Enum classes for the instancefields 'state' and 'type'. See this as a first try with the Equipment class, i'm sure i have to update and reconfigure here and there. &#10;Finally updated the resource.properties with logging level and no spring-banner.">
       <option name="closed" value="true" />
