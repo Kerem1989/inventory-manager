@@ -90,8 +90,9 @@ public class User {
 
     @Override
     public String toString() {
-        return "\nUser id: " + id + " Name: " + name  + " Department: " + department + " Email: " + email + " Telephone: "
-                + telephone + " Username: " + username + " Password: " + password + " Role: " + role;
+        return "\n\033[1mUser id:\033[0m " + id + " | " +  " \033[1mFull Name: \033[0m" + name + " | "  + "\033[1mDepartment: \033[0m" + department +
+                " | " + "\033[1mEmail: \033[0m" + email + " | " + "\033[1mTelephone: \033[0m"
+                + telephone + " | " +  "\033[1mUsername: \033[0m" + username + " | " +  "\033[1mPassword: \033[0m" + password + " | " +  "\033[1mRole: \033[0m " + role;
     }
 }
 

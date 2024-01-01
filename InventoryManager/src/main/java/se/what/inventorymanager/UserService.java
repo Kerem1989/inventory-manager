@@ -64,7 +64,8 @@ public class UserService {
         do {
             System.out.println("Welcome to the menu for editing user, please select a user id from the list below to begin editing:");
             System.out.println(userRepo.findAll());
-            System.out.println("Please enter the id of the specific user to begin editing: ");
+            System.out.println("");
+            System.out.print("Please enter the id of the specific user to begin editing: ");
             int selectUserById = getValidIntegerInput(input,0, 100);
             Optional<User> userOptional = userRepo.findById(selectUserById);
             if (userOptional.isPresent()) {
@@ -148,6 +149,7 @@ public class UserService {
 
     public static void findAllUsers (UserRepo userRepo, Scanner input){
         System.out.println(userRepo.findAll());
+        System.out.println("");
     }
 
     public static void displayEquipmentOwner(AssignedEquipmentRepo assignedEquipmentRepo){
