@@ -1,5 +1,8 @@
 package se.what.inventorymanager;
 import jakarta.persistence.*;
+
+import java.util.List;
+
 @Entity
 @Table(name = "user")
 public class User {
@@ -17,6 +20,9 @@ public class User {
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private RoleType role;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private List<Equipment> equipmentList;
 
     public User(String name, String department, String email, String telephone, String username, String password, RoleType role) {
         this.name = name;
@@ -86,6 +92,14 @@ public class User {
 
     public void setRole(RoleType role) {
         this.role = role;
+    }
+
+    public List<Equipment> getEquipmentList() {
+        return equipmentList;
+    }
+
+    public void setEquipmentList(List<Equipment> equipmentList) {
+        this.equipmentList = equipmentList;
     }
 
     @Override

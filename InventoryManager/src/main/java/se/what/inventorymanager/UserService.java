@@ -1,9 +1,14 @@
 package se.what.inventorymanager;
+
 import Utils.InputOutput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
+
 import static Utils.InputOutput.getValidIntegerInput;
 
 @Service
@@ -14,6 +19,9 @@ public class UserService {
 
     @Autowired
     AssignedEquipmentRepo assignedEquipmentRepo;
+
+    @Autowired
+    EquipmentRepo equipmentRepo;
 
     public static void addNewUser(UserRepo userRepo) {
         User user = new User();
@@ -36,43 +44,37 @@ public class UserService {
         user.setPassword(adminInputPassword);
 
         String adminInputRole = InputOutput.getUserData("Please enter a role for the user, must equal admin, superuser or user: ");
-        if (adminInputRole.equalsIgnoreCase("admin")){
+        if (adminInputRole.equalsIgnoreCase("admin")) {
             user.setRole(RoleType.admin);
             userRepo.save(user);
             System.out.println("You have added " + user);
-        }
-
-        else if (adminInputRole.equalsIgnoreCase("superuser")){
+        } else if (adminInputRole.equalsIgnoreCase("superuser")) {
             user.setRole(RoleType.superuser);
             userRepo.save(user);
             System.out.println("You have added " + user);
-        }
-
-        else if (adminInputRole.equalsIgnoreCase("user")){
+        } else if (adminInputRole.equalsIgnoreCase("user")) {
             user.setRole(RoleType.user);
             userRepo.save(user);
             System.out.println("You have added " + user);
-        }
-
-        else {
+        } else {
             System.out.println("Wrong type of role for the user, please try again.");
         }
     }
 
-    public static void editUser (UserRepo userRepo, Scanner input) {
+    public static void editUser(UserRepo userRepo, Scanner input, EquipmentRepo equipmentRepo, Equipment equipment) {
         boolean runEditMenu = true;
         do {
             System.out.println("Welcome to the menu for editing user, please select a user id from the list below to begin editing:");
             System.out.println(userRepo.findAll());
             System.out.println("");
             System.out.print("Please enter the id of the specific user to begin editing: ");
-            int selectUserById = getValidIntegerInput(input,0, 100);
+            int selectUserById = getValidIntegerInput(input, 0, 100);
             Optional<User> userOptional = userRepo.findById(selectUserById);
             if (userOptional.isPresent()) {
                 User user = userOptional.get();
                 System.out.println("Please choose from the following options to edit: ");
                 System.out.println("1. Edit name." + "\n2. Edit department" + "\n3. Edit email." + "\n4. Edit telephone number" +
-                        "\n5. Edit username" + "\n6. Edit password." + "\n7. Edit role."+ "\n8. Remove user." + "\n9. Quit menu.");
+                        "\n5. Edit username" + "\n6. Edit password." + "\n7. Edit role." + "\n8. Remove user." + "\n9. Quit menu.");
                 System.out.print("Please choose a option by entering the menu number: ");
                 int selectMenuOption = getValidIntegerInput(input, 0, 9);
                 switch (selectMenuOption) {
@@ -132,27 +134,45 @@ public class UserService {
                         System.out.println("Please enter the id of the user you want to remove: ");
                         int deleteUserById = input.nextInt();
                         input.nextLine();
-                        if (userRepo.existsUserById(deleteUserById)){
-                            userRepo.deleteById(deleteUserById);
-                            System.out.println("Deletion succesful");
-                        } else{
-                            System.out.println("No deletion occured, id for user not found.");
+                        if (userRepo.existsUserById(deleteUserById)) {
+                            Optional<User> deletedUser = userRepo.findById(deleteUserById);
+
+                            if (deletedUser.isPresent()) {
+                                List<Equipment> equipmentList = deletedUser.get().getEquipmentList();
+
+                                if (!equipmentList.isEmpty()) {
+                                    for (Equipment assignedEquipment : equipmentList) {
+                                        assignedEquipment.setState(EquipmentState.unassigned);
+                                        equipmentRepo.save(assignedEquipment);
+                                    }
+                                } else {
+                                    System.out.println("No equipment found for the deleted user.");
+                                }
+
+                                userRepo.deleteById(deleteUserById);
+                            } else {
+                                System.out.println("No user found for the given ID.");
+                            }
+                        } else {
+                            System.out.println("No deletion occurred, user ID not found.");
                         }
 
                     }
                     case 9 -> runEditMenu = false;
-
                 }
+            } else {
+                System.out.println("No user with the selected ID found.");
+                System.out.println("");
             }
         } while (runEditMenu);
     }
 
-    public static void findAllUsers (UserRepo userRepo, Scanner input){
+    public static void findAllUsers(UserRepo userRepo, Scanner input) {
         System.out.println(userRepo.findAll());
         System.out.println("");
     }
 
-    public static void displayEquipmentOwner(AssignedEquipmentRepo assignedEquipmentRepo){
+    public static void displayEquipmentOwner(AssignedEquipmentRepo assignedEquipmentRepo) {
         System.out.println(assignedEquipmentRepo.findAll());
     }
 }

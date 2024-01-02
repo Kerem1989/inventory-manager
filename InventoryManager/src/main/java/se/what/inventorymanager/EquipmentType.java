@@ -5,7 +5,8 @@ public enum EquipmentType {
     phone,
     monitor,
     projector,
-    office_chair;
+    office_chair,
+    screen;
 
     public static EquipmentType fromString(String typeString) {
         for (EquipmentType type : EquipmentType.values()) {
