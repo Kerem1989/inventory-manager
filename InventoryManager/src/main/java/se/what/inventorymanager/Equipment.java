@@ -10,13 +10,13 @@ public class Equipment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name="equipment_name")
+    @Column(name = "equipment_name")
     private String name;
 
-    @Column(name="purchase_date")
+    @Column(name = "purchase_date")
     private Date purchaseDate;
 
-    @Column(name="purchase_price")
+    @Column(name = "purchase_price")
     private double purchasePrice;
 
     @Enumerated(EnumType.STRING)
@@ -31,7 +31,8 @@ public class Equipment {
     @JoinColumn(name = "purchased_by", referencedColumnName = "id")
     private User user;
 
-    public Equipment() {}
+    public Equipment() {
+    }
 
     public Equipment(String name, Date purchaseDate, double purchasePrice, EquipmentState state,
                      EquipmentType type, User user) {
@@ -97,23 +98,16 @@ public class Equipment {
 
     @Override
     public String toString() {
-        return "Equipment{" +
+        return "\nEquipment{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", purchaseDate=" + purchaseDate +
                 ", purchasePrice=" + purchasePrice +
                 ", state=" + state +
                 ", type=" + type +
-                ", equipmentSupport=" + equipmentSupport +
-                ", user=" + user.getName() +
-                '}';
-    }
+                ", equipmentSupport=" + equipmentSupport + '}';
 
-    @PreUpdate
-    @PrePersist
-    public void updateEquipmentState() {
-        if (user == null) {
-            state = EquipmentState.unassigned;
-        }
+
     }
 }
+

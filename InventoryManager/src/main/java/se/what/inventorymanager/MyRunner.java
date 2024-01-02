@@ -18,13 +18,14 @@ public class MyRunner implements CommandLineRunner {
     AssignedEquipmentRepo assignedEquipmentRepo;
     @Autowired
     EquipmentSupportRepo equipmentSupportRepo;
+    @Autowired
+    UnassignedEquipmentRepo unassignedEquipmentRepo;
 
     Scanner input = new Scanner(System.in);
 
     @Override
     public void run(String... args) throws Exception {
-        System.out.println(equipmentSupportRepo.findAll());
         InputOutput.introText();
-        InputOutput.login(userRepo, equipmentRepo, assignedEquipmentRepo);
+        InputOutput.login(userRepo, equipmentRepo, assignedEquipmentRepo, unassignedEquipmentRepo);
     }
 }

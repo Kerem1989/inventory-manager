@@ -20,6 +20,8 @@ public class EquipmentService {
     EquipmentRepo equipmentRepo;
     @Autowired
     UserRepo userRepo;
+    @Autowired
+    UnassignedEquipmentRepo unassignedEquipmentRepo;
 
 
     public static void addNewEquipment(EquipmentRepo equipmentRepo, UserRepo userRepo) {
@@ -57,8 +59,9 @@ public class EquipmentService {
         System.out.println(equipment + " added");
     }
 
-    public void displayEquipment() {
+    public static boolean displayEquipment(EquipmentRepo equipmentRepo) {
         System.out.println(equipmentRepo.findAll());
+        return false;
     }
 
     public static void editEquipment (EquipmentRepo equipmentRepo) {
@@ -125,6 +128,10 @@ public class EquipmentService {
 
     public void deleteEquipment(Integer id) {
         equipmentRepo.deleteById(id);
+    }
+
+    public static void displayUnassignedEquipment (UnassignedEquipmentRepo unassignedEquipmentRepo){
+        System.out.println(unassignedEquipmentRepo.findAll());
     }
 
 }
