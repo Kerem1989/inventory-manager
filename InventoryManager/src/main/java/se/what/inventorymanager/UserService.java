@@ -136,10 +136,8 @@ public class UserService {
                         input.nextLine();
                         if (userRepo.existsUserById(deleteUserById)) {
                             Optional<User> deletedUser = userRepo.findById(deleteUserById);
-
                             if (deletedUser.isPresent()) {
                                 List<Equipment> equipmentList = deletedUser.get().getEquipmentList();
-
                                 if (!equipmentList.isEmpty()) {
                                     for (Equipment assignedEquipment : equipmentList) {
                                         assignedEquipment.setState(EquipmentState.unassigned);

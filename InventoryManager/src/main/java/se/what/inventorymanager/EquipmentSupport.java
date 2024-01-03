@@ -19,12 +19,18 @@ public class EquipmentSupport {
     @JoinColumn(name = "equipment_id")
     private Equipment equipment;
 
+    @Column(name = "description")
+    private String description;
+
+
     public EquipmentSupport() {
     }
 
-    public EquipmentSupport(EquipmentStatus status, int support_record, Equipment equipment) {
+    public EquipmentSupport(EquipmentStatus status, int support_record, String description,
+                            Equipment equipment) {
         this.status = status;
         this.supportRecord = supportRecord;
+        this.description = description;
         this.equipment = equipment;
     }
 
@@ -52,6 +58,14 @@ public class EquipmentSupport {
         return equipment;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public void setEquipment(Equipment equipment) {
         this.equipment = equipment;
     }
@@ -62,6 +76,7 @@ public class EquipmentSupport {
                 "id=" + id +
                 ", status=" + status +
                 ", support_record=" + supportRecord +
+                ", description=" + description +
                 ", equipment=" + (equipment != null ? equipment.getId() : null) +
                 '}';
     }
