@@ -97,6 +97,7 @@ public class InputOutput {
                 """);
     }
 
+
     public static void login(UserRepo userRepo, EquipmentRepo equipmentRepo,
                              AssignedEquipmentRepo assignedEquipmentRepo,
                              UnassignedEquipmentRepo unassignedEquipmentRepo, EquipmentSupportRepo equipmentSupportRepo) {
@@ -128,10 +129,12 @@ public class InputOutput {
         } while (runProgram);
     }
 
+
     public static void menuAdmin(UserRepo userRepo, EquipmentRepo equipmentRepo,
                                  AssignedEquipmentRepo assignedEquipmentRepo,
                                  UnassignedEquipmentRepo unassignedEquipmentRepo,
                                  EquipmentSupportRepo equipmentSupportRepo) {
+
         int menuOption;
 
         do {
@@ -241,7 +244,6 @@ public class InputOutput {
     public static void manageSupportTicketMenu(EquipmentSupportRepo equipmentSupportRepo, EquipmentRepo equipmentRepo,
                                                Scanner input) {
         int menuOption = 0;
-
         do {
             System.out.println("""
                     Choose option below:
@@ -251,13 +253,17 @@ public class InputOutput {
                     3 - Edit support tickets
                     4 - Delete Support-Ticket""");
 
+
             menuOption = getValidIntegerInput(input, 0, 4);
+
 
             switch (menuOption) {
                 case 1 -> addNewSupportTicket(equipmentSupportRepo, equipmentRepo, input);
                 case 2 -> findAllEquipmentSupport(equipmentSupportRepo, input);
                 case 3 -> editSupportTicketMenu(equipmentSupportRepo);
                 case 4 -> deleteSupportTicket(equipmentSupportRepo, input);
+
+
 
             }
         } while (menuOption != 0);
@@ -266,6 +272,7 @@ public class InputOutput {
     private static void deleteSupportTicket(EquipmentSupportRepo equipmentSupportRepo, Scanner input) {
         EquipmentSupportService.deleteSupportTicket(equipmentSupportRepo, input);
     }
+
 
     private static void findAllEquipmentSupport(EquipmentSupportRepo equipmentSupportRepo,
                                                 Scanner input) {
@@ -276,22 +283,22 @@ public class InputOutput {
     private static void addNewSupportTicket(EquipmentSupportRepo equipmentSupportRepo, EquipmentRepo equipmentRepo,
                                             Scanner input) {
         int menuOption = 0;
-
         do {
             System.out.println("""
                 Choose option below:
                 0 - Back to Support-ticket Menu
                 1 - Answer some questions so that your support ticket can be created
+
                 2 - Retrive old ticket and change info);
 
-            menuOption = getValidIntegerInput(input, 0, 2);
 
+
+            menuOption = getValidIntegerInput(input, 0, 2);
             switch (menuOption) {
                 case 1 -> EquipmentSupportService.addTicket(equipmentSupportRepo, equipmentRepo, input);
                 case 2 -> EquipmentSupportService.oldTicketRetrieveChange(equipmentSupportRepo, input);
 
             }
-
 
         } while (menuOption != 0);
 
@@ -304,25 +311,21 @@ public class InputOutput {
 
     public static void editUserSupportTicketMenu(EquipmentSupportRepo equipmentSupportRepo) {
         int menuOption = 0;
-
         do {
             System.out.println("""
                     Choose option below:
                     0 - Back to main menu
                     1 - Create a new support ticket
                     2 - View your support ticket""");
-
             menuOption = getValidIntegerInput(input, 0, 2);
-
             switch (menuOption) {
                 case 1 -> System.out.println("create new support ticket");
                 case 2 -> System.out.println("view your support ticket");
-
             }
-
 
         } while (menuOption != 0);
     }
+
 
     public static String getUserData(String s) {
         System.out.print(s);

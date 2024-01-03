@@ -1,11 +1,13 @@
 package se.what.inventorymanager;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+
 import java.util.Optional;
 import java.util.Scanner;
+
+
 
 
 @Service
@@ -15,6 +17,7 @@ public class EquipmentSupportService {
     EquipmentSupportRepo equipmentSupportRepo;
     @Autowired
     EquipmentRepo equipmentRepo;
+
 
 
     public static void addTicket(EquipmentSupportRepo equipmentSupportRepo, EquipmentRepo equipmentRepo,
@@ -72,6 +75,7 @@ public class EquipmentSupportService {
 
         }
     }
+
 
     public static void deleteSupportTicket(EquipmentSupportRepo equipmentSupportRepo,
                                            Scanner input) {
