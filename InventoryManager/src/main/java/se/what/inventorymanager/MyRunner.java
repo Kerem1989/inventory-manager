@@ -21,11 +21,12 @@ public class MyRunner implements CommandLineRunner {
     @Autowired
     UnassignedEquipmentRepo unassignedEquipmentRepo;
 
+
     Scanner input = new Scanner(System.in);
 
     @Override
     public void run(String... args) throws Exception {
         InputOutput.introText();
-        InputOutput.login(userRepo, equipmentRepo, assignedEquipmentRepo, unassignedEquipmentRepo);
+        InputOutput.login(userRepo, equipmentRepo, assignedEquipmentRepo, unassignedEquipmentRepo, equipmentSupportRepo);
     }
 }
