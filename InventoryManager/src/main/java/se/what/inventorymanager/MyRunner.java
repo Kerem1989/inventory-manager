@@ -21,6 +21,7 @@ public class MyRunner implements CommandLineRunner {
     @Autowired
     UnassignedEquipmentRepo unassignedEquipmentRepo;
 
+
     Scanner input = new Scanner(System.in);
 
     @Override
