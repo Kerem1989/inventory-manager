@@ -1,5 +1,8 @@
 package se.what.inventorymanager;
 import jakarta.persistence.*;
+
+import java.util.List;
+
 @Entity
 @Table(name = "user")
 public class User {
@@ -17,6 +20,9 @@ public class User {
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private RoleType role;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private List<Equipment> equipmentList;
 
     public User(String name, String department, String email, String telephone, String username, String password, RoleType role) {
         this.name = name;
@@ -88,10 +94,19 @@ public class User {
         this.role = role;
     }
 
+    public List<Equipment> getEquipmentList() {
+        return equipmentList;
+    }
+
+    public void setEquipmentList(List<Equipment> equipmentList) {
+        this.equipmentList = equipmentList;
+    }
+
     @Override
     public String toString() {
-        return "\nUser id: " + id + " Name: " + name  + " Department: " + department + " Email: " + email + " Telephone: "
-                + telephone + " Username: " + username + " Password: " + password + " Role: " + role;
+        return "\n\033[1mUser id:\033[0m " + id + " | " +  " \033[1mFull Name: \033[0m" + name + " | "  + "\033[1mDepartment: \033[0m" + department +
+                " | " + "\033[1mEmail: \033[0m" + email + " | " + "\033[1mTelephone: \033[0m"
+                + telephone + " | " +  "\033[1mUsername: \033[0m" + username + " | " +  "\033[1mPassword: \033[0m" + password + " | " +  "\033[1mRole: \033[0m " + role;
     }
 }
 

@@ -1,6 +1,5 @@
 package Utils;
 
-import org.hibernate.type.internal.UserTypeSqlTypeAdapter;
 import se.what.inventorymanager.*;
 
 import java.time.LocalDate;
@@ -98,7 +97,9 @@ public class InputOutput {
                 """);
     }
 
-    public static void login(UserRepo userRepo, EquipmentRepo equipmentRepo, AssignedEquipmentRepo assignedEquipmentRepo) {
+    public static void login(UserRepo userRepo, EquipmentRepo equipmentRepo,
+                             AssignedEquipmentRepo assignedEquipmentRepo,
+                             UnassignedEquipmentRepo unassignedEquipmentRepo, EquipmentSupportRepo equipmentSupportRepo) {
         boolean runProgram = true;
         do {
             System.out.print("Please enter username: ");
@@ -118,7 +119,7 @@ public class InputOutput {
             RoleType userRole = foundUser.getRole();
 
             if (userRole==RoleType.admin || userRole==RoleType.superuser){
-                menuAdmin(userRepo, equipmentRepo, assignedEquipmentRepo);
+                menuAdmin(userRepo, equipmentRepo, assignedEquipmentRepo, unassignedEquipmentRepo, equipmentSupportRepo);
                 runProgram = false;
             } else {
                 menuUser(userRepo);
@@ -127,7 +128,10 @@ public class InputOutput {
         } while (runProgram);
     }
 
-    public static void menuAdmin(UserRepo userRepo, EquipmentRepo equipmentRepo, AssignedEquipmentRepo assignedEquipmentRepo) {
+    public static void menuAdmin(UserRepo userRepo, EquipmentRepo equipmentRepo,
+                                 AssignedEquipmentRepo assignedEquipmentRepo,
+                                 UnassignedEquipmentRepo unassignedEquipmentRepo,
+                                 EquipmentSupportRepo equipmentSupportRepo) {
         int menuOption;
 
         do {
@@ -142,9 +146,9 @@ public class InputOutput {
 
             switch (menuOption) {
                 case 0 -> System.out.println("Thank you for using Inventory-manager!");
-                case 1 -> manageUsersMenu(userRepo);
-                case 2 -> manageEquipmentMenu(equipmentRepo, assignedEquipmentRepo);
-                case 3 -> manageSupportTicketMenu();
+                case 1 -> manageUsersMenu(userRepo, equipmentRepo);
+                case 2 -> manageEquipmentMenu(equipmentRepo, assignedEquipmentRepo, unassignedEquipmentRepo);
+                case 3 -> manageSupportTicketMenu(equipmentSupportRepo, equipmentRepo, input);
 
             }
         } while (menuOption != 0);
@@ -170,7 +174,7 @@ public class InputOutput {
         } while (menuOption != 0);
     }
 
-    private static void manageUsersMenu(UserRepo userRepo) {
+    private static void manageUsersMenu(UserRepo userRepo, EquipmentRepo equipmentRepo) {
         int menuOption = 0;
 
         do {
@@ -186,12 +190,12 @@ public class InputOutput {
             switch (menuOption) {
                 case 1 -> UserService.findAllUsers(userRepo, input);
                 case 2 -> UserService.addNewUser(userRepo);
-                case 3 -> UserService.editUser(userRepo, input);
+                case 3 -> UserService.editUser(userRepo, input, equipmentRepo, new Equipment());
             }
         } while (menuOption != 0);
     }
 
-    private static void manageEquipmentMenu(EquipmentRepo equipmentRepo, AssignedEquipmentRepo assignedEquipmentRepo) {
+    private static void manageEquipmentMenu(EquipmentRepo equipmentRepo, AssignedEquipmentRepo assignedEquipmentRepo, UnassignedEquipmentRepo unassignedEquipmentRepo) {
         int menuOption = 0;
 
         do {
@@ -205,15 +209,15 @@ public class InputOutput {
             menuOption = getValidIntegerInput(input, 0, 3);
 
             switch (menuOption) {
-                case 1 -> manageDisplayEquipmentMenu(equipmentRepo, assignedEquipmentRepo);
-                case 2 -> System.out.println("Add equipment here");
+                case 1 -> manageDisplayEquipmentMenu(equipmentRepo, assignedEquipmentRepo, unassignedEquipmentRepo);
+                case 2 -> System.out.println("REFERENS TILL LÄGGA TILL UTRUSTNING");
                 case 3 -> System.out.println("HÄR REFERERAR MAN TILL REDIGERA UTRUSTNING-METODEN");
             }
 
         } while (menuOption != 0);
     }
 
-    private static void manageDisplayEquipmentMenu (EquipmentRepo equipmentRepo, AssignedEquipmentRepo assignedEquipmentRepo) {
+    private static void manageDisplayEquipmentMenu (EquipmentRepo equipmentRepo, AssignedEquipmentRepo assignedEquipmentRepo, UnassignedEquipmentRepo unassignedEquipmentRepo) {
         int menuOption = 0;
 
         do {
@@ -222,19 +226,20 @@ public class InputOutput {
                     0 - Back to Main Menu
                     1 - Display all equipments
                     2 - Display all unassigned equipments
-                    3 - Diplay assigned equipments""");
+                    3 - Display assigned equipments""");
 
             menuOption = getValidIntegerInput(input, 0, 3);
 
             switch (menuOption) {
-                case 1 -> System.out.println("Here are all the equipments");
-                case 2 -> System.out.println("Here is unassigned equipmets");
+                case 1 -> System.out.println(EquipmentService.displayEquipment(equipmentRepo));
+                case 2 -> EquipmentService.displayUnassignedEquipment(unassignedEquipmentRepo);
                 case 3 -> UserService.displayEquipmentOwner(assignedEquipmentRepo);
             }
         } while (menuOption != 0);
     }
 
-    public static void manageSupportTicketMenu() {
+    public static void manageSupportTicketMenu(EquipmentSupportRepo equipmentSupportRepo, EquipmentRepo equipmentRepo,
+                                               Scanner input) {
         int menuOption = 0;
 
         do {
@@ -243,42 +248,61 @@ public class InputOutput {
                     0 - Back to Main Menu
                     1 - Open a new support ticket
                     2 - View support tickets
-                    3 - Edit Support-Ticket""");
+                    3 - Edit support tickets
+                    4 - Delete Support-Ticket""");
 
-            menuOption = getValidIntegerInput(input, 0, 3);
+            menuOption = getValidIntegerInput(input, 0, 4);
 
             switch (menuOption) {
-                case 1 -> System.out.println("Open a new ticket");
-                case 2 -> System.out.println("VIEW ALL ACTIVE SUPPORT-TICKETS");
-                case 3 -> editSupportTicketMenu();
+                case 1 -> addNewSupportTicket(equipmentSupportRepo, equipmentRepo, input);
+                case 2 -> findAllEquipmentSupport(equipmentSupportRepo, input);
+                case 3 -> editSupportTicketMenu(equipmentSupportRepo);
+                case 4 -> deleteSupportTicket(equipmentSupportRepo, input);
 
             }
         } while (menuOption != 0);
     }
 
-    public static void editSupportTicketMenu() {
+    private static void deleteSupportTicket(EquipmentSupportRepo equipmentSupportRepo, Scanner input) {
+        EquipmentSupportService.deleteSupportTicket(equipmentSupportRepo, input);
+    }
+
+    private static void findAllEquipmentSupport(EquipmentSupportRepo equipmentSupportRepo,
+                                                Scanner input) {
+        System.out.println(equipmentSupportRepo.findAll());
+    }
+
+
+    private static void addNewSupportTicket(EquipmentSupportRepo equipmentSupportRepo, EquipmentRepo equipmentRepo,
+                                            Scanner input) {
         int menuOption = 0;
 
         do {
             System.out.println("""
-                    Choose option below:
-                    0 - Back to Support-ticket Menu
-                    1 - Change status of Support-ticket
-                    2 - Close Support-ticket""");
+                Choose option below:
+                0 - Back to Support-ticket Menu
+                1 - Answer some questions so that your support ticket can be created
+                2 - VAKANT OPTION""");
 
             menuOption = getValidIntegerInput(input, 0, 2);
 
             switch (menuOption) {
-                case 1 -> System.out.println("VIEW ALL ACTIVE SUPPORT-TICKETS");
-                case 2 -> System.out.println("EDIT TICKETS!");
+                case 1 -> EquipmentSupportService.addTicket(equipmentSupportRepo, equipmentRepo, input);
+                case 2 -> EquipmentSupportService.oldTicketRetrieveChange(equipmentSupportRepo, input);
 
             }
 
 
         } while (menuOption != 0);
+
     }
 
-    public static void editUserSupportTicketMenu() {
+
+    public static void editSupportTicketMenu(EquipmentSupportRepo equipmentSupportRepo) {
+        EquipmentSupportService.oldTicketRetrieveChange(equipmentSupportRepo, input);
+    }
+
+    public static void editUserSupportTicketMenu(EquipmentSupportRepo equipmentSupportRepo) {
         int menuOption = 0;
 
         do {
