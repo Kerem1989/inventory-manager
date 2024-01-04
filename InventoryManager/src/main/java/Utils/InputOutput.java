@@ -150,7 +150,7 @@ public class InputOutput {
             switch (menuOption) {
                 case 0 -> System.out.println("Thank you for using Inventory-manager!");
                 case 1 -> manageUsersMenu(userRepo, equipmentRepo);
-                case 2 -> manageEquipmentMenu(equipmentRepo, assignedEquipmentRepo, unassignedEquipmentRepo);
+                case 2 -> manageEquipmentMenu(equipmentRepo, userRepo, assignedEquipmentRepo, unassignedEquipmentRepo);
                 case 3 -> manageSupportTicketMenu(equipmentSupportRepo, equipmentRepo, input);
 
             }
@@ -198,7 +198,9 @@ public class InputOutput {
         } while (menuOption != 0);
     }
 
-    private static void manageEquipmentMenu(EquipmentRepo equipmentRepo, AssignedEquipmentRepo assignedEquipmentRepo, UnassignedEquipmentRepo unassignedEquipmentRepo) {
+    private static void manageEquipmentMenu(EquipmentRepo equipmentRepo, UserRepo userRepo,
+                                            AssignedEquipmentRepo assignedEquipmentRepo,
+                                            UnassignedEquipmentRepo unassignedEquipmentRepo) {
         int menuOption = 0;
 
         do {
@@ -213,8 +215,8 @@ public class InputOutput {
 
             switch (menuOption) {
                 case 1 -> manageDisplayEquipmentMenu(equipmentRepo, assignedEquipmentRepo, unassignedEquipmentRepo);
-                case 2 -> System.out.println("REFERENS TILL LÄGGA TILL UTRUSTNING");
-                case 3 -> System.out.println("HÄR REFERERAR MAN TILL REDIGERA UTRUSTNING-METODEN");
+                case 2 -> EquipmentService.addNewEquipment(equipmentRepo, userRepo);
+                case 3 -> EquipmentService.editEquipment(equipmentRepo);
             }
 
         } while (menuOption != 0);
