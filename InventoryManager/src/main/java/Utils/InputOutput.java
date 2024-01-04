@@ -288,9 +288,7 @@ public class InputOutput {
                 Choose option below:
                 0 - Back to Support-ticket Menu
                 1 - Answer some questions so that your support ticket can be created
-
-                2 - Retrive old ticket and change info);
-
+                2 - Retrieve old ticket and change info""");
 
 
             menuOption = getValidIntegerInput(input, 0, 2);
@@ -299,9 +297,7 @@ public class InputOutput {
                 case 2 -> EquipmentSupportService.oldTicketRetrieveChange(equipmentSupportRepo, input);
 
             }
-
         } while (menuOption != 0);
-
     }
 
 
@@ -332,6 +328,4 @@ public class InputOutput {
         String adminInputName = InputOutput.getValidStringInput(input);
         return adminInputName;
     }
-
-
 }
