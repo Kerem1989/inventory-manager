@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Optional;
 
@@ -29,7 +29,7 @@ public class EquipmentService {
         String inputName = InputOutput.getUserData("Please enter name of the equipment: ");
         equipment.setName(inputName);
 
-        Date purchaseDate = InputOutput.asDate(LocalDate.now());
+        Date purchaseDate = InputOutput.asDate(LocalDateTime.now());
         equipment.setPurchaseDate(purchaseDate);
 
         System.out.println("Please enter price of the equipment: ");

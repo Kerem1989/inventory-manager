@@ -2,7 +2,7 @@ package Utils;
 
 import se.what.inventorymanager.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.InputMismatchException;
@@ -81,8 +81,8 @@ public class InputOutput {
         return userInput;
     }
 
-    public static Date asDate(LocalDate localDate) {
-        return Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+    public static Date asDate(LocalDateTime localDateTime) {
+        return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
     }
 
     public static void introText() {
