@@ -1,9 +1,11 @@
 package se.what.inventorymanager;
+import Utils.InputOutput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -17,14 +19,47 @@ public class EquipmentSupportService {
     EquipmentSupportRepo equipmentSupportRepo;
     @Autowired
     EquipmentRepo equipmentRepo;
+    @Autowired
+    UserRepo userRepo;
 
 
+
+    public static void userSupportMenu(EquipmentSupportRepo equipmentSupportRepo, EquipmentRepo equipmentRepo,
+                                 Scanner input, UserRepo userRepo, User foundUser) {
+        int userChoice = 0;
+        do {
+            System.out.println("""
+                    Please choose option below:
+                    0 - Back to main menu
+                    1 - View your tickets
+                    2 - create a new support ticket
+                    """);
+
+            InputOutput.getValidIntegerInput(input,0,2);
+
+            switch (userChoice){
+                case 1 -> displayLoggedInUsersTickets(equipmentSupportRepo,equipmentRepo, userRepo,foundUser);
+                case 2 -> addTicket( equipmentSupportRepo,  equipmentRepo,
+                         input, foundUser);
+            }
+
+        }while(userChoice != 0);
+    }
+
+    public static void displayLoggedInUsersTickets(EquipmentSupportRepo equipmentSupportRepo,EquipmentRepo equipmentRepo,UserRepo userRepo,User foundUser){
+
+        List<Equipment> equipmentList = foundUser.getEquipmentList();
+        System.out.println(equipmentList);
+
+    }
 
     public static void addTicket(EquipmentSupportRepo equipmentSupportRepo, EquipmentRepo equipmentRepo,
-                                 Scanner input) {
+                                 Scanner input,User foundUser) {
+
         EquipmentSupport equipmentSupport = new EquipmentSupport();
         equipmentSupport.setStatus(EquipmentStatus.open);
         equipmentSupport.setSupportRecord(1);
+
 
         System.out.println("Enter description of the problem for the ticket");
         String description = input.nextLine();
