@@ -4,7 +4,6 @@ import Utils.InputOutput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
@@ -25,25 +24,25 @@ public class UserService {
 
     public static void addNewUser(UserRepo userRepo) {
         User user = new User();
-        String adminInputName = InputOutput.getUserData("Please enter the users full name: ");
+        String adminInputName = InputOutput.getUserDataString("Please enter the users full name: ");
         user.setName(adminInputName);
 
-        String adminInputDepartment = InputOutput.getUserData("Please enter the users department: ");
+        String adminInputDepartment = InputOutput.getUserDataString("Please enter the users department: ");
         user.setDepartment(adminInputDepartment);
 
-        String adminInputEmail = InputOutput.getUserData("Please enter the users email: ");
+        String adminInputEmail = InputOutput.getUserDataString("Please enter the users email: ");
         user.setEmail(adminInputEmail);
 
-        String adminInputTelephone = InputOutput.getUserData("Please enter the users telephone number: ");
+        String adminInputTelephone = InputOutput.getUserDataString("Please enter the users telephone number: ");
         user.setTelephone(adminInputTelephone);
 
-        String adminInputUsername = InputOutput.getUserData("Please choose a username for the user: ");
+        String adminInputUsername = InputOutput.getUserDataString("Please choose a username for the user: ");
         user.setUsername(adminInputUsername);
 
-        String adminInputPassword = InputOutput.getUserData("Please choose a password for the user: ");
+        String adminInputPassword = InputOutput.getUserDataString("Please choose a password for the user: ");
         user.setPassword(adminInputPassword);
 
-        String adminInputRole = InputOutput.getUserData("Please enter a role for the user, must equal admin, superuser or user: ");
+        String adminInputRole = InputOutput.getUserDataString("Please enter a role for the user, must equal admin, superuser or user: ");
         if (adminInputRole.equalsIgnoreCase("admin")) {
             user.setRole(RoleType.admin);
             userRepo.save(user);
@@ -68,7 +67,7 @@ public class UserService {
             System.out.println(userRepo.findAll());
             System.out.println("");
             System.out.print("Please enter the id of the specific user to begin editing: ");
-            int selectUserById = getValidIntegerInput(input, 0, 100);
+            int selectUserById = getValidIntegerInput(input, 0, Integer.MAX_VALUE);
             Optional<User> userOptional = userRepo.findById(selectUserById);
             if (userOptional.isPresent()) {
                 User user = userOptional.get();

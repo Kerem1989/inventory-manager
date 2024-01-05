@@ -26,7 +26,7 @@ public class EquipmentService {
 
     public static void addNewEquipment(EquipmentRepo equipmentRepo, UserRepo userRepo) {
         Equipment equipment = new Equipment();
-        String inputName = InputOutput.getUserData("Please enter name of the equipment: ");
+        String inputName = InputOutput.getUserDataString("Please enter name of the equipment: ");
         equipment.setName(inputName);
 
         Date purchaseDate = InputOutput.asDate(LocalDateTime.now());
@@ -40,7 +40,7 @@ public class EquipmentService {
         EquipmentState state = EquipmentState.available;
 
 
-        String inputType = InputOutput.getUserData("Please enter equipment type (LAPTOP, PHONE, MONITOR, PROJECTOR, OFFICE_CHAIR):");
+        String inputType = InputOutput.getUserDataString("Please enter equipment type (LAPTOP, PHONE, MONITOR, PROJECTOR, OFFICE_CHAIR):");
         EquipmentType type = EquipmentType.fromString(inputType); // toUpperCase() ?
         equipment.setType(type);
 
