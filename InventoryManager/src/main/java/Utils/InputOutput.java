@@ -160,7 +160,7 @@ public class InputOutput {
                 menuAdmin(userRepo, equipmentRepo, assignedEquipmentRepo, unassignedEquipmentRepo, equipmentSupportRepo, foundUser, equipmentOrderRepo);
                 runProgram = false;
             } else {
-                menuUser(userRepo);
+                menuUser(userRepo,unassignedEquipmentRepo,foundUser,equipmentRepo);
                 runProgram = false;
             }
         } while (runProgram);
@@ -192,15 +192,15 @@ public class InputOutput {
             switch (menuOption) {
                 case 0 -> System.out.println("Thank you for using Inventory-manager!");
                 case 1 -> manageUsersMenu(userRepo, equipmentRepo);
-                case 2 -> manageEquipmentMenu(equipmentRepo, assignedEquipmentRepo, unassignedEquipmentRepo);
-                case 3 -> manageSupportTicketMenu(equipmentSupportRepo, equipmentRepo, input);
+                case 2 -> manageEquipmentMenu(equipmentRepo, assignedEquipmentRepo, unassignedEquipmentRepo, userRepo);
+                case 3 -> manageSupportTicketMenu(equipmentSupportRepo, equipmentRepo, input,foundUser);
                 case 4 -> EquipmentOrderService.equipmentOrderMenu(equipmentOrderRepo, equipmentRepo, userRepo, foundUser);
 
             }
         } while (menuOption != 0);
     }
 
-    public static void menuUser(UserRepo userRepo) {
+    public static void menuUser(UserRepo userRepo, UnassignedEquipmentRepo unassignedEquipmentRepo, User foundUser, EquipmentRepo equipmentRepo) {
         int menuOption;
         do {
             System.out.println("""
@@ -213,7 +213,7 @@ public class InputOutput {
             menuOption = getValidIntegerInput(input, 0, 3);
 
             switch (menuOption) {
-                case 1 -> System.out.println("display!!!!");
+                case 1 -> System.out.println(unassignedEquipmentRepo.findAll());
                 case 2 -> System.out.println("DISPLAY YOUR EQ");
                 case 3 -> System.out.println("Create new/view your tickets");
             }
@@ -241,7 +241,7 @@ public class InputOutput {
         } while (menuOption != 0);
     }
 
-    private static void manageEquipmentMenu(EquipmentRepo equipmentRepo, AssignedEquipmentRepo assignedEquipmentRepo, UnassignedEquipmentRepo unassignedEquipmentRepo) {
+    private static void manageEquipmentMenu(EquipmentRepo equipmentRepo, AssignedEquipmentRepo assignedEquipmentRepo, UnassignedEquipmentRepo unassignedEquipmentRepo, UserRepo userRepo) {
         int menuOption = 0;
 
         do {
@@ -250,14 +250,15 @@ public class InputOutput {
                     0 - Back to Main Menu
                     1 - Display equipments
                     2 - Add new Equipment to stock/user
-                    3 - Edit equipment""");
+                    3 - Edit equipment
+                    """);
 
             menuOption = getValidIntegerInput(input, 0, 3);
 
             switch (menuOption) {
                 case 1 -> manageDisplayEquipmentMenu(equipmentRepo, assignedEquipmentRepo, unassignedEquipmentRepo);
-                case 2 -> System.out.println("REFERENS TILL LÄGGA TILL UTRUSTNING");
-                case 3 -> System.out.println("HÄR REFERERAR MAN TILL REDIGERA UTRUSTNING-METODEN");
+                case 2 -> EquipmentService.addNewEquipment(equipmentRepo, userRepo);
+                case 3 -> EquipmentService.editEquipment (equipmentRepo);
             }
 
         } while (menuOption != 0);
@@ -285,7 +286,7 @@ public class InputOutput {
     }
 
     public static void manageSupportTicketMenu(EquipmentSupportRepo equipmentSupportRepo, EquipmentRepo equipmentRepo,
-                                               Scanner input) {
+                                               Scanner input, User foundUser) {
         int menuOption = 0;
         do {
             System.out.println("""
@@ -301,7 +302,7 @@ public class InputOutput {
 
 
             switch (menuOption) {
-                case 1 -> addNewSupportTicket(equipmentSupportRepo, equipmentRepo, input);
+                case 1 -> addNewSupportTicket(equipmentSupportRepo, equipmentRepo, input,foundUser);
                 case 2 -> findAllEquipmentSupport(equipmentSupportRepo, input);
                 case 3 -> editSupportTicketMenu(equipmentSupportRepo);
                 case 4 -> deleteSupportTicket(equipmentSupportRepo, input);
@@ -323,7 +324,7 @@ public class InputOutput {
 
 
     private static void addNewSupportTicket(EquipmentSupportRepo equipmentSupportRepo, EquipmentRepo equipmentRepo,
-                                            Scanner input) {
+                                            Scanner input,User foundUser) {
         int menuOption = 0;
         do {
             System.out.println("""
@@ -335,7 +336,7 @@ public class InputOutput {
 
             menuOption = getValidIntegerInput(input, 0, 2);
             switch (menuOption) {
-                case 1 -> EquipmentSupportService.addTicket(equipmentSupportRepo, equipmentRepo, input);
+                case 1 -> EquipmentSupportService.addTicket(equipmentSupportRepo, equipmentRepo, input,foundUser);
                 case 2 -> EquipmentSupportService.oldTicketRetrieveChange(equipmentSupportRepo, input);
 
             }
