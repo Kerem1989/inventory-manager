@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -43,8 +44,9 @@ public class EquipmentSupportService {
     }
 
     public static void displayLoggedInUsersTickets(EquipmentSupportRepo equipmentSupportRepo,EquipmentRepo equipmentRepo,UserRepo userRepo,User foundUser){
-        //print the current users support-tickets
-        //där ägaren på produkten som har en ticket=foundUser
+
+        List<Equipment> equipmentList = foundUser.getEquipmentList();
+        System.out.println(equipmentList);
 
     }
 
