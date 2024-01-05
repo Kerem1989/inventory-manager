@@ -1,4 +1,5 @@
 package se.what.inventorymanager;
+import Utils.InputOutput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,8 @@ public class EquipmentSupportService {
                     1 - View your tickets
                     2 - create a new support ticket
                     """);
+
+            InputOutput.getValidIntegerInput(input,0,2);
 
             switch (userChoice){
                 case 1 -> displayLoggedInUsersTickets(equipmentSupportRepo,equipmentRepo, userRepo,foundUser);
