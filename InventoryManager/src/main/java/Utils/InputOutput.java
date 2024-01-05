@@ -102,7 +102,7 @@ public class InputOutput {
 
         do {
             userInput = input.nextLine();
-            if (!userInput.matches("[a-zA-ZåäöÅÄÖ0-9@. ]+")) {
+            if (!userInput.matches("[a-zA-ZåäöÅÄÖ0-9@._]+")) {
                 System.out.println("Incorrect format, you cannot use special characters!");
                 isUserInputInvalid = true;
             } else if (userInput.isEmpty()) {
