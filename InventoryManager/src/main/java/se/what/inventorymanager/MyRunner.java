@@ -20,6 +20,8 @@ public class MyRunner implements CommandLineRunner {
     EquipmentSupportRepo equipmentSupportRepo;
     @Autowired
     UnassignedEquipmentRepo unassignedEquipmentRepo;
+    @Autowired
+    EquipmentOrderRepo equipmentOrderRepo;
 
 
     Scanner input = new Scanner(System.in);
@@ -27,6 +29,6 @@ public class MyRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         InputOutput.introText();
-        InputOutput.login(userRepo, equipmentRepo, assignedEquipmentRepo, unassignedEquipmentRepo, equipmentSupportRepo);
+        InputOutput.login(userRepo, equipmentRepo, assignedEquipmentRepo, unassignedEquipmentRepo, equipmentSupportRepo, equipmentOrderRepo);
     }
 }

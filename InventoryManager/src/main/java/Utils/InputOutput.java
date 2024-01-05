@@ -2,6 +2,7 @@ package Utils;
 
 import se.what.inventorymanager.*;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -59,6 +60,42 @@ public class InputOutput {
         return userInput;
     }
 
+
+    public static Date getValidDate(String inputDate) {
+        boolean isUserInputInvalid;
+
+        Date date = null;
+        do {
+
+            isUserInputInvalid = false;
+            try {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");
+                date = sdf.parse(inputDate);
+                System.out.println(date);
+
+            } catch (Exception e) {
+                System.out.println("invalid input");
+            }
+
+        } while (isUserInputInvalid);
+        return date;
+    }
+
+    public static Date getValidDeliveryDate() {
+        Date date = null;
+        do {
+            try {
+                String dateStr = input.nextLine();
+                date = InputOutput.getValidDate(dateStr);
+            } catch (Exception e) {
+                System.out.println("Invalid input. Please enter a valid date.");
+            }
+        } while (date == null);
+
+        return date;
+    }
+
+
     public static String getValidStringInput(Scanner input) {
         String userInput;
         boolean isUserInputInvalid;
@@ -100,7 +137,7 @@ public class InputOutput {
 
     public static void login(UserRepo userRepo, EquipmentRepo equipmentRepo,
                              AssignedEquipmentRepo assignedEquipmentRepo,
-                             UnassignedEquipmentRepo unassignedEquipmentRepo, EquipmentSupportRepo equipmentSupportRepo) {
+                             UnassignedEquipmentRepo unassignedEquipmentRepo, EquipmentSupportRepo equipmentSupportRepo, EquipmentOrderRepo equipmentOrderRepo) {
         boolean runProgram = true;
         do {
             System.out.print("Please enter username: ");
@@ -108,19 +145,19 @@ public class InputOutput {
             System.out.print("Please enter password: ");
             String password = getValidStringInput(input);
 
-            User foundUser = userRepo.getUserByUsernameAndPassword(username,password);
+            User foundUser = userRepo.getUserByUsernameAndPassword(username, password);
             //foundUser får lov att vara inparameter så länge!
             //eller ska man skapa en dao så man inte skickar runt lösenord?
 
-            if (foundUser==null){
+            if (foundUser == null) {
                 System.out.println("Incorrect username, password or role.");
-                runProgram=true;
+                runProgram = true;
             }
 
             RoleType userRole = foundUser.getRole();
 
-            if (userRole==RoleType.admin || userRole==RoleType.superuser){
-                menuAdmin(userRepo, equipmentRepo, assignedEquipmentRepo, unassignedEquipmentRepo, equipmentSupportRepo);
+            if (userRole == RoleType.admin || userRole == RoleType.superuser) {
+                menuAdmin(userRepo, equipmentRepo, assignedEquipmentRepo, unassignedEquipmentRepo, equipmentSupportRepo, foundUser, equipmentOrderRepo);
                 runProgram = false;
             } else {
                 menuUser(userRepo);
@@ -133,9 +170,12 @@ public class InputOutput {
     public static void menuAdmin(UserRepo userRepo, EquipmentRepo equipmentRepo,
                                  AssignedEquipmentRepo assignedEquipmentRepo,
                                  UnassignedEquipmentRepo unassignedEquipmentRepo,
-                                 EquipmentSupportRepo equipmentSupportRepo) {
+                                 EquipmentSupportRepo equipmentSupportRepo, User foundUser, EquipmentOrderRepo equipmentOrderRepo) {
 
         int menuOption;
+
+        //kontroll om det är admin eller superuser..
+
 
         do {
             System.out.println("""
@@ -143,15 +183,18 @@ public class InputOutput {
                     0 - Exit program
                     1 - Manage Users
                     2 - Manage Equipment
-                    3 - Manage Support tickets""");
+                    3 - Manage Support tickets
+                    4 - Manage orders""");
 
-            menuOption = getValidIntegerInput(input, 0, 3);
+            menuOption = getValidIntegerInput(input, 0, 4);
+
 
             switch (menuOption) {
                 case 0 -> System.out.println("Thank you for using Inventory-manager!");
                 case 1 -> manageUsersMenu(userRepo, equipmentRepo);
                 case 2 -> manageEquipmentMenu(equipmentRepo, assignedEquipmentRepo, unassignedEquipmentRepo);
                 case 3 -> manageSupportTicketMenu(equipmentSupportRepo, equipmentRepo, input);
+                case 4 -> EquipmentOrderService.equipmentOrderMenu(equipmentOrderRepo, equipmentRepo, userRepo, foundUser);
 
             }
         } while (menuOption != 0);
@@ -220,7 +263,7 @@ public class InputOutput {
         } while (menuOption != 0);
     }
 
-    private static void manageDisplayEquipmentMenu (EquipmentRepo equipmentRepo, AssignedEquipmentRepo assignedEquipmentRepo, UnassignedEquipmentRepo unassignedEquipmentRepo) {
+    private static void manageDisplayEquipmentMenu(EquipmentRepo equipmentRepo, AssignedEquipmentRepo assignedEquipmentRepo, UnassignedEquipmentRepo unassignedEquipmentRepo) {
         int menuOption = 0;
 
         do {
@@ -264,7 +307,6 @@ public class InputOutput {
                 case 4 -> deleteSupportTicket(equipmentSupportRepo, input);
 
 
-
             }
         } while (menuOption != 0);
     }
@@ -285,10 +327,10 @@ public class InputOutput {
         int menuOption = 0;
         do {
             System.out.println("""
-                Choose option below:
-                0 - Back to Support-ticket Menu
-                1 - Answer some questions so that your support ticket can be created
-                2 - Retrieve old ticket and change info""");
+                    Choose option below:
+                    0 - Back to Support-ticket Menu
+                    1 - Answer some questions so that your support ticket can be created
+                    2 - Retrieve old ticket and change info""");
 
 
             menuOption = getValidIntegerInput(input, 0, 2);
@@ -324,8 +366,25 @@ public class InputOutput {
 
 
     public static String getUserData(String s) {
+        return s;
+    }
+
+    public static String getUserDataString(String s) {
         System.out.print(s);
         String adminInputName = InputOutput.getValidStringInput(input);
         return adminInputName;
     }
+
+    public static Double getUserDataDouble(String s) {
+        System.out.print(s);
+        Double adminInputName = InputOutput.getValidDoubleInput(input, 0);
+        return adminInputName;
+    }
+
+    public static int getUserDataInteger(String s) {
+        System.out.print(s);
+        int adminInputName = InputOutput.getValidIntegerInput(input, 0, Integer.MAX_VALUE);
+        return adminInputName;
+    }
+
 }
