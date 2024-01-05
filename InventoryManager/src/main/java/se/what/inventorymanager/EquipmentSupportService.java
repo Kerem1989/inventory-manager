@@ -17,14 +17,44 @@ public class EquipmentSupportService {
     EquipmentSupportRepo equipmentSupportRepo;
     @Autowired
     EquipmentRepo equipmentRepo;
+    @Autowired
+    UserRepo userRepo;
 
 
+
+    public static void userSupportMenu(EquipmentSupportRepo equipmentSupportRepo, EquipmentRepo equipmentRepo,
+                                 Scanner input, UserRepo userRepo, User foundUser) {
+        int userChoice = 0;
+        do {
+            System.out.println("""
+                    Please choose option below:
+                    0 - Back to main menu
+                    1 - View your tickets
+                    2 - create a new support ticket
+                    """);
+
+            switch (userChoice){
+                case 1 -> displayLoggedInUsersTickets(equipmentSupportRepo,equipmentRepo, userRepo,foundUser);
+                case 2 -> addTicket( equipmentSupportRepo,  equipmentRepo,
+                         input, foundUser);
+            }
+
+        }while(userChoice != 0);
+    }
+
+    public static void displayLoggedInUsersTickets(EquipmentSupportRepo equipmentSupportRepo,EquipmentRepo equipmentRepo,UserRepo userRepo,User foundUser){
+        //print the current users support-tickets
+        //där ägaren på produkten som har en ticket=foundUser
+
+    }
 
     public static void addTicket(EquipmentSupportRepo equipmentSupportRepo, EquipmentRepo equipmentRepo,
-                                 Scanner input) {
+                                 Scanner input,User foundUser) {
+
         EquipmentSupport equipmentSupport = new EquipmentSupport();
         equipmentSupport.setStatus(EquipmentStatus.open);
         equipmentSupport.setSupportRecord(1);
+
 
         System.out.println("Enter description of the problem for the ticket");
         String description = input.nextLine();
