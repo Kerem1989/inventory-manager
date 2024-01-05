@@ -1,9 +1,11 @@
 package se.what.inventorymanager;
+import Utils.InputOutput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -33,6 +35,8 @@ public class EquipmentSupportService {
                     2 - create a new support ticket
                     """);
 
+            InputOutput.getValidIntegerInput(input,0,2);
+
             switch (userChoice){
                 case 1 -> displayLoggedInUsersTickets(equipmentSupportRepo,equipmentRepo, userRepo,foundUser);
                 case 2 -> addTicket( equipmentSupportRepo,  equipmentRepo,
@@ -43,8 +47,9 @@ public class EquipmentSupportService {
     }
 
     public static void displayLoggedInUsersTickets(EquipmentSupportRepo equipmentSupportRepo,EquipmentRepo equipmentRepo,UserRepo userRepo,User foundUser){
-        //print the current users support-tickets
-        //där ägaren på produkten som har en ticket=foundUser
+
+        List<Equipment> equipmentList = foundUser.getEquipmentList();
+        System.out.println(equipmentList);
 
     }
 

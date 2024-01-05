@@ -160,7 +160,7 @@ public class InputOutput {
                 menuAdmin(userRepo, equipmentRepo, assignedEquipmentRepo, unassignedEquipmentRepo, equipmentSupportRepo, foundUser, equipmentOrderRepo);
                 runProgram = false;
             } else {
-                menuUser(userRepo,unassignedEquipmentRepo,foundUser,equipmentRepo);
+                menuUser(userRepo,unassignedEquipmentRepo,foundUser,equipmentRepo,equipmentSupportRepo);
                 runProgram = false;
             }
         } while (runProgram);
@@ -180,7 +180,7 @@ public class InputOutput {
         do {
             System.out.println("""
                     Choose option below:
-                    0 - Exit program
+                    0 - Logout
                     1 - Manage Users
                     2 - Manage Equipment
                     3 - Manage Support tickets
@@ -190,7 +190,7 @@ public class InputOutput {
 
 
             switch (menuOption) {
-                case 0 -> System.out.println("Thank you for using Inventory-manager!");
+
                 case 1 -> manageUsersMenu(userRepo, equipmentRepo);
                 case 2 -> manageEquipmentMenu(equipmentRepo, assignedEquipmentRepo, unassignedEquipmentRepo, userRepo);
                 case 3 -> manageSupportTicketMenu(equipmentSupportRepo, equipmentRepo, input,foundUser);
@@ -200,7 +200,7 @@ public class InputOutput {
         } while (menuOption != 0);
     }
 
-    public static void menuUser(UserRepo userRepo, UnassignedEquipmentRepo unassignedEquipmentRepo, User foundUser, EquipmentRepo equipmentRepo) {
+    public static void menuUser(UserRepo userRepo, UnassignedEquipmentRepo unassignedEquipmentRepo, User foundUser, EquipmentRepo equipmentRepo,EquipmentSupportRepo equipmentSupportRepo) {
         int menuOption;
         do {
             System.out.println("""
@@ -215,7 +215,8 @@ public class InputOutput {
             switch (menuOption) {
                 case 1 -> System.out.println(unassignedEquipmentRepo.findAll());
                 case 2 -> System.out.println("DISPLAY YOUR EQ");
-                case 3 -> System.out.println("Create new/view your tickets");
+                case 3 -> EquipmentSupportService.userSupportMenu( equipmentSupportRepo, equipmentRepo,
+                        input, userRepo, foundUser);
             }
         } while (menuOption != 0);
     }

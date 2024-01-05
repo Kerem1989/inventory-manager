@@ -28,7 +28,25 @@ public class MyRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        InputOutput.introText();
-        InputOutput.login(userRepo, equipmentRepo, assignedEquipmentRepo, unassignedEquipmentRepo, equipmentSupportRepo, equipmentOrderRepo);
+
+        int userchoice=0;
+        do {
+            InputOutput.introText();
+            System.out.println("""
+            Please choose option below:
+            1 - Login
+            2 - Exit Program""");
+            int userChoice = InputOutput.getValidIntegerInput(input, 0, 3);
+
+            switch (userChoice){
+                case 2 -> {
+                    System.out.println("thank you for using inventorymanager!");
+                    System.exit(1);
+                }
+                case 1 -> InputOutput.login(userRepo, equipmentRepo, assignedEquipmentRepo, unassignedEquipmentRepo, equipmentSupportRepo, equipmentOrderRepo);
+            }
+
+        }while(userchoice!=2);
+
     }
 }
