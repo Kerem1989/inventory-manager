@@ -1,9 +1,10 @@
-package se.what.inventorymanager;
+package se.what.inventorymanager.runner;
 
 import Utils.InputOutput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+import se.what.inventorymanager.*;
 
 import java.util.Scanner;
 
