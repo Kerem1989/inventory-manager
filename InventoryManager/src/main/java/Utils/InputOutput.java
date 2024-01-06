@@ -3,6 +3,7 @@ package Utils;
 import se.what.inventorymanager.*;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -102,7 +103,7 @@ public class InputOutput {
 
         do {
             userInput = input.nextLine();
-            if (!userInput.matches("[a-zA-ZåäöÅÄÖ0-9@._]+")) {
+            if (!userInput.matches("[-a-zA-ZåäöÅÄÖ0-9@._]+")) {
                 System.out.println("Incorrect format, you cannot use special characters!");
                 isUserInputInvalid = true;
             } else if (userInput.isEmpty()) {
@@ -118,8 +119,8 @@ public class InputOutput {
         return userInput;
     }
 
-    public static Date asDate(LocalDateTime localDateTime) {
-        return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+    public static Date asDate(LocalDate localDate) {
+        return Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
     }
 
     public static void introText() {

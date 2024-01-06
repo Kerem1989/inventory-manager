@@ -98,16 +98,12 @@ public class Equipment {
 
     @Override
     public String toString() {
-        return "\nEquipment{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", purchaseDate=" + purchaseDate +
-                ", purchasePrice=" + purchasePrice +
-                ", state=" + state +
-                ", type=" + type +
-                ", equipmentSupport=" + equipmentSupport + '}';
-
-
+        return "\n\033[1mEq.ID:\033[0m " + id + " | " +
+                " \033[1mName: \033[0m" + name + " | "  +
+                "\033[1mPurchase Date: \033[0m" + purchaseDate + " | " +
+                "\033[1mPurchase Price: \033[0m" + purchasePrice + " | " +
+                "\033[1mState: \033[0m" + state + " | " +
+                "\033[1mType: \033[0m" + type;
     }
 }
 

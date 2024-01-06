@@ -5,6 +5,7 @@ import Utils.InputOutput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Optional;
@@ -58,7 +59,7 @@ public class EquipmentOrderService {
         Date estimatedDeliveryDate = getValidDeliveryDate();
         equipmentOrder.setEstDelDate(estimatedDeliveryDate);
 
-        equipmentOrder.setOrderDate(InputOutput.asDate(LocalDateTime.now()));
+        equipmentOrder.setOrderDate(InputOutput.asDate(LocalDate.now()));
         equipmentOrder.setUser(foundUser);
 
         equipmentOrderRepo.save(equipmentOrder);
