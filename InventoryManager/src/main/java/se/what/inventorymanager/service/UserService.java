@@ -1,8 +1,12 @@
-package se.what.inventorymanager;
+package se.what.inventorymanager.service;
 
 import Utils.InputOutput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import se.what.inventorymanager.Equipment;
+import se.what.inventorymanager.EquipmentState;
+import se.what.inventorymanager.RoleType;
+import se.what.inventorymanager.User;
 import se.what.inventorymanager.repository.AssignedEquipmentRepo;
 import se.what.inventorymanager.repository.EquipmentRepo;
 import se.what.inventorymanager.repository.UserRepo;

@@ -2,6 +2,10 @@ package Utils;
 
 import se.what.inventorymanager.*;
 import se.what.inventorymanager.repository.*;
+import se.what.inventorymanager.service.EquipmentOrderService;
+import se.what.inventorymanager.service.EquipmentService;
+import se.what.inventorymanager.service.EquipmentSupportService;
+import se.what.inventorymanager.service.UserService;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
