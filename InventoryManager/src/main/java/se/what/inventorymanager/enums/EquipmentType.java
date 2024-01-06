@@ -1,4 +1,4 @@
-package se.what.inventorymanager;
+package se.what.inventorymanager.enums;
 
 public enum EquipmentType {
     laptop,

@@ -2,9 +2,9 @@ package se.what.inventorymanager.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import se.what.inventorymanager.Equipment;
-import se.what.inventorymanager.EquipmentState;
-import se.what.inventorymanager.User;
+import se.what.inventorymanager.domain.Equipment;
+import se.what.inventorymanager.enums.EquipmentState;
+import se.what.inventorymanager.domain.User;
 
 import java.util.List;
 import java.util.Optional;

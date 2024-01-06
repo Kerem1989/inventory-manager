@@ -1,5 +1,6 @@
-package se.what.inventorymanager;
+package se.what.inventorymanager.domain;
 import jakarta.persistence.*;
+import se.what.inventorymanager.enums.EquipmentStatus;
 
 @Entity
 @Table(name = "equipment_support")
