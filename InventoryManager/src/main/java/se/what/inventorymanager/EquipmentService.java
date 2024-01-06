@@ -4,6 +4,10 @@ import Utils.InputOutput;
 import Utils.UserInput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import se.what.inventorymanager.repository.EquipmentRepo;
+import se.what.inventorymanager.repository.EquipmentSupportRepo;
+import se.what.inventorymanager.repository.UnassignedEquipmentRepo;
+import se.what.inventorymanager.repository.UserRepo;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -156,7 +160,7 @@ public class EquipmentService {
         System.out.println(unassignedEquipmentRepo.findAll());
     }
 
-    public static void displayLoggedInUsersEquipment(EquipmentSupportRepo equipmentSupportRepo,EquipmentRepo equipmentRepo,UserRepo userRepo,User foundUser){
+    public static void displayLoggedInUsersEquipment(EquipmentSupportRepo equipmentSupportRepo, EquipmentRepo equipmentRepo, UserRepo userRepo, User foundUser){
         List<Equipment> equipmentList = foundUser.getEquipmentList();
         if (!equipmentList.isEmpty()){
             for (Equipment tempList : equipmentList){

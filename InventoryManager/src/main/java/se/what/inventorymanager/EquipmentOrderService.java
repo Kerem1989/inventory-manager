@@ -4,9 +4,11 @@ package se.what.inventorymanager;
 import Utils.InputOutput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import se.what.inventorymanager.repository.EquipmentOrderRepo;
+import se.what.inventorymanager.repository.EquipmentRepo;
+import se.what.inventorymanager.repository.UserRepo;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Optional;
 

@@ -1,8 +1,10 @@
 package se.what.inventorymanager;
 import Utils.InputOutput;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import se.what.inventorymanager.repository.EquipmentRepo;
+import se.what.inventorymanager.repository.EquipmentSupportRepo;
+import se.what.inventorymanager.repository.UserRepo;
 
 
 import java.util.List;

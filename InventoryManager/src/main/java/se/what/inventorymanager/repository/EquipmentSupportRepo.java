@@ -1,7 +1,9 @@
-package se.what.inventorymanager;
+package se.what.inventorymanager.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import se.what.inventorymanager.EquipmentStatus;
+import se.what.inventorymanager.EquipmentSupport;
 
 import java.util.List;
 import java.util.List;

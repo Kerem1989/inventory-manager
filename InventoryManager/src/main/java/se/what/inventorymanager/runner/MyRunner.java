@@ -4,7 +4,7 @@ import Utils.InputOutput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import se.what.inventorymanager.*;
+import se.what.inventorymanager.repository.*;
 
 import java.util.Scanner;
 
