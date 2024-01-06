@@ -39,13 +39,13 @@ public class EquipmentService {
         int inputpurchasePrice = UserInput.readInt();
         equipment.setPurchasePrice(inputpurchasePrice);
 
-        EquipmentState state = EquipmentState.available;
+        EquipmentState state = EquipmentState.unassigned;
         equipment.setState(state);
 
         boolean validType = false;
         EquipmentType type = null;
         while (!validType) {
-            System.out.println("Please enter equipment type (laptop, phone, monitor, projector, office_chair, screen):");
+            System.out.println("Please enter equipment type (laptop, screen, phone):");
             String inputType = UserInput.readString();
             type = EquipmentType.fromString(inputType);
             if (type != null) {
