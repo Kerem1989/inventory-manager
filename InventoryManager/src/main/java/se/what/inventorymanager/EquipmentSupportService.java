@@ -35,7 +35,7 @@ public class EquipmentSupportService {
                     2 - create a new support ticket
                     """);
 
-            InputOutput.getValidIntegerInput(input,0,2);
+            userChoice = InputOutput.getValidIntegerInput(input,0,2);
 
             switch (userChoice){
                 case 1 -> displayLoggedInUsersTickets(equipmentSupportRepo,equipmentRepo, userRepo,foundUser);
@@ -47,10 +47,15 @@ public class EquipmentSupportService {
     }
 
     public static void displayLoggedInUsersTickets(EquipmentSupportRepo equipmentSupportRepo,EquipmentRepo equipmentRepo,UserRepo userRepo,User foundUser){
-
         List<Equipment> equipmentList = foundUser.getEquipmentList();
-        System.out.println(equipmentList);
-
+        if (!equipmentList.isEmpty()){
+            for (Equipment tempList : equipmentList){
+                EquipmentSupport equipmentSupport = tempList.getEquipmentSupport();
+                System.out.println("Your tickets:" + "\n" + equipmentSupport);
+            }
+        } else {
+            System.out.println("You have no active tickets.");
+        }
     }
 
     public static void addTicket(EquipmentSupportRepo equipmentSupportRepo, EquipmentRepo equipmentRepo,

@@ -215,7 +215,7 @@ public class InputOutput {
 
             switch (menuOption) {
                 case 1 -> System.out.println(unassignedEquipmentRepo.findAll());
-                case 2 -> System.out.println("DISPLAY YOUR EQ");
+                case 2 -> EquipmentService.displayLoggedInUsersEquipment(equipmentSupportRepo,equipmentRepo, userRepo,foundUser);
                 case 3 -> EquipmentSupportService.userSupportMenu( equipmentSupportRepo, equipmentRepo,
                         input, userRepo, foundUser);
             }

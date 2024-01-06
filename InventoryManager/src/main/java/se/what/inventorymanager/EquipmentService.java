@@ -9,6 +9,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import static Utils.InputOutput.getValidIntegerInput;
@@ -153,6 +154,17 @@ public class EquipmentService {
 
     public static void displayUnassignedEquipment (UnassignedEquipmentRepo unassignedEquipmentRepo){
         System.out.println(unassignedEquipmentRepo.findAll());
+    }
+
+    public static void displayLoggedInUsersEquipment(EquipmentSupportRepo equipmentSupportRepo,EquipmentRepo equipmentRepo,UserRepo userRepo,User foundUser){
+        List<Equipment> equipmentList = foundUser.getEquipmentList();
+        if (!equipmentList.isEmpty()){
+            for (Equipment tempList : equipmentList){
+                System.out.println("Your are assigned a: " + tempList.getName());
+            }
+        } else {
+            System.out.println("You have no active equipment.");
+        }
     }
 
 }

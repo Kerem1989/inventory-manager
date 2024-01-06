@@ -96,6 +96,14 @@ public class Equipment {
         this.user = user;
     }
 
+    public EquipmentSupport getEquipmentSupport() {
+        return equipmentSupport;
+    }
+
+    public void setEquipmentSupport(EquipmentSupport equipmentSupport) {
+        this.equipmentSupport = equipmentSupport;
+    }
+
     @Override
     public String toString() {
         return "\n\033[1mEq.ID:\033[0m " + id + " | " +
