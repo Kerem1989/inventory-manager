@@ -312,15 +312,15 @@ public class InputOutput {
                 case 1 -> addNewSupportTicket(equipmentSupportRepo, equipmentRepo, input,foundUser);
                 case 2 -> findAllEquipmentSupport(equipmentSupportRepo, input);
                 case 3 -> editSupportTicketMenu(equipmentSupportRepo);
-                case 4 -> deleteSupportTicket(equipmentSupportRepo, input);
+                case 4 -> deleteSupportTicket(equipmentSupportRepo, equipmentRepo, input);
 
 
             }
         } while (menuOption != 0);
     }
 
-    private static void deleteSupportTicket(EquipmentSupportRepo equipmentSupportRepo, Scanner input) {
-        EquipmentSupportService.deleteSupportTicket(equipmentSupportRepo, input);
+    private static void deleteSupportTicket(EquipmentSupportRepo equipmentSupportRepo, EquipmentRepo equipmentRepo, Scanner input) {
+        EquipmentSupportService.deleteSupportTicket(equipmentSupportRepo, equipmentRepo,  input);
     }
 
 
