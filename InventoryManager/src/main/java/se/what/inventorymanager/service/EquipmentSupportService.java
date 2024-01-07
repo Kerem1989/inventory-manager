@@ -3,6 +3,7 @@ import Utils.InputOutput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.what.inventorymanager.domain.Equipment;
+import se.what.inventorymanager.enums.EquipmentState;
 import se.what.inventorymanager.enums.EquipmentStatus;
 import se.what.inventorymanager.domain.EquipmentSupport;
 import se.what.inventorymanager.domain.User;
@@ -123,16 +124,34 @@ public class EquipmentSupportService {
     }
 
 
-    public static void deleteSupportTicket(EquipmentSupportRepo equipmentSupportRepo,
+    public static void deleteSupportTicket(EquipmentSupportRepo equipmentSupportRepo, EquipmentRepo equipmentRepo,
                                            Scanner input) {
-        System.out.println("Provide the id number of your support ticket");
-        int supportTicketId = input.nextInt();
+
+        System.out.println(equipmentSupportRepo.findAll());
+
+        System.out.println("Please enter support ticket nr. you want to delete:");
+        int foundId = input.nextInt();
         input.nextLine();
-        if (equipmentSupportRepo.existsById(supportTicketId)) {
-            equipmentSupportRepo.deleteById(supportTicketId);
-            System.out.println("Support ticket removed");
+        Optional<EquipmentSupport> equipmentSupportOptional = equipmentSupportRepo.findById(foundId);
+        if (equipmentSupportOptional.isPresent()) {
+
+            EquipmentSupport equipmentSupport = equipmentSupportOptional.get();
+            equipmentSupportRepo.delete(equipmentSupport);
+            Optional<Equipment> foundEquipmentOptional = equipmentRepo.findById(equipmentSupport.getEquipment().getId());
+
+            if (foundEquipmentOptional.isPresent()) {
+                Equipment foundEquipment = foundEquipmentOptional.get();
+                foundEquipment.setState(EquipmentState.unassigned);
+                equipmentRepo.save(foundEquipment);
+                System.out.println("Equipment status updated to unassigned (i.e. available).");
+            } else {
+                System.out.println("Associated equipment not found.");
+            }
         } else {
-            System.out.println("No corresponding support ticket found");
+            System.out.println("Support ticket not found.");
+
         }
+
+
     }
 }
