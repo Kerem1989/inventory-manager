@@ -31,7 +31,7 @@ public class Equipment {
     @OneToOne(mappedBy = "equipment")
     private EquipmentSupport equipmentSupport;
     @ManyToOne
-    @JoinColumn(name = "purchased_by", referencedColumnName = "id")
+    @JoinColumn(name = "assigned_to", referencedColumnName = "id")
     private User user;
 
     public Equipment() {

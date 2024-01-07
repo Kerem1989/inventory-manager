@@ -67,13 +67,11 @@ public class InputOutput {
         return userInput;
     }
 
-
     public static Date getValidDate(String inputDate) {
         boolean isUserInputInvalid;
 
         Date date = null;
         do {
-
             isUserInputInvalid = false;
             try {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");
@@ -83,7 +81,6 @@ public class InputOutput {
             } catch (Exception e) {
                 System.out.println("invalid input");
             }
-
         } while (isUserInputInvalid);
         return date;
     }
@@ -102,7 +99,6 @@ public class InputOutput {
         return date;
     }
 
-
     public static String getValidStringInput(Scanner input) {
         String userInput;
         boolean isUserInputInvalid;
@@ -118,7 +114,6 @@ public class InputOutput {
             } else {
                 isUserInputInvalid = false;
             }
-
 
         } while (isUserInputInvalid);
 
@@ -140,7 +135,6 @@ public class InputOutput {
                                                       |___/                          |___/          \s
                 """);
     }
-
 
     public static void login(UserRepo userRepo, EquipmentRepo equipmentRepo,
                              AssignedEquipmentRepo assignedEquipmentRepo,
@@ -173,16 +167,12 @@ public class InputOutput {
         } while (runProgram);
     }
 
-
     public static void menuAdmin(UserRepo userRepo, EquipmentRepo equipmentRepo,
                                  AssignedEquipmentRepo assignedEquipmentRepo,
                                  UnassignedEquipmentRepo unassignedEquipmentRepo,
                                  EquipmentSupportRepo equipmentSupportRepo, User foundUser, EquipmentOrderRepo equipmentOrderRepo) {
 
         int menuOption;
-
-        //kontroll om det är admin eller superuser..
-
 
         do {
             System.out.println("""
@@ -198,9 +188,9 @@ public class InputOutput {
 
             switch (menuOption) {
 
-                case 1 -> manageUsersMenu(userRepo, equipmentRepo);
+                case 1 -> manageUsersMenu(userRepo, equipmentRepo,foundUser);
                 case 2 -> manageEquipmentMenu(equipmentRepo, assignedEquipmentRepo, unassignedEquipmentRepo, userRepo);
-                case 3 -> manageSupportTicketMenu(equipmentSupportRepo, equipmentRepo, input,foundUser);
+                case 3 -> EquipmentSupportService.manageSupportTicketMenu(equipmentSupportRepo, equipmentRepo, input,userRepo,foundUser);
                 case 4 -> EquipmentOrderService.equipmentOrderMenu(equipmentOrderRepo, equipmentRepo, userRepo, foundUser);
 
             }
@@ -220,7 +210,8 @@ public class InputOutput {
             menuOption = getValidIntegerInput(input, 0, 3);
 
             switch (menuOption) {
-                case 1 -> System.out.println(unassignedEquipmentRepo.findAll());
+                case 1 -> System.out.println("The following equipment is not assigned to anybody, please contact your manager to request loan\n"+
+                        unassignedEquipmentRepo.findAll());
                 case 2 -> EquipmentService.displayLoggedInUsersEquipment(equipmentSupportRepo,equipmentRepo, userRepo,foundUser);
                 case 3 -> EquipmentSupportService.userSupportMenu( equipmentSupportRepo, equipmentRepo,
                         input, userRepo, foundUser);
@@ -228,10 +219,17 @@ public class InputOutput {
         } while (menuOption != 0);
     }
 
-    private static void manageUsersMenu(UserRepo userRepo, EquipmentRepo equipmentRepo) {
+    private static void manageUsersMenu(UserRepo userRepo, EquipmentRepo equipmentRepo, User foundUser) {
         int menuOption = 0;
 
+        Boolean isValidUser = true;
+
         do {
+            if (foundUser.getRole().equals(RoleType.superuser)){
+                System.out.println("Unauthorized access, only Admin can edit users...\n");
+                isValidUser = false;
+            }
+
             System.out.println("""
                     Choose option below:
                     0 - Back to Main Menu
@@ -246,7 +244,7 @@ public class InputOutput {
                 case 2 -> UserService.addNewUser(userRepo);
                 case 3 -> UserService.editUser(userRepo, input, equipmentRepo, new Equipment());
             }
-        } while (menuOption != 0);
+        } while (menuOption != 0 || !isValidUser);
     }
 
     private static void manageEquipmentMenu(EquipmentRepo equipmentRepo, AssignedEquipmentRepo assignedEquipmentRepo, UnassignedEquipmentRepo unassignedEquipmentRepo, UserRepo userRepo) {
@@ -264,14 +262,14 @@ public class InputOutput {
             menuOption = getValidIntegerInput(input, 0, 3);
 
             switch (menuOption) {
-                case 1 -> manageDisplayEquipmentMenu(equipmentRepo, assignedEquipmentRepo, unassignedEquipmentRepo);
+                case 1 -> adminDisplayEquipmentMenu(equipmentRepo, assignedEquipmentRepo, unassignedEquipmentRepo);
                 case 2 -> EquipmentService.addNewEquipment(equipmentRepo, userRepo);
                 case 3 -> EquipmentService.editEquipment (equipmentRepo);
             }
         } while (menuOption != 0);
     }
 
-    private static void manageDisplayEquipmentMenu(EquipmentRepo equipmentRepo, AssignedEquipmentRepo assignedEquipmentRepo, UnassignedEquipmentRepo unassignedEquipmentRepo) {
+    private static void adminDisplayEquipmentMenu(EquipmentRepo equipmentRepo, AssignedEquipmentRepo assignedEquipmentRepo, UnassignedEquipmentRepo unassignedEquipmentRepo) {
         int menuOption = 0;
 
         do {
@@ -290,91 +288,6 @@ public class InputOutput {
                 case 3 -> UserService.displayEquipmentOwner(assignedEquipmentRepo);
             }
         } while (menuOption != 0);
-    }
-
-    public static void manageSupportTicketMenu(EquipmentSupportRepo equipmentSupportRepo, EquipmentRepo equipmentRepo,
-                                               Scanner input, User foundUser) {
-        int menuOption = 0;
-        do {
-            System.out.println("""
-                    Choose option below:
-                    0 - Back to Main Menu
-                    1 - Open a new support ticket
-                    2 - View support tickets
-                    3 - Edit support tickets
-                    4 - Delete Support-Ticket""");
-
-
-            menuOption = getValidIntegerInput(input, 0, 4);
-
-
-            switch (menuOption) {
-                case 1 -> addNewSupportTicket(equipmentSupportRepo, equipmentRepo, input,foundUser);
-                case 2 -> findAllEquipmentSupport(equipmentSupportRepo, input);
-                case 3 -> editSupportTicketMenu(equipmentSupportRepo);
-                case 4 -> deleteSupportTicket(equipmentSupportRepo, equipmentRepo, input);
-
-
-            }
-        } while (menuOption != 0);
-    }
-
-    private static void deleteSupportTicket(EquipmentSupportRepo equipmentSupportRepo, EquipmentRepo equipmentRepo, Scanner input) {
-        EquipmentSupportService.deleteSupportTicket(equipmentSupportRepo, equipmentRepo,  input);
-    }
-
-
-    private static void findAllEquipmentSupport(EquipmentSupportRepo equipmentSupportRepo,
-                                                Scanner input) {
-        System.out.println(equipmentSupportRepo.findAll());
-    }
-
-
-    private static void addNewSupportTicket(EquipmentSupportRepo equipmentSupportRepo, EquipmentRepo equipmentRepo,
-                                            Scanner input,User foundUser) {
-        int menuOption = 0;
-        do {
-            System.out.println("""
-                    Choose option below:
-                    0 - Back to Support-ticket Menu
-                    1 - Answer some questions so that your support ticket can be created
-                    2 - Retrieve old ticket and change info""");
-
-
-            menuOption = getValidIntegerInput(input, 0, 2);
-            switch (menuOption) {
-                case 1 -> EquipmentSupportService.addTicket(equipmentSupportRepo, equipmentRepo, input,foundUser);
-                case 2 -> EquipmentSupportService.oldTicketRetrieveChange(equipmentSupportRepo, input);
-
-            }
-        } while (menuOption != 0);
-    }
-
-
-    public static void editSupportTicketMenu(EquipmentSupportRepo equipmentSupportRepo) {
-        EquipmentSupportService.oldTicketRetrieveChange(equipmentSupportRepo, input);
-    }
-
-    public static void editUserSupportTicketMenu(EquipmentSupportRepo equipmentSupportRepo) {
-        int menuOption = 0;
-        do {
-            System.out.println("""
-                    Choose option below:
-                    0 - Back to main menu
-                    1 - Create a new support ticket
-                    2 - View your support ticket""");
-            menuOption = getValidIntegerInput(input, 0, 2);
-            switch (menuOption) {
-                case 1 -> System.out.println("create new support ticket");
-                case 2 -> System.out.println("view your support ticket");
-            }
-
-        } while (menuOption != 0);
-    }
-
-
-    public static String getUserData(String s) {
-        return s;
     }
 
     public static String getUserDataString(String s) {

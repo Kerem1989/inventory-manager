@@ -76,7 +76,7 @@ public class EquipmentOrderService {
 
         System.out.println(equipmentOrderRepo.findAll());
 
-        InputOutput.getUserData("Please enter order ID of order you want to edit:");
+        System.out.println("Please enter order ID of order you want to edit:");
         int foundId = InputOutput.getValidIntegerInput(input,0,Integer.MAX_VALUE);
         Optional<EquipmentOrder> equipmentOrderOptional = equipmentOrderRepo.findById(foundId);
 
@@ -98,7 +98,7 @@ public class EquipmentOrderService {
                 case 2 -> removeOrder(equipmentOrderRepo, equipmentRepo, userRepo, foundUser,equipmentOrder);
             }
         }else{
-            InputOutput.getUserData("Unable to find order by that ID");
+            System.out.println("Unable to find order by that ID");
         }
 
 

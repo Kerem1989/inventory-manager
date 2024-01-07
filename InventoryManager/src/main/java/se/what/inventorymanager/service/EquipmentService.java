@@ -1,7 +1,6 @@
 package se.what.inventorymanager.service;
 
 import Utils.InputOutput;
-import Utils.UserInput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.what.inventorymanager.domain.Equipment;
@@ -13,14 +12,11 @@ import se.what.inventorymanager.repository.EquipmentSupportRepo;
 import se.what.inventorymanager.repository.UnassignedEquipmentRepo;
 import se.what.inventorymanager.repository.UserRepo;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import static Utils.InputOutput.getValidIntegerInput;
 import static Utils.InputOutput.input;
 
 @Service
@@ -43,28 +39,57 @@ public class EquipmentService {
         equipment.setPurchaseDate(purchaseDate);
 
         System.out.print("Please enter price of the equipment: ");
-        int inputpurchasePrice = UserInput.readInt();
+        double inputpurchasePrice = InputOutput.getValidDoubleInput(input,0);
         equipment.setPurchasePrice(inputpurchasePrice);
 
-        EquipmentState state = EquipmentState.unassigned;
-        equipment.setState(state);
 
-        String inputType = InputOutput.getUserDataString("Please enter equipment type (laptop, phone, screen):");
-        EquipmentType type = EquipmentType.fromString(inputType);
-        equipment.setType(type);
+        System.out.println("Please enter equipment type (\n1 - laptop\n2 - phone\n3 - screen):");
 
-        System.out.print("Please enter the ID of the user purchasing the equipment: ");
-        int userId = UserInput.readInt();
-        Optional<User> userOptional = userRepo.findById(userId);
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            equipment.setUser(user);
-        } else {
-            System.out.println("No user found with the given ID.");
-            return;
+        int inputType = InputOutput.getValidIntegerInput(input, 1, 3);
+
+        switch (inputType) {
+            case 1 -> equipment.setType(EquipmentType.laptop);
+            case 2 -> equipment.setType(EquipmentType.phone);
+            case 3 -> equipment.setType(EquipmentType.screen);
         }
-        equipmentRepo.save(equipment);
-        System.out.println(equipment + " added");
+
+        System.out.println("Do you want to assign product on user?\n1 - yes\n2 - no");
+
+        int assignToUserOrStock = InputOutput.getValidIntegerInput(input, 1, 2);
+
+        boolean validUserIdInput = false;
+        do {
+            switch (assignToUserOrStock) {
+                case 1 -> {
+                    System.out.println(userRepo.findAll());
+                    System.out.print("Please enter the ID of the user you want to assign equipment to: ");
+                    int userIdChoice = InputOutput.getValidIntegerInput(input, 0, Integer.MAX_VALUE);
+                    Optional<User> userOptional = null;
+                    if (userRepo.existsUserById(userIdChoice)) {
+                        userOptional = userRepo.findById(userIdChoice);
+                        if (userOptional.isPresent()) {
+                            User user = userOptional.get();
+                            equipment.setUser(user);
+                        }
+                        equipment.setState(EquipmentState.assigned);
+                        equipmentRepo.save(equipment);
+                        System.out.println(equipment + " added");
+                        validUserIdInput = true;
+
+                    } else {
+                        System.out.println("No user found with the given ID.");
+                        validUserIdInput = false;
+                    }
+                }
+                case 2 -> {
+                    EquipmentState state = EquipmentState.unassigned;
+                    equipment.setState(state);
+                    equipmentRepo.save(equipment);
+                    System.out.println(equipment + ". Added to stock");
+                    validUserIdInput = true;
+                }
+            }
+        } while (!validUserIdInput);
     }
 
     public static boolean displayEquipment(EquipmentRepo equipmentRepo) {
@@ -72,7 +97,7 @@ public class EquipmentService {
         return false;
     }
 
-    public static void editEquipment (EquipmentRepo equipmentRepo) {
+    public static void editEquipment(EquipmentRepo equipmentRepo) {
         boolean runEditMenu = true;
         while (runEditMenu) {
             System.out.println("Menu for editing equipment, please select an equipment id to begin editing:");
@@ -85,8 +110,8 @@ public class EquipmentService {
                 boolean isEditingCurrentEquipment = true;
                 while (isEditingCurrentEquipment) {
                     Equipment equipment = equipmentOptional.get();
-                    editEquipmentMenu();
-                    int selectMenuOption = getValidIntegerInput(input, 1, 6);
+
+                    int selectMenuOption = editEquipmentMenu();
                     switch (selectMenuOption) {
                         case 1 -> {
                             System.out.println("Enter the new name: ");
@@ -95,37 +120,19 @@ public class EquipmentService {
                             equipmentRepo.save(equipment);
                         }
                         case 2 -> {
-                            System.out.println("Enter the new purchase date (format: yyyy-MM-dd): ");
-                            String dateString = input.nextLine();
-                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                            try {
-                                Date editDate = sdf.parse(dateString);
-                                equipment.setPurchaseDate(editDate);
-                                equipmentRepo.save(equipment);
-                            } catch (ParseException e) {
-                                System.out.println("Invalid date format.");
-                            }
-                        }
-                        case 3 -> {
                             System.out.println("Enter the new price: ");
                             int editPrice = input.nextInt();
                             input.nextLine();
                             equipment.setPurchasePrice(editPrice);
                             equipmentRepo.save(equipment);
                         }
-                        case 4 -> {
+                        case 3 -> {
                             System.out.println("Enter the new equipment state: ");
                             String editState = input.nextLine();
                             equipment.setState(EquipmentState.valueOf(editState));
                             equipmentRepo.save(equipment);
                         }
-                        case 5 -> {
-                            System.out.println("Enter the new equipment type: ");
-                            String editType = input.nextLine();
-                            equipment.setType(EquipmentType.valueOf(editType));
-                            equipmentRepo.save(equipment);
-                        }
-                        case 6 -> {
+                        case 4 -> {
                             System.out.println("Are you sure you want to delete " + equipment.getName() + "? (yes/no)");
                             String confirmation = input.nextLine().trim();
                             if ("yes".equalsIgnoreCase(confirmation)) {
@@ -136,31 +143,34 @@ public class EquipmentService {
                                 System.out.println("Equipment deletion cancelled.");
                             }
                         }
-                        case 7 -> isEditingCurrentEquipment = false;}}
+                        case 0 -> isEditingCurrentEquipment = false;
+                    }
+                }
             } else {
                 System.out.println("No equipment found with the given ID.");
             }
+            System.out.println("Do you want to continue editing equipment?\n1 - yes\n2 - No");
+            int userDecision = InputOutput.getValidIntegerInput(input,1,2);
 
-            System.out.println("Do you want to continue editing equipment? (yes/no)");
-            String userDecision = String.valueOf(UserInput.readYesNo());
-            if (!userDecision.equals("yes")) {
+            if (userDecision == 1) {
                 runEditMenu = false;
             }
         }
     }
 
-    public static void editEquipmentMenu() {
+    public static int editEquipmentMenu() {
         System.out.println("Please choose one of the following options: ");
         System.out.println("""
-                                1. Edit name.
-                                2. Edit purchase date
-                                3. Edit price.
-                                4. Edit equipment state
-                                5. Edit equipment type
-                                6. Delete equipment
-                                7. Quit menu""");
+                0 - Quit menu
+                1 - Edit name.
+                2 - Edit price.
+                3 - Edit equipment state
+                4 - Delete equipment
+                """);
 
-        System.out.print("Please enter the menu number: ");
+        int menuChoice = InputOutput.getValidIntegerInput(input, 0, 4);
+
+        return menuChoice;
     }
 
     public static void deleteEquipment(EquipmentRepo equipmentRepo, Integer id) {
@@ -186,15 +196,16 @@ public class EquipmentService {
         }
     }
 
-    public static void displayUnassignedEquipment (UnassignedEquipmentRepo unassignedEquipmentRepo){
+    public static void displayUnassignedEquipment(UnassignedEquipmentRepo unassignedEquipmentRepo) {
         System.out.println(unassignedEquipmentRepo.findAll());
     }
 
-    public static void displayLoggedInUsersEquipment(EquipmentSupportRepo equipmentSupportRepo, EquipmentRepo equipmentRepo, UserRepo userRepo, User foundUser){
+    public static void displayLoggedInUsersEquipment(EquipmentSupportRepo equipmentSupportRepo, EquipmentRepo equipmentRepo, UserRepo userRepo, User foundUser) {
         List<Equipment> equipmentList = foundUser.getEquipmentList();
-        if (!equipmentList.isEmpty()){
-            for (Equipment tempList : equipmentList){
-                System.out.println("Your are assigned a: " + tempList.getName());
+        if (!equipmentList.isEmpty()) {
+            System.out.println("Your assigned equipment: ");
+            for (Equipment tempList : equipmentList) {
+                System.out.println("Id: " + tempList.getId() + " " + tempList.getName());
             }
         } else {
             System.out.println("You have no active equipment.");
