@@ -5,9 +5,9 @@ import Utils.UserInput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.what.inventorymanager.domain.Equipment;
+import se.what.inventorymanager.domain.User;
 import se.what.inventorymanager.enums.EquipmentState;
 import se.what.inventorymanager.enums.EquipmentType;
-import se.what.inventorymanager.domain.User;
 import se.what.inventorymanager.repository.EquipmentRepo;
 import se.what.inventorymanager.repository.EquipmentSupportRepo;
 import se.what.inventorymanager.repository.UnassignedEquipmentRepo;
@@ -36,8 +36,7 @@ public class EquipmentService {
 
     public static void addNewEquipment(EquipmentRepo equipmentRepo, UserRepo userRepo) {
         Equipment equipment = new Equipment();
-        System.out.println("Please enter name of the equipment: ");
-        String inputName = UserInput.readString();
+        String inputName = InputOutput.getUserDataString("Please enter name of the equipment: ");
         equipment.setName(inputName);
 
         Date purchaseDate = InputOutput.asDate(LocalDate.now());
@@ -50,18 +49,8 @@ public class EquipmentService {
         EquipmentState state = EquipmentState.unassigned;
         equipment.setState(state);
 
-        boolean validType = false;
-        EquipmentType type = null;
-        while (!validType) {
-            System.out.println("Please enter equipment type (laptop, screen, phone):");
-            String inputType = UserInput.readString();
-            type = EquipmentType.fromString(inputType);
-            if (type != null) {
-                validType = true;
-            } else {
-                System.out.println("Invalid equipment type. Please enter a valid type.");
-            }
-        }
+        String inputType = InputOutput.getUserDataString("Please enter equipment type (laptop, phone, screen):");
+        EquipmentType type = EquipmentType.fromString(inputType);
         equipment.setType(type);
 
         System.out.print("Please enter the ID of the user purchasing the equipment: ");
@@ -74,7 +63,6 @@ public class EquipmentService {
             System.out.println("No user found with the given ID.");
             return;
         }
-
         equipmentRepo.save(equipment);
         System.out.println(equipment + " added");
     }
@@ -88,22 +76,17 @@ public class EquipmentService {
         boolean runEditMenu = true;
         while (runEditMenu) {
             System.out.println("Menu for editing equipment, please select an equipment id to begin editing:");
-            System.out.println(equipmentRepo.findAll());
+            displayEssentialOfEquipment(equipmentRepo);
             System.out.println("Please enter the id of the equipment to begin editing: ");
             int selectEquipmentById = input.nextInt();
             input.nextLine();
             Optional<Equipment> equipmentOptional = equipmentRepo.findById(selectEquipmentById);
-
             if (equipmentOptional.isPresent()) {
                 boolean isEditingCurrentEquipment = true;
                 while (isEditingCurrentEquipment) {
                     Equipment equipment = equipmentOptional.get();
-                    System.out.println("Please choose one of the following options: ");
-                    System.out.println("1. Edit name." + "\n2. Edit purchase date" + "\n3. Edit price."
-                            + "\n4. Edit equipment state" + "\n5. Edit equipment type" + "\n6. Quit menu");
-
-                    System.out.print("Please enter the menu number: ");
-                    int selectMenuOption = getValidIntegerInput(input, 0, 6);
+                    editEquipmentMenu();
+                    int selectMenuOption = getValidIntegerInput(input, 1, 6);
                     switch (selectMenuOption) {
                         case 1 -> {
                             System.out.println("Enter the new name: ");
@@ -142,8 +125,18 @@ public class EquipmentService {
                             equipment.setType(EquipmentType.valueOf(editType));
                             equipmentRepo.save(equipment);
                         }
-                        case 6 -> isEditingCurrentEquipment = false;
-                    }}
+                        case 6 -> {
+                            System.out.println("Are you sure you want to delete " + equipment.getName() + "? (yes/no)");
+                            String confirmation = input.nextLine().trim();
+                            if ("yes".equalsIgnoreCase(confirmation)) {
+                                deleteEquipment(equipmentRepo, selectEquipmentById);
+                                System.out.println("Equipment deleted successfully.");
+                                isEditingCurrentEquipment = false;
+                            } else {
+                                System.out.println("Equipment deletion cancelled.");
+                            }
+                        }
+                        case 7 -> isEditingCurrentEquipment = false;}}
             } else {
                 System.out.println("No equipment found with the given ID.");
             }
@@ -156,8 +149,41 @@ public class EquipmentService {
         }
     }
 
-    public void deleteEquipment(Integer id) {
-        equipmentRepo.deleteById(id);
+    public static void editEquipmentMenu() {
+        System.out.println("Please choose one of the following options: ");
+        System.out.println("""
+                                1. Edit name.
+                                2. Edit purchase date
+                                3. Edit price.
+                                4. Edit equipment state
+                                5. Edit equipment type
+                                6. Delete equipment
+                                7. Quit menu""");
+
+        System.out.print("Please enter the menu number: ");
+    }
+
+    public static void deleteEquipment(EquipmentRepo equipmentRepo, Integer id) {
+        try {
+            if (equipmentRepo.existsById(id)) {
+                equipmentRepo.deleteById(id);
+            } else {
+                System.out.println("No equipment found with the given ID.");
+            }
+        } catch (Exception e) {
+            System.out.println("Error occurred while deleting equipment: " + e.getMessage());
+        }
+    }
+
+    public static void displayEssentialOfEquipment(EquipmentRepo equipmentRepo) {
+        List<Equipment> equipmentList = equipmentRepo.findAll();
+        if (equipmentList.isEmpty()) {
+            System.out.println("No equipment available.");
+        } else {
+            for (Equipment equipment : equipmentList) {
+                System.out.println("ID: " + equipment.getId() + ", Name: " + equipment.getName() + ", Type: " + equipment.getType());
+            }
+        }
     }
 
     public static void displayUnassignedEquipment (UnassignedEquipmentRepo unassignedEquipmentRepo){
@@ -176,3 +202,5 @@ public class EquipmentService {
     }
 
 }
+
+

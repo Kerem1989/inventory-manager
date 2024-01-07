@@ -109,7 +109,7 @@ public class Equipment {
 
     @Override
     public String toString() {
-        return "\n\033[1mEq.ID:\033[0m " + id + " | " +
+        return "\n\033[1mID:\033[0m " + id + " | " +
                 " \033[1mName: \033[0m" + name + " | "  +
                 "\033[1mPurchase Date: \033[0m" + purchaseDate + " | " +
                 "\033[1mPurchase Price: \033[0m" + purchasePrice + " | " +

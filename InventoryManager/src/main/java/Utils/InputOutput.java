@@ -109,7 +109,7 @@ public class InputOutput {
 
         do {
             userInput = input.nextLine();
-            if (!userInput.matches("[-a-zA-ZåäöÅÄÖ0-9@._]+")) {
+            if (!userInput.matches("[-a-zA-ZåäöÅÄÖ0-9@._ ]+")) {
                 System.out.println("Incorrect format, you cannot use special characters!");
                 isUserInputInvalid = true;
             } else if (userInput.isEmpty()) {
@@ -268,7 +268,6 @@ public class InputOutput {
                 case 2 -> EquipmentService.addNewEquipment(equipmentRepo, userRepo);
                 case 3 -> EquipmentService.editEquipment (equipmentRepo);
             }
-
         } while (menuOption != 0);
     }
 
