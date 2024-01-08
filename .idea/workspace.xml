@@ -4,17 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-
-    <list default="true" id="d2d4648f-0d86-4a73-995f-b46a24ced720" name="Changes" comment="Modified a method Robert.">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="d2d4648f-0d86-4a73-995f-b46a24ced720" name="Changes" comment="fixes during group-coding">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InventoryManager/src/main/java/Utils/InputOutput.java" beforeDir="false" afterPath="$PROJECT_DIR$/InventoryManager/src/main/java/Utils/InputOutput.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InventoryManager/src/main/java/se/what/inventorymanager/EquipmentSupport.java" beforeDir="false" afterPath="$PROJECT_DIR$/InventoryManager/src/main/java/se/what/inventorymanager/EquipmentSupport.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InventoryManager/src/main/java/se/what/inventorymanager/EquipmentSupportRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/InventoryManager/src/main/java/se/what/inventorymanager/EquipmentSupportRepo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InventoryManager/src/main/java/se/what/inventorymanager/EquipmentSupportService.java" beforeDir="false" afterPath="$PROJECT_DIR$/InventoryManager/src/main/java/se/what/inventorymanager/EquipmentSupportService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InventoryManager/src/main/java/se/what/inventorymanager/MyRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/InventoryManager/src/main/java/se/what/inventorymanager/MyRunner.java" afterDir="false" />
-
- 
+      <change beforePath="$PROJECT_DIR$/InventoryManager/src/main/java/se/what/inventorymanager/domain/EquipmentSupport.java" beforeDir="false" afterPath="$PROJECT_DIR$/InventoryManager/src/main/java/se/what/inventorymanager/domain/EquipmentSupport.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InventoryManager/src/main/java/se/what/inventorymanager/service/EquipmentSupportService.java" beforeDir="false" afterPath="$PROJECT_DIR$/InventoryManager/src/main/java/se/what/inventorymanager/service/EquipmentSupportService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,7 +75,7 @@
     "ignore.preview.features.used": "true",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "G:/Coding/Java/ITHS/se.what/inventory-manager/InventoryManager/src/main/java",
+    "last_opened_file_path": "C:/Users/rubie/Documents",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -188,7 +181,21 @@
       <option name="presentableId" value="LOCAL−00006" />
       <updated>1704154312775</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL−00007" summary="fixes during group-coding">
+      <option name="closed" value="true" />
+      <created>1704715813178</created>
+      <option name="number" value="LOCAL−00007" />
+      <option name="presentableId" value="LOCAL−00007" />
+      <updated>1704715813178</updated>
+    </task>
+    <task id="LOCAL−00008" summary="fixes during group-coding">
+      <option name="closed" value="true" />
+      <created>1704721143543</created>
+      <option name="number" value="LOCAL−00008" />
+      <option name="presentableId" value="LOCAL−00008" />
+      <updated>1704721143543</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -224,6 +231,7 @@
     <MESSAGE value="Added a classes from Dmitry." />
     <MESSAGE value="Modified a method Robert." />
     <MESSAGE value="Created view and methods." />
-    <option name="LAST_COMMIT_MESSAGE" value="Created view and methods." />
+    <MESSAGE value="fixes during group-coding" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixes during group-coding" />
   </component>
 </project>

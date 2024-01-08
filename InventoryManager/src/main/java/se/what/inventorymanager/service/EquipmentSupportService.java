@@ -106,7 +106,6 @@ public class EquipmentSupportService {
 
         EquipmentSupport equipmentSupport = new EquipmentSupport();
         equipmentSupport.setStatus(EquipmentStatus.open);
-        equipmentSupport.setSupportRecord(1);
 
         EquipmentService.displayLoggedInUsersEquipment(equipmentSupportRepo, equipmentRepo, userRepo, foundUser);
 
@@ -122,26 +121,37 @@ public class EquipmentSupportService {
                 exit = true;
             }else {
 
-                System.out.println("Enter a short description of the problem:\n");
-
-                String description = InputOutput.getValidStringInput(input);
-
-                equipmentSupport.setDescription(description);
-
                 Optional<Equipment> optionalEquipment = equipmentRepo.findById(equipmentId);
-
 
                 if (optionalEquipment.isPresent()) {
                     Equipment equipment = optionalEquipment.get();
                     equipmentSupport.setEquipment(equipment);
                     equipment.setState(EquipmentState.in_repair);
 
-                    equipmentSupportRepo.save(equipmentSupport);
-                    equipmentRepo.save(equipment);
+                    int sumOfSupportRecords = equipmentSupport.getSupportRecord();
 
-                    System.out.println("Support ticket created for Equipment with id: " + equipmentId);
-                    exit = true;
-                } else {
+                    if (equipment.getState().equals(EquipmentState.in_repair)) {
+                        System.out.println("This equipment already has an active ticket..\n" +
+                                "Please contact your manager or helpdesk for further information");
+                        exit = true;
+                    } else {
+
+                        System.out.println("Enter a short description of the problem:\n");
+
+                        String description = InputOutput.getValidStringInput(input);
+
+                        equipmentSupport.setDescription(description);
+                        sumOfSupportRecords ++;
+                        equipmentSupport.setSupportRecord(sumOfSupportRecords);
+
+
+                        equipmentSupportRepo.save(equipmentSupport);
+                        equipmentRepo.save(equipment);
+
+                        System.out.println("Support ticket created for Equipment with id: " + equipmentId);
+                        exit = true;
+                    }
+                    }else{
                     System.out.println("unable to create new support ticket...");
                     exit = false;
                 }
@@ -152,9 +162,9 @@ public class EquipmentSupportService {
 
     public static void editSupportTicket(EquipmentSupportRepo equipmentSupportRepo,
                                          Scanner input) {
+        System.out.println(equipmentSupportRepo.findAll());
         System.out.println("Provide the id number of your support ticket");
-        int supportTicketId = input.nextInt();
-        input.nextLine();
+        int supportTicketId = InputOutput.getValidIntegerInput(input,0,Integer.MAX_VALUE);
 
         Optional<EquipmentSupport> optionalEquipmentSupport = equipmentSupportRepo.findById(supportTicketId);
 
@@ -163,11 +173,11 @@ public class EquipmentSupportService {
             System.out.println("Your support ticket was found");
 
             System.out.println("Change description of your ticket");
-            String description = input.nextLine();
+            String description = InputOutput.getValidStringInput(input);
             equipmentSupport.setDescription(description);
 
             System.out.println("Change status of your ticket (open/closed)");
-            String statusInput = input.nextLine();
+            String statusInput = InputOutput.getValidStringInput(input);
 
             EquipmentStatus newStatus = EquipmentStatus.valueOf(statusInput.toLowerCase());
             equipmentSupport.setStatus(newStatus);
@@ -186,8 +196,7 @@ public class EquipmentSupportService {
         System.out.println(equipmentSupportRepo.findAll());
 
         System.out.println("Please enter support ticket nr. you want to delete:");
-        int foundId = input.nextInt();
-        input.nextLine();
+        int foundId = InputOutput.getValidIntegerInput(input,0,Integer.MAX_VALUE);
         Optional<EquipmentSupport> equipmentSupportOptional = equipmentSupportRepo.findById(foundId);
         if (equipmentSupportOptional.isPresent()) {
 
@@ -199,7 +208,7 @@ public class EquipmentSupportService {
                 Equipment foundEquipment = foundEquipmentOptional.get();
                 foundEquipment.setState(EquipmentState.assigned);
                 equipmentRepo.save(foundEquipment);
-                System.out.println("Equipment status updated to unassigned (i.e. available).");
+                System.out.println("Equipment status updated to assigned to user");
             } else {
                 System.out.println("Associated equipment not found.");
             }

@@ -99,10 +99,14 @@ public class EquipmentService {
     public static void editEquipment(EquipmentRepo equipmentRepo) {
         boolean runEditMenu = true;
         while (runEditMenu) {
-            System.out.println("Menu for editing equipment, please select an equipment id to begin editing:");
+            System.out.println("Menu for editing equipment, please select an equipment id to begin editing: ");
+
+            //TODO vad gör denna?
             displayEssentialOfEquipment(equipmentRepo);
+
             System.out.println("Please enter the id of the equipment to begin editing:\nEnter '0' to abort");
             int selectEquipmentById = InputOutput.getValidIntegerInput(input,0,4);
+
             Optional<Equipment> equipmentOptional = equipmentRepo.findById(selectEquipmentById);
             if (equipmentOptional.isPresent()) {
                 boolean isEditingCurrentEquipment = true;

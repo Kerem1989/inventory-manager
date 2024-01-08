@@ -26,11 +26,14 @@ public class SearchRecordService {
 
         int userInput = 0;
         do {
-            System.out.println("\nPlease choose an option by number\nSearch record:\n" +
-                    "0 - Return to main menu\n" +
-                    "1 - Display all search words\n" +
-                    "2 - Display all unique search words\n" +
-                    "3 - Display number of searches by type of search\n");
+            System.out.println("""
+                    Please choose an option by number
+                    Search record:
+                    "0 - Return to main menu
+                    "1 - Display all search words
+                    "2 - Display all unique search words
+                    "3 - Display number of searches by type of search
+                    """);
             try {
                 
                 userInput = InputOutput.getValidIntegerInput(input,0,3);
@@ -39,11 +42,11 @@ public class SearchRecordService {
                     case 1 -> printAllSearches(searchRecordRepo);
                     case 2 -> searchByQuery(searchRecordRepo);
                     case 3 -> sumOfQueries(searchRecordRepo);
-                    default -> System.out.println("Your choice could not be read, please try again.");
+                    default -> System.out.println("Your choice could not be read, please try again.\n");
                 }
 
             } catch (Exception e) {
-                System.out.print("Your choice could not be read, please try again.");
+                System.out.print("Your choice could not be read, please try again.\n");
             }
             
 
@@ -65,7 +68,7 @@ public class SearchRecordService {
 
     public static void searchByQuery(SearchRecordRepo searchRecordRepo){
         System.out.print("Search to display the unique searches for this query.\nWhat query would you like to display? > ");
-        String searchByQuery = input.nextLine();
+        String searchByQuery = InputOutput.getValidStringInput(input);
         boolean found = false;
         System.out.println("Search record: ");
         var foundRecords = searchRecordRepo.findAll();
@@ -84,7 +87,7 @@ public class SearchRecordService {
     public static void sumOfQueries(SearchRecordRepo searchRecordRepo) {
         System.out.println("To see how many times a certain query occurs in users search history.");
         System.out.print("What query would you like to display? > ");
-        String searchByQuery = input.nextLine();
+        String searchByQuery = InputOutput.getValidStringInput(input);
         int count = 0;
         System.out.println("Number of finds: ");
         var foundRecords = searchRecordRepo.findAll();
@@ -129,8 +132,7 @@ public class SearchRecordService {
                     for (Equipment foundEq : foundEquipment) {
 
                             if (foundEq.getName().toLowerCase().contains(query.toLowerCase())){
-                                System.out.println("Found:");
-                                System.out.println(foundEq);
+                                System.out.println("Found:\n" + foundEq);
                                 found = true;
                             }
 

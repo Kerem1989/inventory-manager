@@ -73,7 +73,7 @@ public class EquipmentSupport {
 
     @Override
     public String toString() {
-        return "EquipmentSupport{" +
+        return "\nEquipmentSupport{" +
                 "id=" + id +
                 ", status=" + status +
                 ", support_record=" + supportRecord +
