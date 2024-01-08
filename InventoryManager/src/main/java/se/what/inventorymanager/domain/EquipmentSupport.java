@@ -16,7 +16,7 @@ public class EquipmentSupport {
     @Column(name = "support_record")
     private int supportRecord;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "equipment_id")
     private Equipment equipment;
 
