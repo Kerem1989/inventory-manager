@@ -139,7 +139,7 @@ public class EquipmentSupportService {
                     equipmentSupportRepo.save(equipmentSupport);
                     equipmentRepo.save(equipment);
 
-                    System.out.println("Support ticket created for " + equipmentId);
+                    System.out.println("Support ticket created for Equipment with id: " + equipmentId);
                     exit = true;
                 } else {
                     System.out.println("unable to create new support ticket...");

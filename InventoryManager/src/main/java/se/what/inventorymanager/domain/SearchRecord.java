@@ -26,9 +26,7 @@ public class SearchRecord {
 
     @Override
     public String toString() {
-        return "\nSearchRecord{" +
-                "id=" + id +
-                ", query='" + query + '\'' +
-                '}';
+        return "\nid: " + id +
+                ", query: " + query;
     }
 }

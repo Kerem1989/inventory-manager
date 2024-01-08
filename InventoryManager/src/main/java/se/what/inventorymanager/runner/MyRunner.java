@@ -23,6 +23,8 @@ public class MyRunner implements CommandLineRunner {
     UnassignedEquipmentRepo unassignedEquipmentRepo;
     @Autowired
     EquipmentOrderRepo equipmentOrderRepo;
+    @Autowired
+    SearchRecordRepo searchRecordRepo;
 
 
     Scanner input = new Scanner(System.in);
@@ -44,7 +46,7 @@ public class MyRunner implements CommandLineRunner {
                     System.out.println("thank you for using inventorymanager!");
                     System.exit(1);
                 }
-                case 1 -> InputOutput.login(userRepo, equipmentRepo, assignedEquipmentRepo, unassignedEquipmentRepo, equipmentSupportRepo, equipmentOrderRepo);
+                case 1 -> InputOutput.login(userRepo, equipmentRepo, assignedEquipmentRepo, unassignedEquipmentRepo, equipmentSupportRepo, equipmentOrderRepo, searchRecordRepo);
             }
 
         }while(userchoice!=2);

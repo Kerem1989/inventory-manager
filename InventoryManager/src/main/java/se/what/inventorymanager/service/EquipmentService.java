@@ -102,9 +102,8 @@ public class EquipmentService {
         while (runEditMenu) {
             System.out.println("Menu for editing equipment, please select an equipment id to begin editing:");
             displayEssentialOfEquipment(equipmentRepo);
-            System.out.println("Please enter the id of the equipment to begin editing: ");
-            int selectEquipmentById = input.nextInt();
-            input.nextLine();
+            System.out.println("Please enter the id of the equipment to begin editing:\nEnter '0' to abort");
+            int selectEquipmentById = InputOutput.getValidIntegerInput(input,0,4);
             Optional<Equipment> equipmentOptional = equipmentRepo.findById(selectEquipmentById);
             if (equipmentOptional.isPresent()) {
                 boolean isEditingCurrentEquipment = true;
@@ -114,28 +113,40 @@ public class EquipmentService {
                     int selectMenuOption = editEquipmentMenu();
                     switch (selectMenuOption) {
                         case 1 -> {
-                            System.out.println("Enter the new name: ");
-                            String editName = input.nextLine();
+                            System.out.println("Enter the new name, type '0' to abort: ");
+                            String editName = InputOutput.getValidStringInput(input);
+                            if (editName.equals("0")){
+                                isEditingCurrentEquipment = false;
+                            }
                             equipment.setName(editName);
                             equipmentRepo.save(equipment);
                         }
                         case 2 -> {
-                            System.out.println("Enter the new price: ");
-                            int editPrice = input.nextInt();
-                            input.nextLine();
+                            System.out.println("Enter the new price, type 0 to abort: ");
+                            int editPrice = InputOutput.getValidIntegerInput(input,0,Integer.MAX_VALUE);
+                            if (editPrice==0){
+                                isEditingCurrentEquipment = false;
+                            }
                             equipment.setPurchasePrice(editPrice);
                             equipmentRepo.save(equipment);
                         }
                         case 3 -> {
-                            System.out.println("Enter the new equipment state: ");
-                            String editState = input.nextLine();
-                            equipment.setState(EquipmentState.valueOf(editState));
+                            System.out.println("Enter the new equipment state\n0 - Abort\n1 - assigned\n2 - unassigned: ");
+                            int newState = InputOutput.getValidIntegerInput(input,1,2);
+
+                            switch (newState){
+                                case 0 -> isEditingCurrentEquipment = false;
+                                case 1 -> equipment.setState(EquipmentState.assigned);
+                                case 2 -> equipment.setState(EquipmentState.unassigned);
+                            }
                             equipmentRepo.save(equipment);
                         }
                         case 4 -> {
-                            System.out.println("Are you sure you want to delete " + equipment.getName() + "? (yes/no)");
-                            String confirmation = input.nextLine().trim();
-                            if ("yes".equalsIgnoreCase(confirmation)) {
+                            System.out.println("Are you sure you want to delete " + equipment.getName() + "\n1 - Yes\n2 - No");
+
+                            int confirmation = InputOutput.getValidIntegerInput(input,1,2);
+
+                            if (confirmation==1) {
                                 deleteEquipment(equipmentRepo, selectEquipmentById);
                                 System.out.println("Equipment deleted successfully.");
                                 isEditingCurrentEquipment = false;
@@ -149,7 +160,7 @@ public class EquipmentService {
             } else {
                 System.out.println("No equipment found with the given ID.");
             }
-            System.out.println("Do you want to continue editing equipment?\n1 - yes\n2 - No");
+            System.out.println("Do you want to return to Equipment menu?\n1 - yes\n2 - No");
             int userDecision = InputOutput.getValidIntegerInput(input,1,2);
 
             if (userDecision == 1) {

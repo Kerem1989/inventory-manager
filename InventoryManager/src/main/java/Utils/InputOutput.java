@@ -1,13 +1,11 @@
 package Utils;
 
 import se.what.inventorymanager.domain.Equipment;
+import se.what.inventorymanager.domain.SearchRecord;
 import se.what.inventorymanager.domain.User;
 import se.what.inventorymanager.enums.RoleType;
 import se.what.inventorymanager.repository.*;
-import se.what.inventorymanager.service.EquipmentOrderService;
-import se.what.inventorymanager.service.EquipmentService;
-import se.what.inventorymanager.service.EquipmentSupportService;
-import se.what.inventorymanager.service.UserService;
+import se.what.inventorymanager.service.*;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -138,7 +136,7 @@ public class InputOutput {
 
     public static void login(UserRepo userRepo, EquipmentRepo equipmentRepo,
                              AssignedEquipmentRepo assignedEquipmentRepo,
-                             UnassignedEquipmentRepo unassignedEquipmentRepo, EquipmentSupportRepo equipmentSupportRepo, EquipmentOrderRepo equipmentOrderRepo) {
+                             UnassignedEquipmentRepo unassignedEquipmentRepo, EquipmentSupportRepo equipmentSupportRepo, EquipmentOrderRepo equipmentOrderRepo, SearchRecordRepo searchRecordRepo) {
         boolean runProgram = true;
         do {
             System.out.print("Please enter username: ");
@@ -147,30 +145,29 @@ public class InputOutput {
             String password = getValidStringInput(input);
 
             User foundUser = userRepo.getUserByUsernameAndPassword(username, password);
-            //foundUser får lov att vara inparameter så länge!
-            //eller ska man skapa en dao så man inte skickar runt lösenord?
 
             if (foundUser == null) {
-                System.out.println("Incorrect username, password or role.");
+                System.out.println("Incorrect username, password");
                 runProgram = true;
+            }else {
+
+                RoleType userRole = foundUser.getRole();
+                if (userRole == RoleType.admin || userRole == RoleType.superuser) {
+                    menuAdmin(userRepo, equipmentRepo, assignedEquipmentRepo, unassignedEquipmentRepo, equipmentSupportRepo, foundUser, equipmentOrderRepo, searchRecordRepo);
+                    runProgram = false;
+                } else {
+                    menuUser(userRepo, unassignedEquipmentRepo, foundUser, equipmentRepo, equipmentSupportRepo, searchRecordRepo);
+                    runProgram = false;
+                }
             }
 
-            RoleType userRole = foundUser.getRole();
-
-            if (userRole == RoleType.admin || userRole == RoleType.superuser) {
-                menuAdmin(userRepo, equipmentRepo, assignedEquipmentRepo, unassignedEquipmentRepo, equipmentSupportRepo, foundUser, equipmentOrderRepo);
-                runProgram = false;
-            } else {
-                menuUser(userRepo,unassignedEquipmentRepo,foundUser,equipmentRepo,equipmentSupportRepo);
-                runProgram = false;
-            }
         } while (runProgram);
     }
 
     public static void menuAdmin(UserRepo userRepo, EquipmentRepo equipmentRepo,
                                  AssignedEquipmentRepo assignedEquipmentRepo,
                                  UnassignedEquipmentRepo unassignedEquipmentRepo,
-                                 EquipmentSupportRepo equipmentSupportRepo, User foundUser, EquipmentOrderRepo equipmentOrderRepo) {
+                                 EquipmentSupportRepo equipmentSupportRepo, User foundUser, EquipmentOrderRepo equipmentOrderRepo,SearchRecordRepo searchRecordRepo) {
 
         int menuOption;
 
@@ -181,9 +178,10 @@ public class InputOutput {
                     1 - Manage Users
                     2 - Manage Equipment
                     3 - Manage Support tickets
-                    4 - Manage orders""");
+                    4 - Manage orders
+                    5 - View search records""");
 
-            menuOption = getValidIntegerInput(input, 0, 4);
+            menuOption = getValidIntegerInput(input, 0, 5);
 
 
             switch (menuOption) {
@@ -192,12 +190,13 @@ public class InputOutput {
                 case 2 -> manageEquipmentMenu(equipmentRepo, assignedEquipmentRepo, unassignedEquipmentRepo, userRepo);
                 case 3 -> EquipmentSupportService.manageSupportTicketMenu(equipmentSupportRepo, equipmentRepo, input,userRepo,foundUser);
                 case 4 -> EquipmentOrderService.equipmentOrderMenu(equipmentOrderRepo, equipmentRepo, userRepo, foundUser);
+                case 5 -> SearchRecordService.searchRecordMenu(searchRecordRepo);
 
             }
         } while (menuOption != 0);
     }
 
-    public static void menuUser(UserRepo userRepo, UnassignedEquipmentRepo unassignedEquipmentRepo, User foundUser, EquipmentRepo equipmentRepo,EquipmentSupportRepo equipmentSupportRepo) {
+    public static void menuUser(UserRepo userRepo, UnassignedEquipmentRepo unassignedEquipmentRepo, User foundUser, EquipmentRepo equipmentRepo,EquipmentSupportRepo equipmentSupportRepo,SearchRecordRepo searchRecordRepo) {
         int menuOption;
         do {
             System.out.println("""
@@ -210,8 +209,7 @@ public class InputOutput {
             menuOption = getValidIntegerInput(input, 0, 3);
 
             switch (menuOption) {
-                case 1 -> System.out.println("The following equipment is not assigned to anybody, please contact your manager to request loan\n"+
-                        unassignedEquipmentRepo.findAll());
+                case 1 -> SearchRecordService.equipmentSearchQueryMenu(userRepo, unassignedEquipmentRepo,  foundUser,  equipmentRepo, equipmentSupportRepo, searchRecordRepo);
                 case 2 -> EquipmentService.displayLoggedInUsersEquipment(equipmentSupportRepo,equipmentRepo, userRepo,foundUser);
                 case 3 -> EquipmentSupportService.userSupportMenu( equipmentSupportRepo, equipmentRepo,
                         input, userRepo, foundUser);
@@ -222,29 +220,33 @@ public class InputOutput {
     private static void manageUsersMenu(UserRepo userRepo, EquipmentRepo equipmentRepo, User foundUser) {
         int menuOption = 0;
 
-        Boolean isValidUser = true;
+//        Boolean isValidUser = true;
 
         do {
             if (foundUser.getRole().equals(RoleType.superuser)){
                 System.out.println("Unauthorized access, only Admin can edit users...\n");
-                isValidUser = false;
+//                isValidUser = false;
+                return;
+            }else {
+
+
+                System.out.println("""
+                        Choose option below:
+                        0 - Back to Main Menu
+                        1 - Display all users
+                        2 - Add User
+                        3 - Edit User""");
+
+                menuOption = getValidIntegerInput(input, 0, 3);
+
+                switch (menuOption) {
+                    case 1 -> UserService.findAllUsers(userRepo, input);
+                    case 2 -> UserService.addNewUser(userRepo);
+                    case 3 -> UserService.editUser(userRepo, input, equipmentRepo, new Equipment());
+                }
+
             }
-
-            System.out.println("""
-                    Choose option below:
-                    0 - Back to Main Menu
-                    1 - Display all users
-                    2 - Add User
-                    3 - Edit User""");
-
-            menuOption = getValidIntegerInput(input, 0, 3);
-
-            switch (menuOption) {
-                case 1 -> UserService.findAllUsers(userRepo, input);
-                case 2 -> UserService.addNewUser(userRepo);
-                case 3 -> UserService.editUser(userRepo, input, equipmentRepo, new Equipment());
-            }
-        } while (menuOption != 0 || !isValidUser);
+        } while (menuOption != 0);
     }
 
     private static void manageEquipmentMenu(EquipmentRepo equipmentRepo, AssignedEquipmentRepo assignedEquipmentRepo, UnassignedEquipmentRepo unassignedEquipmentRepo, UserRepo userRepo) {
