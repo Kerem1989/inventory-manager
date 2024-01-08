@@ -52,9 +52,6 @@ public class EquipmentSupportService {
 
         }while(userChoice != 0);
     }
-
-
-
     public static void manageSupportTicketMenu(EquipmentSupportRepo equipmentSupportRepo, EquipmentRepo equipmentRepo,
                                                Scanner input,UserRepo userRepo, User foundUser) {
         int menuOption = 0;
@@ -83,6 +80,9 @@ public class EquipmentSupportService {
     }
 
     public static void displayLoggedInUsersTickets(EquipmentSupportRepo equipmentSupportRepo,EquipmentRepo equipmentRepo,UserRepo userRepo,User foundUser){
+
+        foundUser = userRepo.getUserByUsernameAndPassword(foundUser.getUsername(), foundUser.getPassword());
+
         List<Equipment> equipmentList = foundUser.getEquipmentList();
         boolean hasSupportTickets = false;
         if (!equipmentList.isEmpty()){
@@ -176,8 +176,6 @@ public class EquipmentSupportService {
             System.out.println("Support ticket updated");
         } else {
             System.out.println("We could not find your support ticket");
-
-
         }
     }
 

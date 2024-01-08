@@ -27,7 +27,7 @@ public class EquipmentSupport {
     public EquipmentSupport() {
     }
 
-    public EquipmentSupport(EquipmentStatus status, int support_record, String description,
+    public EquipmentSupport(EquipmentStatus status, int supportRecord, String description,
                             Equipment equipment) {
         this.status = status;
         this.supportRecord = supportRecord;
@@ -73,7 +73,7 @@ public class EquipmentSupport {
 
     @Override
     public String toString() {
-        return "\nEquipmentSupport{" +
+        return "EquipmentSupport{" +
                 "id=" + id +
                 ", status=" + status +
                 ", support_record=" + supportRecord +

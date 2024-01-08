@@ -29,7 +29,6 @@ public class EquipmentService {
     @Autowired
     UnassignedEquipmentRepo unassignedEquipmentRepo;
 
-
     public static void addNewEquipment(EquipmentRepo equipmentRepo, UserRepo userRepo) {
         Equipment equipment = new Equipment();
         String inputName = InputOutput.getUserDataString("Please enter name of the equipment: ");
@@ -187,12 +186,13 @@ public class EquipmentService {
     public static void deleteEquipment(EquipmentRepo equipmentRepo, Integer id) {
         try {
             if (equipmentRepo.existsById(id)) {
-                equipmentRepo.deleteById(id);
+                Equipment equipment = new Equipment();
+                equipment.setState(EquipmentState.discontinued);
             } else {
                 System.out.println("No equipment found with the given ID.");
             }
         } catch (Exception e) {
-            System.out.println("Error occurred while deleting equipment: " + e.getMessage());
+            System.out.println("Error occurred while discontinuing equipment: " + e.getMessage());
         }
     }
 
