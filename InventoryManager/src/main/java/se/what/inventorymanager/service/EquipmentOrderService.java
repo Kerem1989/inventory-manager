@@ -4,6 +4,7 @@ package se.what.inventorymanager.service;
 import Utils.InputOutput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import se.what.inventorymanager.domain.Equipment;
 import se.what.inventorymanager.domain.EquipmentOrder;
 import se.what.inventorymanager.domain.User;
 import se.what.inventorymanager.repository.EquipmentOrderRepo;
@@ -116,15 +117,17 @@ public class EquipmentOrderService {
 
     public static void removeOrder(EquipmentOrderRepo equipmentOrderRepo, EquipmentRepo equipmentRepo, UserRepo userRepo, User foundUser,EquipmentOrder equipmentOrder) {
 
-        System.out.println("Are you sure you want to remove order with id: " + equipmentOrder.getId() +" from datebase?\n" +
-                "1 - yes" +
-                "2 - No, and return to menu");
+        System.out.print("Are you sure you want to remove order with id: " + equipmentOrder.getId() +" from database?\n" +
+                "1 - yes " +
+                "2 - No, and return to menu" );
 
         int userChoice = InputOutput.getValidIntegerInput(input,1,2);
         switch (userChoice){
             case 1 -> {
                 equipmentOrderRepo.delete(equipmentOrder);
                 System.out.println("order " + equipmentOrder.getId() + " was removed");
+                System.out.println("\nPlease add " + equipmentOrder.getName() + " with price " + equipmentOrder.getPrice() + " to stock or user");
+                EquipmentService.addNewEquipment(equipmentRepo, userRepo);
             }
             case 2 -> {
                 System.out.println("returning to menu...");
