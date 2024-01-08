@@ -133,9 +133,9 @@ public class EquipmentService {
                             equipmentRepo.save(equipment);
                         }
                         case 4 -> {
-                            System.out.println("Are you sure you want to delete " + equipment.getName() + "? (yes/no)");
-                            String confirmation = input.nextLine().trim();
-                            if ("yes".equalsIgnoreCase(confirmation)) {
+                            System.out.println("Are you sure you want to delete " + equipment.getName() + "\n1 - yes\n2 - No");
+                            int confirmation = InputOutput.getValidIntegerInput(input,1,2);
+                            if (confirmation == 1) {
                                 deleteEquipment(equipmentRepo, selectEquipmentById);
                                 System.out.println("Equipment deleted successfully.");
                                 isEditingCurrentEquipment = false;
