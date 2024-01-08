@@ -5,6 +5,7 @@ import se.what.inventorymanager.enums.EquipmentState;
 import se.what.inventorymanager.enums.EquipmentType;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name="equipment")
@@ -28,8 +29,8 @@ public class Equipment {
     @Enumerated(EnumType.STRING)
     private EquipmentType type;
 
-    @OneToOne(mappedBy = "equipment")
-    private EquipmentSupport equipmentSupport;
+    @OneToMany(mappedBy = "equipment")
+    private List<EquipmentSupport> equipmentSupport;
     @ManyToOne
     @JoinColumn(name = "assigned_to", referencedColumnName = "id")
     private User user;
@@ -100,11 +101,11 @@ public class Equipment {
     }
 
     public EquipmentSupport getEquipmentSupport() {
-        return equipmentSupport;
+        return (EquipmentSupport) equipmentSupport;
     }
 
     public void setEquipmentSupport(EquipmentSupport equipmentSupport) {
-        this.equipmentSupport = equipmentSupport;
+        this.equipmentSupport = (List<EquipmentSupport>) equipmentSupport;
     }
 
     @Override
