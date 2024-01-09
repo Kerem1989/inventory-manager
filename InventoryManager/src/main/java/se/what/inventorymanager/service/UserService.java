@@ -73,100 +73,106 @@ public class UserService {
             System.out.println("Welcome to the menu for editing user, please select a user id from the list below to begin editing:");
             System.out.println(userRepo.findAll());
             System.out.println("");
-            System.out.print("Please enter the id of the specific user to begin editing: ");
+            System.out.print("Please enter the id of the specific user to begin editing\n" +
+                    "Enter '0' to exit: ");
             int selectUserById = getValidIntegerInput(input, 0, Integer.MAX_VALUE);
-            Optional<User> userOptional = userRepo.findById(selectUserById);
-            if (userOptional.isPresent()) {
-                User user = userOptional.get();
-                System.out.println("Please choose from the following options to edit: ");
-                System.out.println("1. Edit name." + "\n2. Edit department" + "\n3. Edit email." + "\n4. Edit telephone number" +
-                        "\n5. Edit username" + "\n6. Edit password." + "\n7. Edit role." + "\n8. Remove user." + "\n9. Quit menu.");
-                System.out.print("Please choose a option by entering the menu number: ");
-                int selectMenuOption = getValidIntegerInput(input, 0, 9);
-                switch (selectMenuOption) {
-                    case 1 -> {
-                        System.out.println("Enter the new name: ");
-                        String editName = input.nextLine();
-                        user.setName(editName);
-                        userRepo.save(user);
-                    }
-                    case 2 -> {
-                        System.out.println("Enter the new department: ");
-                        String editDepartment = input.nextLine();
-                        user.setDepartment(editDepartment);
-                        userRepo.save(user);
-                    }
-                    case 3 -> {
-                        System.out.println("Enter the new email: ");
-                        String editEmail = input.nextLine();
-                        user.setEmail(editEmail);
-                        userRepo.save(user);
-                    }
-                    case 4 -> {
-                        System.out.println("Enter the new telephone number: ");
-                        String editTelephone = input.nextLine();
-                        user.setTelephone(editTelephone);
-                        userRepo.save(user);
-                    }
-                    case 5 -> {
-                        System.out.println("Enter the new username: ");
-                        String editUsername = input.nextLine();
-                        user.setUsername(editUsername);
-                        userRepo.save(user);
-                    }
-                    case 6 -> {
-                        System.out.println("Enter the new password: ");
-                        String editPassword = input.nextLine();
-                        user.setPassword(editPassword);
-                        userRepo.save(user);
-                    }
-                    case 7 -> {
-                        System.out.println("Enter the new role ");
-                        String editRole = input.nextLine();
-                        if (editRole.equalsIgnoreCase("admin")) {
-                            user.setRole(RoleType.admin);
-                            userRepo.save(user);
-                        } else if (editRole.equalsIgnoreCase("superuser")) {
-                            user.setRole(RoleType.superuser);
-                            userRepo.save(user);
-                        } else if (editRole.equalsIgnoreCase("user")) {
-                            user.setRole(RoleType.user);
-                            userRepo.save(user);
-                        } else {
-                            System.out.println("Wrong type of role for the user, please try again.");
-                        }
-                    }
-                    case 8 -> {
-                        System.out.println("Please enter the id of the user you want to remove: ");
-                        int deleteUserById = input.nextInt();
-                        input.nextLine();
-                        if (userRepo.existsUserById(deleteUserById)) {
-                            Optional<User> deletedUser = userRepo.findById(deleteUserById);
-                            if (deletedUser.isPresent()) {
-                                List<Equipment> equipmentList = deletedUser.get().getEquipmentList();
-                                if (!equipmentList.isEmpty()) {
-                                    for (Equipment assignedEquipment : equipmentList) {
-                                        assignedEquipment.setState(EquipmentState.unassigned);
-                                        equipmentRepo.save(assignedEquipment);
-                                    }
-                                } else {
-                                    System.out.println("No equipment found for the deleted user.");
-                                }
+            if (selectUserById==0){
+                return;
+            }else {
 
-                                userRepo.deleteById(deleteUserById);
+                Optional<User> userOptional = userRepo.findById(selectUserById);
+                if (userOptional.isPresent()) {
+                    User user = userOptional.get();
+                    System.out.println("Please choose from the following options to edit: ");
+                    System.out.println("1. Edit name." + "\n2. Edit department" + "\n3. Edit email." + "\n4. Edit telephone number" +
+                            "\n5. Edit username" + "\n6. Edit password." + "\n7. Edit role." + "\n8. Remove user." + "\n9. Quit menu.");
+                    System.out.print("Please choose a option by entering the menu number: ");
+                    int selectMenuOption = getValidIntegerInput(input, 0, 9);
+                    switch (selectMenuOption) {
+                        case 1 -> {
+                            System.out.println("Enter the new name: ");
+                            String editName = input.nextLine();
+                            user.setName(editName);
+                            userRepo.save(user);
+                        }
+                        case 2 -> {
+                            System.out.println("Enter the new department: ");
+                            String editDepartment = input.nextLine();
+                            user.setDepartment(editDepartment);
+                            userRepo.save(user);
+                        }
+                        case 3 -> {
+                            System.out.println("Enter the new email: ");
+                            String editEmail = input.nextLine();
+                            user.setEmail(editEmail);
+                            userRepo.save(user);
+                        }
+                        case 4 -> {
+                            System.out.println("Enter the new telephone number: ");
+                            String editTelephone = input.nextLine();
+                            user.setTelephone(editTelephone);
+                            userRepo.save(user);
+                        }
+                        case 5 -> {
+                            System.out.println("Enter the new username: ");
+                            String editUsername = input.nextLine();
+                            user.setUsername(editUsername);
+                            userRepo.save(user);
+                        }
+                        case 6 -> {
+                            System.out.println("Enter the new password: ");
+                            String editPassword = input.nextLine();
+                            user.setPassword(editPassword);
+                            userRepo.save(user);
+                        }
+                        case 7 -> {
+                            System.out.println("Enter the new role ");
+                            String editRole = input.nextLine();
+                            if (editRole.equalsIgnoreCase("admin")) {
+                                user.setRole(RoleType.admin);
+                                userRepo.save(user);
+                            } else if (editRole.equalsIgnoreCase("superuser")) {
+                                user.setRole(RoleType.superuser);
+                                userRepo.save(user);
+                            } else if (editRole.equalsIgnoreCase("user")) {
+                                user.setRole(RoleType.user);
+                                userRepo.save(user);
                             } else {
-                                System.out.println("No user found for the given ID.");
+                                System.out.println("Wrong type of role for the user, please try again.");
                             }
-                        } else {
-                            System.out.println("No deletion occurred, user ID not found.");
                         }
+                        case 8 -> {
+                            System.out.println("Please enter the id of the user you want to remove: ");
+                            int deleteUserById = input.nextInt();
+                            input.nextLine();
+                            if (userRepo.existsUserById(deleteUserById)) {
+                                Optional<User> deletedUser = userRepo.findById(deleteUserById);
+                                if (deletedUser.isPresent()) {
+                                    List<Equipment> equipmentList = deletedUser.get().getEquipmentList();
+                                    if (!equipmentList.isEmpty()) {
+                                        for (Equipment assignedEquipment : equipmentList) {
+                                            assignedEquipment.setState(EquipmentState.unassigned);
+                                            equipmentRepo.save(assignedEquipment);
+                                        }
+                                    } else {
+                                        System.out.println("No equipment found for the deleted user.");
+                                    }
 
+                                    userRepo.deleteById(deleteUserById);
+                                } else {
+                                    System.out.println("No user found for the given ID.");
+                                }
+                            } else {
+                                System.out.println("No deletion occurred, user ID not found.");
+                            }
+
+                        }
+                        case 9 -> runEditMenu = false;
                     }
-                    case 9 -> runEditMenu = false;
+                } else {
+                    System.out.println("No user with the selected ID found.");
+                    System.out.println("");
                 }
-            } else {
-                System.out.println("No user with the selected ID found.");
-                System.out.println("");
             }
         } while (runEditMenu);
     }

@@ -3,6 +3,7 @@ import Utils.InputOutput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.what.inventorymanager.domain.Equipment;
+import se.what.inventorymanager.domain.SearchRecord;
 import se.what.inventorymanager.enums.EquipmentState;
 import se.what.inventorymanager.enums.EquipmentStatus;
 import se.what.inventorymanager.domain.EquipmentSupport;
@@ -106,7 +107,7 @@ public class EquipmentSupportService {
     }
 
     public static void addTicket(EquipmentSupportRepo equipmentSupportRepo, EquipmentRepo equipmentRepo,
-                                 Scanner input, UserRepo userRepo,User foundUser) {
+                                 Scanner input, UserRepo userRepo, User foundUser) {
 
         EquipmentSupport equipmentSupport = new EquipmentSupport();
         equipmentSupport.setStatus(EquipmentStatus.open);
@@ -119,20 +120,17 @@ public class EquipmentSupportService {
             System.out.println("Enter the ID of the product you want to create a ticket on: " +
                     "\nEnter '0' to exit\n");
 
-            int equipmentId = InputOutput.getValidIntegerInput(input,0,Integer.MAX_VALUE);
+            int equipmentId = InputOutput.getValidIntegerInput(input, 0, Integer.MAX_VALUE);
 
-            if (equipmentId==0){
+            if (equipmentId == 0) {
                 exit = true;
-            }else {
+            } else {
 
                 Optional<Equipment> optionalEquipment = equipmentRepo.findById(equipmentId);
 
                 if (optionalEquipment.isPresent()) {
                     Equipment equipment = optionalEquipment.get();
                     equipmentSupport.setEquipment(equipment);
-                    equipment.setState(EquipmentState.in_repair);
-
-                    int sumOfSupportRecords = equipmentSupport.getSupportRecord();
 
                     if (equipment.getState().equals(EquipmentState.in_repair)) {
                         System.out.println("This equipment already has an active ticket..\n" +
@@ -145,18 +143,27 @@ public class EquipmentSupportService {
                         String description = InputOutput.getValidStringInput(input);
 
                         equipmentSupport.setDescription(description);
-                        sumOfSupportRecords ++;
+
+
+                        int sumOfSupportRecords = equipmentSupport.getSupportRecord();
+                        sumOfSupportRecords++;
                         equipmentSupport.setSupportRecord(sumOfSupportRecords);
+                        equipmentSupportRepo.save(equipmentSupport);
 
 
+                        int count = equipmentSupportRepo.countByEquipment(equipment);
+
+                        equipment.setState(EquipmentState.in_repair);
+                        equipmentSupport.setSupportRecord(count);
                         equipmentSupportRepo.save(equipmentSupport);
                         equipmentRepo.save(equipment);
 
                         System.out.println("Support ticket created for Equipment with id: " + equipmentId);
+                        System.out.println("Total support records for this equipment: " + count);
                         exit = true;
                     }
-                    }else{
-                    System.out.println("unable to create new support ticket...");
+                } else {
+                    System.out.println("Unable to create a new support ticket...");
                     exit = false;
                 }
             }
@@ -205,11 +212,13 @@ public class EquipmentSupportService {
         if (equipmentSupportOptional.isPresent()) {
 
             EquipmentSupport equipmentSupport = equipmentSupportOptional.get();
-            equipmentSupportRepo.delete(equipmentSupport);
+            equipmentSupport.setStatus(EquipmentStatus.closed);
+            equipmentSupportRepo.save(equipmentSupport);
             Optional<Equipment> foundEquipmentOptional = equipmentRepo.findById(equipmentSupport.getEquipment().getId());
 
             if (foundEquipmentOptional.isPresent()) {
                 Equipment foundEquipment = foundEquipmentOptional.get();
+
                 foundEquipment.setState(EquipmentState.assigned);
                 equipmentRepo.save(foundEquipment);
                 System.out.println("Equipment status updated to assigned to user");
@@ -218,9 +227,7 @@ public class EquipmentSupportService {
             }
         } else {
             System.out.println("Support ticket not found.");
-
         }
-
 
     }
 }

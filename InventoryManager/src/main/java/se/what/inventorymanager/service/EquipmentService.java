@@ -38,7 +38,7 @@ public class EquipmentService {
         equipment.setPurchaseDate(purchaseDate);
 
         System.out.print("Please enter price of the equipment: ");
-        double inputpurchasePrice = InputOutput.getValidDoubleInput(input,0);
+        double inputpurchasePrice = InputOutput.getValidDoubleInput(input);
         equipment.setPurchasePrice(inputpurchasePrice);
 
 

@@ -3,6 +3,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import Utils.InputOutput;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,10 +12,11 @@ import se.what.inventorymanager.domain.SearchRecord;
 import se.what.inventorymanager.domain.User;
 import se.what.inventorymanager.repository.*;
 
+import static Utils.InputOutput.input;
+
 @Service
 public class SearchRecordService {
 
-    public static Scanner input = new Scanner(System.in);
 
     @Autowired
     SearchRecordRepo searchRecordRepo;
@@ -29,10 +31,10 @@ public class SearchRecordService {
             System.out.println("""
                     Please choose an option by number
                     Search record:
-                    "0 - Return to main menu
-                    "1 - Display all search words
-                    "2 - Display all unique search words
-                    "3 - Display number of searches by type of search
+                    0 - Return to main menu
+                    1 - Display all search words
+                    2 - Display all unique search words
+                    3 - Display number of searches by type of search
                     """);
             try {
                 
@@ -48,16 +50,12 @@ public class SearchRecordService {
             } catch (Exception e) {
                 System.out.print("Your choice could not be read, please try again.\n");
             }
-            
 
         } while (userInput!=0);
         System.out.println("Returning back to main menu.\n\n");
 
-
-
     }
 
-    //metod för att lägga till nya sökningar i databasen :)
     public static void printAllSearches(SearchRecordRepo searchRecordRepo){
         System.out.println("Search record:");
         var foundRecords = searchRecordRepo.findAll();
@@ -148,10 +146,6 @@ public class SearchRecordService {
                         unassignedEquipmentRepo.findAll());
             }
         } while (menuOption != 0);
-
-
-
-
 
     }
 }

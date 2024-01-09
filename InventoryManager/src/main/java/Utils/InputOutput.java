@@ -40,8 +40,8 @@ public class InputOutput {
         return userInput;
     }
 
-    public static double getValidDoubleInput(Scanner input, double minValue) {
-
+    public static double getValidDoubleInput(Scanner input) {
+        double minValue = 0.0;
         double userInput = 0.0;
         boolean isUserInputInvalid;
 
