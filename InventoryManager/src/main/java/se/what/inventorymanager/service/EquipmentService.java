@@ -103,7 +103,7 @@ public class EquipmentService {
             displayEssentialOfEquipment(equipmentRepo);
 
             System.out.println("Please enter the id of the equipment to begin editing:\nEnter '0' to abort");
-            int selectEquipmentById = InputOutput.getValidIntegerInput(input,0,4);
+            int selectEquipmentById = InputOutput.getValidIntegerInput(input,0, Integer.MAX_VALUE);
 
             Optional<Equipment> equipmentOptional = equipmentRepo.findById(selectEquipmentById);
             if (equipmentOptional.isPresent()) {
