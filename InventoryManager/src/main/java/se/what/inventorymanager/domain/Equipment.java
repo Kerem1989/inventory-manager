@@ -29,7 +29,7 @@ public class Equipment {
     @Enumerated(EnumType.STRING)
     private EquipmentType type;
 
-    @OneToMany(mappedBy = "equipment")
+    @OneToMany(mappedBy = "equipment", fetch = FetchType.EAGER)
     private List<EquipmentSupport> equipmentSupport;
     @ManyToOne
     @JoinColumn(name = "assigned_to", referencedColumnName = "id")
@@ -100,8 +100,8 @@ public class Equipment {
         this.user = user;
     }
 
-    public EquipmentSupport getEquipmentSupport() {
-        return (EquipmentSupport) equipmentSupport;
+    public List<EquipmentSupport> getEquipmentSupport() {
+        return equipmentSupport;
     }
 
     public void setEquipmentSupport(EquipmentSupport equipmentSupport) {
@@ -117,5 +117,7 @@ public class Equipment {
                 "\033[1mState: \033[0m" + state + " | " +
                 "\033[1mType: \033[0m" + type;
     }
+
+
 }
 
