@@ -1,6 +1,7 @@
 package se.what.inventorymanager.domain;
 
 import jakarta.persistence.*;
+import se.what.inventorymanager.enums.EquipmentType;
 
 import java.util.Date;
 
@@ -22,18 +23,24 @@ public class EquipmentOrder {
     @Column(name = "order_date")
     private Date orderDate;
 
+    @Enumerated(EnumType.STRING)
+    private EquipmentType type;
+
     @ManyToOne
     @JoinColumn(name = "order_by_user",referencedColumnName = "id")
     private User user;
 
+
+
     public EquipmentOrder() {
     }
 
-    public EquipmentOrder(String name, double price, Date estDelDate, Date orderDate, User user) {
+    public EquipmentOrder(String name, double price, Date estDelDate, Date orderDate, EquipmentType type, User user) {
         this.name = name;
         this.price = price;
         this.estDelDate = estDelDate;
         this.orderDate = orderDate;
+        this.type = type;
         this.user = user;
     }
 
@@ -61,6 +68,10 @@ public class EquipmentOrder {
         return estDelDate;
     }
 
+    public EquipmentType getType() {
+        return type;
+    }
+
     public void setEstDelDate(Date estDelDate) {
         this.estDelDate = estDelDate;
     }
@@ -71,6 +82,10 @@ public class EquipmentOrder {
 
     public void setOrderDate(Date orderDate) {
         this.orderDate = orderDate;
+    }
+
+    public void setType(EquipmentType type) {
+        this.type = type;
     }
 
     public User getUser() {
