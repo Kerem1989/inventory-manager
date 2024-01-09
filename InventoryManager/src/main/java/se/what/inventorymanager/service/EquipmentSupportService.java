@@ -79,25 +79,29 @@ public class EquipmentSupportService {
         } while (menuOption != 0);
     }
 
-    public static void displayLoggedInUsersTickets(EquipmentSupportRepo equipmentSupportRepo,EquipmentRepo equipmentRepo,UserRepo userRepo,User foundUser){
+    public static void displayLoggedInUsersTickets(EquipmentSupportRepo equipmentSupportRepo, EquipmentRepo equipmentRepo, UserRepo userRepo, User foundUser) {
 
         foundUser = userRepo.getUserByUsernameAndPassword(foundUser.getUsername(), foundUser.getPassword());
 
         List<Equipment> equipmentList = foundUser.getEquipmentList();
+
         boolean hasSupportTickets = false;
-        if (!equipmentList.isEmpty()){
-            for (Equipment tempList : equipmentList){
-                EquipmentSupport equipmentSupport = tempList.getEquipmentSupport();
-                if (tempList.getEquipmentSupport() != null){
-                    System.out.println("Your tickets:" + "\n" + equipmentSupport);
+        if (!equipmentList.isEmpty()) {
+            for (Equipment tempList : equipmentList) {
+                List<EquipmentSupport> equipmentSupportList = tempList.getEquipmentSupport();
+                if (equipmentSupportList != null && !equipmentSupportList.isEmpty()) {
+                    System.out.println("Tickets for Equipment ID " + tempList.getId() + ":");
+                    for (EquipmentSupport equipmentSupport : equipmentSupportList) {
+                        System.out.println(equipmentSupport);
+                    }
                     hasSupportTickets = true;
                 }
             }
-            if (!hasSupportTickets){
+            if (!hasSupportTickets) {
                 System.out.println("You have no active support tickets\n");
             }
-        }else {
-            System.out.println("you have no assigned equipment");
+        } else {
+            System.out.println("You have no assigned equipment");
         }
     }
 

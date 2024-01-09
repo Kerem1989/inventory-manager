@@ -100,8 +100,6 @@ public class EquipmentService {
         boolean runEditMenu = true;
         while (runEditMenu) {
             System.out.println("Menu for editing equipment, please select an equipment id to begin editing: ");
-
-            //TODO vad gör denna?
             displayEssentialOfEquipment(equipmentRepo);
 
             System.out.println("Please enter the id of the equipment to begin editing:\nEnter '0' to abort");
