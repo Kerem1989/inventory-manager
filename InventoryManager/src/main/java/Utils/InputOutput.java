@@ -300,7 +300,7 @@ public class InputOutput {
 
     public static Double getUserDataDouble(String s) {
         System.out.print(s);
-        Double adminInputName = InputOutput.getValidDoubleInput(input, 0);
+        Double adminInputName = InputOutput.getValidDoubleInput(input);
         return adminInputName;
     }
 
