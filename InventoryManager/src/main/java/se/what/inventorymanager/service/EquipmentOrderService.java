@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import se.what.inventorymanager.domain.Equipment;
 import se.what.inventorymanager.domain.EquipmentOrder;
 import se.what.inventorymanager.domain.User;
+import se.what.inventorymanager.enums.EquipmentType;
 import se.what.inventorymanager.repository.EquipmentOrderRepo;
 import se.what.inventorymanager.repository.EquipmentRepo;
 import se.what.inventorymanager.repository.UserRepo;
@@ -34,7 +35,6 @@ public class EquipmentOrderService {
         int userChoice;
         do {
 
-
             System.out.println("""
                     please choose option below:
                     0 - Back to Admin menu
@@ -59,10 +59,20 @@ public class EquipmentOrderService {
 
         equipmentOrder.setPrice(InputOutput.getUserDataDouble("Please enter price of equipment"));
 
-        System.out.println("Enter a date (dd/mm/yyyy): ");
+        System.out.println("Enter a date (yyMMdd): ");
 
         Date estimatedDeliveryDate = getValidDeliveryDate();
         equipmentOrder.setEstDelDate(estimatedDeliveryDate);
+
+        System.out.println("Please enter equipment type (\n1 - laptop\n2 - phone\n3 - screen):");
+
+        int inputType = InputOutput.getValidIntegerInput(input, 1, 3);
+
+        switch (inputType) {
+            case 1 -> equipmentOrder.setType(EquipmentType.laptop);
+            case 2 -> equipmentOrder.setType(EquipmentType.phone);
+            case 3 -> equipmentOrder.setType(EquipmentType.screen);
+        }
 
         equipmentOrder.setOrderDate(InputOutput.asDate(LocalDate.now()));
         equipmentOrder.setUser(foundUser);
