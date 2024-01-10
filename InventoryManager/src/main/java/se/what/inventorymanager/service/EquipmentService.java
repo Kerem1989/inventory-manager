@@ -148,7 +148,8 @@ public class EquipmentService {
                             int confirmation = InputOutput.getValidIntegerInput(input,1,2);
 
                             if (confirmation==1) {
-                                deleteEquipment(equipmentRepo, selectEquipmentById);
+                                equipment.setState(EquipmentState.discontinued);
+                                equipmentRepo.save(equipment);
                                 System.out.println("Equipment deleted successfully.");
                                 isEditingCurrentEquipment = false;
                             } else {
@@ -183,19 +184,6 @@ public class EquipmentService {
         int menuChoice = InputOutput.getValidIntegerInput(input, 0, 4);
 
         return menuChoice;
-    }
-
-    public static void deleteEquipment(EquipmentRepo equipmentRepo, Integer id) {
-        try {
-            if (equipmentRepo.existsById(id)) {
-                Equipment equipment = new Equipment();
-                equipment.setState(EquipmentState.discontinued);
-            } else {
-                System.out.println("No equipment found with the given ID.");
-            }
-        } catch (Exception e) {
-            System.out.println("Error occurred while discontinuing equipment: " + e.getMessage());
-        }
     }
 
     public static void displayEssentialOfEquipment(EquipmentRepo equipmentRepo) {
