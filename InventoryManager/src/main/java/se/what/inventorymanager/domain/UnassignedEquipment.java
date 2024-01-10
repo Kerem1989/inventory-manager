@@ -28,6 +28,7 @@ public class UnassignedEquipment {
 
     @Override
     public String toString() {
-        return "\nThe " + type + " of model " + name + " is not assigned to any user.";
+        return "\n\033[1mThe " + type + " of model " + name + " is not assigned to any user.\033[0m";
     }
+
 }

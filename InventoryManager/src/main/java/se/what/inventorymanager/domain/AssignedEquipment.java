@@ -11,8 +11,17 @@ public class AssignedEquipment {
     @Column(name = "equipment_name")
     private String equipmentName;
 
+
+
     @Override
     public String toString() {
-        return "\nThe equipment " + equipmentName + " is assigned to user " + name + "." +  "  Contact at " + email + " for more information.\n";
+        return "\n\033[1mAssignedEquipment:\033[0m " + " | " +
+                "\033[1mId:\033[0m " + id + " | " +
+                "\033[1mName:\033[0m " + name + " | " +
+                "\033[1mEmail:\033[0m " + email + " | "  +
+                "\033[1mEquipmentName:\033[0m " + equipmentName;
     }
+
+
+
 }

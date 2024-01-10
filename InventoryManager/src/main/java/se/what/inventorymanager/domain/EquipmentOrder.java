@@ -96,15 +96,17 @@ public class EquipmentOrder {
         this.user = user;
     }
 
+
     @Override
     public String toString() {
-        return "\nEquipmentOrder{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", price=" + price +
-                ", estimated Delivery Date=" + estDelDate +
-                ", orderDate=" + orderDate +
-                ", user=" + user.getName() +
-                '}';
+        return "\n\033[1mEquipmentOrder\033[0m" +
+                " \033[1mId:\033[0m " + id +
+                " | \033[1mName:\033[0m '" + name + '\'' +
+                " | \033[1mPrice:\033[0m " + price +
+                " | \033[1mEstimated Delivery Date:\033[0m " + estDelDate +
+                " | \033[1mOrderDate:\033[0m " + orderDate +
+                " | \033[1mUser:\033[0m " + user.getName()
+                ;
     }
+
 }

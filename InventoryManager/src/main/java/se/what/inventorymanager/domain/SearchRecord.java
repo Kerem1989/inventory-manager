@@ -26,7 +26,8 @@ public class SearchRecord {
 
     @Override
     public String toString() {
-        return "\nid: " + id +
-                ", query: " + query;
+        return "\n\033[1mId:\033[0m " + id +
+                " | \033[1mQuery:\033[0m " + query;
     }
+
 }
