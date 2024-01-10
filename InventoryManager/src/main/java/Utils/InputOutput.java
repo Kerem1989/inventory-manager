@@ -55,7 +55,7 @@ public class InputOutput {
                     System.out.println("Incorrect value, please enter a value larger than " + minValue + "...");
                     isUserInputInvalid = true;
                 }
-            } catch (InputMismatchException e) {
+            } catch (Exception e) {
                 System.out.println("Incorrect value, please enter a valid price: ");
                 isUserInputInvalid = true;
             }

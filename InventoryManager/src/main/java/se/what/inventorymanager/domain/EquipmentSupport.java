@@ -71,14 +71,18 @@ public class EquipmentSupport {
         this.equipment = equipment;
     }
 
+
     @Override
     public String toString() {
-        return "\nEquipmentSupport{" +
-                "id=" + id +
-                ", status=" + status +
-                ", support_record=" + supportRecord +
-                ", description=" + description +
-                ", equipment=" + (equipment != null ? equipment.getId() : null) +
-                '}';
+        return "\n\033[1mEquipmentSupport\033[0m" +
+                " \033[1mId:\033[0m " + id +
+                " | \033[1mStatus:\033[0m " + status +
+                " | \033[1mSupport Record:\033[0m " + supportRecord +
+                " | \033[1mDescription:\033[0m " + description +
+                " | \033[1mEquipment:\033[0m " + (equipment != null ? equipment.getId() : null)
+                ;
     }
+
+
+
 }
