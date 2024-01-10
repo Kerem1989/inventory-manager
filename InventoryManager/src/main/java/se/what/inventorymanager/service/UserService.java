@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
-import static Utils.InputOutput.getValidIntegerInput;
+import static Utils.InputOutput.*;
 
 @Service
 public class UserService {
@@ -49,22 +49,29 @@ public class UserService {
         String adminInputPassword = InputOutput.getUserDataString("Please choose a password for the user: ");
         user.setPassword(adminInputPassword);
 
-        String adminInputRole = InputOutput.getUserDataString("Please enter a role for the user, must equal admin, superuser or user: ");
-        if (adminInputRole.equalsIgnoreCase("admin")) {
-            user.setRole(RoleType.admin);
-            userRepo.save(user);
-            System.out.println("You have added " + user);
-        } else if (adminInputRole.equalsIgnoreCase("superuser")) {
-            user.setRole(RoleType.superuser);
-            userRepo.save(user);
-            System.out.println("You have added " + user);
-        } else if (adminInputRole.equalsIgnoreCase("user")) {
-            user.setRole(RoleType.user);
-            userRepo.save(user);
-            System.out.println("You have added " + user);
-        } else {
-            System.out.println("Wrong type of role for the user, please try again.");
+        System.out.println("Please select the user role from the following numerical options: " +
+                "\n1. Admin" +
+                "\n2. Superuser" +
+                "\n3. User");
+        int editRole = InputOutput.getValidIntegerInput(input, 0, 3);
+        switch (editRole) {
+            case 1 -> {
+                user.setRole(RoleType.admin);
+                userRepo.save(user);
+                System.out.println("You added: " + user);
+            }
+            case 2 -> {
+                user.setRole(RoleType.superuser);
+                userRepo.save(user);
+                System.out.println("You added: " + user);
+            }
+            case 3 -> {
+                user.setRole(RoleType.user);
+                userRepo.save(user);
+                System.out.println("You added: " + user);
+            }
         }
+
     }
 
     public static void editUser(UserRepo userRepo, Scanner input, EquipmentRepo equipmentRepo, Equipment equipment) {
@@ -76,9 +83,9 @@ public class UserService {
             System.out.print("Please enter the id of the specific user to begin editing\n" +
                     "Enter '0' to exit: ");
             int selectUserById = getValidIntegerInput(input, 0, Integer.MAX_VALUE);
-            if (selectUserById==0){
+            if (selectUserById == 0) {
                 return;
-            }else {
+            } else {
 
                 Optional<User> userOptional = userRepo.findById(selectUserById);
                 if (userOptional.isPresent()) {
@@ -126,19 +133,27 @@ public class UserService {
                             userRepo.save(user);
                         }
                         case 7 -> {
-                            System.out.println("Enter the new role ");
-                            String editRole = input.nextLine();
-                            if (editRole.equalsIgnoreCase("admin")) {
-                                user.setRole(RoleType.admin);
-                                userRepo.save(user);
-                            } else if (editRole.equalsIgnoreCase("superuser")) {
-                                user.setRole(RoleType.superuser);
-                                userRepo.save(user);
-                            } else if (editRole.equalsIgnoreCase("user")) {
-                                user.setRole(RoleType.user);
-                                userRepo.save(user);
-                            } else {
-                                System.out.println("Wrong type of role for the user, please try again.");
+                            System.out.println("Please select the new user role from the following numerical options:" +
+                                    "\n1. Admin" +
+                                    "\n2. Superuser" +
+                                    "\n3. User");
+                            int editRole = InputOutput.getValidIntegerInput(input, 0, 3);
+                            switch (editRole) {
+                                case 1 -> {
+                                    user.setRole(RoleType.admin);
+                                    userRepo.save(user);
+                                    System.out.println("You added: " + user);
+                                }
+                                case 2 -> {
+                                    user.setRole(RoleType.superuser);
+                                    userRepo.save(user);
+                                    System.out.println("You added: " + user);
+                                }
+                                case 3 -> {
+                                    user.setRole(RoleType.user);
+                                    userRepo.save(user);
+                                    System.out.println("You added: " + user);
+                                }
                             }
                         }
                         case 8 -> {
@@ -159,6 +174,7 @@ public class UserService {
                                     }
 
                                     userRepo.deleteById(deleteUserById);
+                                    System.out.println("You have deleted: " + deleteUserById);
                                 } else {
                                     System.out.println("No user found for the given ID.");
                                 }
