@@ -57,7 +57,14 @@ public class EquipmentOrderService {
         EquipmentOrder equipmentOrder = new EquipmentOrder();
         equipmentOrder.setName(InputOutput.getUserDataString("Please enter name of equipment"));
 
-        equipmentOrder.setPrice(InputOutput.getUserDataDouble("Please enter price of equipment"));
+        double orderPrice = InputOutput.getUserDataDouble("Please enter price of equipment");
+        if (orderPrice<Integer.MAX_VALUE) {
+            equipmentOrder.setPrice(orderPrice);
+        }else {
+            System.out.println("\nInvalid price! Please enter a price below: " + Integer.MAX_VALUE);
+            return;
+        }
+
 
         System.out.println("Enter a date (yyMMdd): ");
 

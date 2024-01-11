@@ -39,7 +39,12 @@ public class EquipmentService {
 
         System.out.print("Please enter price of the equipment: ");
         double inputpurchasePrice = InputOutput.getValidDoubleInput(input);
-        equipment.setPurchasePrice(inputpurchasePrice);
+        if (inputpurchasePrice<Integer.MAX_VALUE) {
+            equipment.setPurchasePrice(inputpurchasePrice);
+        }else{
+            System.out.println("\nInvalid price! Please enter a price below: " + Integer.MAX_VALUE);
+            return;
+        }
 
 
         System.out.println("Please enter equipment type (\n1 - laptop\n2 - phone\n3 - screen):");
