@@ -143,7 +143,7 @@ public class EquipmentOrderService {
             case 1 -> {
                 equipmentOrderRepo.delete(equipmentOrder);
                 System.out.println("order " + equipmentOrder.getId() + " was removed");
-                System.out.println("\nPlease add " + equipmentOrder.getName() + " with price " + equipmentOrder.getPrice() + " to stock or user");
+                System.out.println("\nPlease add a " + equipmentOrder.getType() + "of model " +  equipmentOrder.getName() + " with price " + equipmentOrder.getPrice() + " kr " +  " to stock or user");
                 EquipmentService.addNewEquipment(equipmentRepo, userRepo);
             }
             case 2 -> {

@@ -170,11 +170,11 @@ public class UserService {
                                             equipmentRepo.save(assignedEquipment);
                                         }
                                     } else {
-                                        System.out.println("No equipment found for the deleted user.");
+                                        System.out.println("No equipment found for the user, deletion of user progressing");
                                     }
 
                                     userRepo.deleteById(deleteUserById);
-                                    System.out.println("You have deleted: " + deleteUserById);
+                                    System.out.println("User has been successfully deleted");
                                 } else {
                                     System.out.println("No user found for the given ID.");
                                 }
