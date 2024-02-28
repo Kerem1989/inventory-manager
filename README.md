@@ -1,14 +1,14 @@
-## Collaborators:
+**Collaborators**:
 - Magnus Nording
 - Kerem Bjälvenäs Tazedal
 - Sorella Tavares
 - Dmitry Khalizov
 - Robert Tronhage
 
-## Description:
+**Description**:
 Inventory Management System enabling equipment tracking, ownership, value, and maintenance. This system allows users to report equipment issues and suggest replacements. The core features include a database with user logins, equipment details, fault reports, purchases, permissions, and a Java console app with CRUD operations. The application utilizes JDBC and JPA for seamless interaction with the database.
 
-### Core Features:
+**Core Features**:
 - User Authentication: Secure login system to manage user access.
 - Equipment Details: Store and manage comprehensive information about equipment.
 - Fault Reports: Report and track issues with equipment.
